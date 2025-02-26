@@ -67,7 +67,7 @@ class PatchTask:
             return False, patch, "Replay failed"
         except subprocess.TimeoutExpired:
             return False, patch, "Replay timeout"
-        
+
         try:
             if self.builder.function_test(patch) is False:
                 return False, patch, "Do not pass function test"
