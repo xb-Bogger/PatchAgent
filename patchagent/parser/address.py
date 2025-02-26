@@ -54,7 +54,7 @@ class AddressSanitizerReport(SanitizerReport):
         return [self.stacktrace] + self.other_stacktraces
 
     @staticmethod
-    def parse(raw_content: str, source_path: Optional[Path] = None) -> Optional["AddressSanitizerReport"]:
+    def parse(raw_content: str, source_path: Optional[Path] = None, work_path: Optional[Path] = None) -> Optional["AddressSanitizerReport"]:
         match = re.search(AddressSanitizerPattern, raw_content, re.DOTALL)
         if match is None:
             return None
@@ -100,9 +100,14 @@ class AddressSanitizerReport(SanitizerReport):
                             if f"{filepath}:{line_number}:{column_number}" != match.group(4):
                                 log.warning(f"Incomplete file path: {desc} vs {match.group(4)}")
 
+                            ## NOTE: we use different way to handle stacktraces and descriptions
                             if (relpath := guess_relpath(source_path, normpath)) is not None:
                                 stacktraces[-1].append((function_name, relpath, int(line_number), int(column_number)))
-                            body.append(f"    - {function_name} {desc}")
+
+                            if work_path is None:
+                                body.append(f"    - {function_name} {desc}")
+                            elif normpath.is_relative_to(work_path):
+                                body.append(f"    - {function_name} {normpath.relative_to(work_path)}:{line_number}:{column_number}")
                     else:
                         body.append(re.sub(r"==[0-9]+==", "", line))
 

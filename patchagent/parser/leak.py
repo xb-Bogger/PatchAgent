@@ -11,11 +11,13 @@ class LeakAddressSanitizerReport(SanitizerReport):
         super().__init__(Sanitizer.LeakAddressSanitizer, content, CWE.Memory_Leak, [])
 
     @staticmethod
-    def parse(content: str, source_path: Optional[Path], *args, **kwargs) -> Union[None, "AddressSanitizerReport", "LeakAddressSanitizerReport"]:
+    def parse(
+        content: str, source_path: Optional[Path] = None, work_path: Optional[Path] = None, *args, **kwargs
+    ) -> Union[None, "AddressSanitizerReport", "LeakAddressSanitizerReport"]:
         leak_str = "ERROR: LeakSanitizer: detected memory leaks"
 
         if leak_str not in content:
-            return AddressSanitizerReport.parse(content, source_path)
+            return AddressSanitizerReport.parse(content, source_path=source_path, work_path=work_path)
         else:
             return LeakAddressSanitizerReport(content)
 
