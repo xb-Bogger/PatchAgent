@@ -62,5 +62,6 @@ ENV LANG=C.UTF-8
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /app
-COPY patchagent /app/patchagent
+WORKDIR /patchagent-package
+COPY patchagent /patchagent-package/patchagent
+ENV PYTHONPATH "/patchagent-package:$PYTHONPATH"
