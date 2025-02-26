@@ -187,16 +187,16 @@ class ClangdServer(LanguageServer):
         results = packet["result"]
         return results["contents"]["value"] if results else ""
 
-    def find_definition(self, path: Path, line: int, chr: int) -> List[str]:
+    def find_definition(self, path: Path, line: int, column: int) -> List[str]:
         assert not path.is_absolute()
-        filepath, linum, colnum = self.source_path / path, line - 1, chr - 1
+        filepath, linum, colnum = self.source_path / path, line - 1, column - 1
         log.debug(f"[🚧] find_definition for {filepath}:{linum}:{colnum}")
 
         return self.find_definition_internal(filepath, linum, colnum)
 
-    def hover(self, path: Path, line: int, chr: int) -> str:
+    def hover(self, path: Path, line: int, column: int) -> str:
         assert not path.is_absolute()
-        filepath, linum, colnum = self.source_path / path, line - 1, chr - 1
+        filepath, linum, colnum = self.source_path / path, line - 1, column - 1
         log.debug(f"[🚧] hover for {filepath}:{linum}:{colnum}")
 
         return self.hover_internal(filepath, linum, colnum)
