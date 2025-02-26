@@ -100,8 +100,24 @@ class AddressSanitizerReport(SanitizerReport):
                             if f"{filepath}:{line_number}:{column_number}" != match.group(4):
                                 log.warning(f"Incomplete file path: {desc} vs {match.group(4)}")
 
-                            ## NOTE: we use different way to handle stacktraces and descriptions
-                            if (relpath := guess_relpath(source_path, normpath)) is not None:
+                            # NOTE:
+                            # We handle stacktraces and description messages differently based on the presence of a work_path.
+                            #
+                            # Stacktraces:
+                            # - When a work_path is provided and the normalized source path is within that work_path,
+                            #   we store only the relative path (relative to work_path) along with the function name,
+                            #   line number, and column number.
+                            # - If the source path is not directly relative to work_path, we attempt to compute a relative path
+                            #   using the guess_relpath() function. If successful, we store that instead.
+                            #
+                            # Descriptions:
+                            # - If work_path is not provided, the full description (desc) is used.
+                            # - When work_path is provided and the source path is within work_path,
+                            #   we output the relative path with appended line and column numbers.
+
+                            if work_path is not None and normpath.is_relative_to(work_path):
+                                stacktraces[-1].append((function_name, normpath.relative_to(work_path), int(line_number), int(column_number)))
+                            elif (relpath := guess_relpath(source_path, normpath)) is not None:
                                 stacktraces[-1].append((function_name, relpath, int(line_number), int(column_number)))
 
                             if work_path is None:
