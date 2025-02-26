@@ -1,4 +1,4 @@
-The sanitizer detected a stack overflow vulnerability.The explanation of the vulnerability is: Excessive function calls lead to stack exhaustion, causing the program to crash or behave unpredictably..Here is the detail: 
+The sanitizer detected a stack overflow vulnerability. The explanation of the vulnerability is: Excessive function calls lead to stack exhaustion, causing the program to crash or behave unpredictably. Here is the detail: 
 
     - __asan_memset /src/llvm-project/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cpp:67:3
     - set<AK::Empty, AK::Empty> /src/serenity/AK/Variant.h:366:17

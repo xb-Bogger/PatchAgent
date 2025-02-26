@@ -1,4 +1,4 @@
-The sanitizer detected a memcpy param overlap vulnerability.The explanation of the vulnerability is: The source and destination buffers of a memory copy operation overlap, causing data corruption..Here is the detail: 
+The sanitizer detected a memcpy param overlap vulnerability. The explanation of the vulnerability is: The source and destination buffers of a memory copy operation overlap, causing data corruption. Here is the detail: 
 
     - __asan_memcpy /src/llvm-project/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cpp:63:3
     - ZSTD_initDDict_internal /src/c-blosc2/internal-complibs/zstd-1.4.9/decompress/zstd_ddict.c:134:9

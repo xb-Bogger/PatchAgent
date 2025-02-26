@@ -1,4 +1,4 @@
-The sanitizer detected a container overflow vulnerability.The explanation of the vulnerability is: A data structure, such as a vector or list, is accessed beyond its allocated memory, causing memory corruption or unexpected behavior..Here is the detail: 
+The sanitizer detected a container overflow vulnerability. The explanation of the vulnerability is: A data structure, such as a vector or list, is accessed beyond its allocated memory, causing memory corruption or unexpected behavior. Here is the detail: 
 
 [1m[0m[1m[34mWRITE of size 65534 at 0x7fe04ad4c802 thread T0[1m[0m
     - memcpy /src/llvm-project/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_memintrinsics.inc:115:5

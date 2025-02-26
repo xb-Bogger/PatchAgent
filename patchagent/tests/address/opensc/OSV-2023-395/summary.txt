@@ -1,4 +1,4 @@
-The sanitizer detected a stack buffer overflow vulnerability.The explanation of the vulnerability is: A function writes more data to a local stack variable than it can hold, overwriting adjacent memory and potentially leading to execution hijacking..Here is the detail: 
+The sanitizer detected a stack buffer overflow vulnerability. The explanation of the vulnerability is: A function writes more data to a local stack variable than it can hold, overwriting adjacent memory and potentially leading to execution hijacking. Here is the detail: 
 
 READ of size 1 at 0x7f839c841460 thread T0
     - sc_path_print /src/opensc/src/libopensc/sc.c:467:61

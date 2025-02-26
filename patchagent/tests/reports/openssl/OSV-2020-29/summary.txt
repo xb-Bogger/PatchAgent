@@ -1,4 +1,4 @@
-The sanitizer detected a heap use after free vulnerability.The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks..Here is the detail: 
+The sanitizer detected a heap use after free vulnerability. The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks. Here is the detail: 
 
 [1m[0m[1m[34mWRITE of size 4 at 0x50f00002b580 thread T0[1m[0m
     - CRYPTO_DOWN_REF /src/openssl/include/internal/refcount.h:51:12

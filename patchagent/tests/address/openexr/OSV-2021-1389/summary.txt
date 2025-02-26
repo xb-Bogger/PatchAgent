@@ -1,4 +1,4 @@
-The sanitizer detected a negative size param vulnerability.The explanation of the vulnerability is: A function receives a negative size parameter, leading to unexpected behavior or memory allocation errors..Here is the detail: 
+The sanitizer detected a negative size param vulnerability. The explanation of the vulnerability is: A function receives a negative size parameter, leading to unexpected behavior or memory allocation errors. Here is the detail: 
 
     - __asan_memcpy /src/llvm-project/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cpp:63:3
     - Imf_2_5::(anonymous namespace)::memstream_read(_priv_exr_context_t const*, void*, void*, unsigned long, unsigned long, int (*)(_priv_exr_context_t const*, int, char const*, ...)) /src/openexr/src/lib/OpenEXRUtil/ImfCheckFile.cpp:1500:13

@@ -1,4 +1,4 @@
-The sanitizer detected a stack buffer overflow vulnerability.The explanation of the vulnerability is: A function writes more data to a local stack variable than it can hold, overwriting adjacent memory and potentially leading to execution hijacking..Here is the detail: 
+The sanitizer detected a stack buffer overflow vulnerability. The explanation of the vulnerability is: A function writes more data to a local stack variable than it can hold, overwriting adjacent memory and potentially leading to execution hijacking. Here is the detail: 
 
 [1m[0m[1m[34mREAD of size 1 at 0x7f0c1b1c114f thread T0[1m[0m
     - TranslateNumber_1 /src/espeak-ng/src/libespeak-ng/numbers.c:1785:34

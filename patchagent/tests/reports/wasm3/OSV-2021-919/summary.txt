@@ -1,4 +1,4 @@
-The sanitizer detected a heap buffer overflow vulnerability.The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes..Here is the detail: 
+The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
 [1m[0m[1m[34mWRITE of size 8 at 0x50d000000270 thread T0[1m[0m
     - op_Const64 /src/wasm3/source/m3_exec.h:1175:16

@@ -1,4 +1,4 @@
-The sanitizer detected a heap buffer overflow vulnerability.The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes..Here is the detail: 
+The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
 READ of size 8 at 0x5310000c4b18 thread T0
     - pdfi_font_match_glyph_widths /src/ghostpdl/pdf/pdf_font.c:118:33

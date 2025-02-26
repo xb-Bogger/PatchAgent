@@ -1,4 +1,4 @@
-The sanitizer detected a invalid free vulnerability.The explanation of the vulnerability is: A program attempts to free a memory block that was not dynamically allocated, causing undefined behavior or crashes..Here is the detail: 
+The sanitizer detected a invalid free vulnerability. The explanation of the vulnerability is: A program attempts to free a memory block that was not dynamically allocated, causing undefined behavior or crashes. Here is the detail: 
 
     - operator delete(void*) /src/llvm-project/compiler-rt/lib/asan/asan_new_delete.cpp:143:3
     - __libcpp_operator_delete<void *> /usr/local/include/c++/v1/new:280:3

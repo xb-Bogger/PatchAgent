@@ -1,4 +1,4 @@
-The sanitizer detected a heap use after free vulnerability.The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks..Here is the detail: 
+The sanitizer detected a heap use after free vulnerability. The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks. Here is the detail: 
 
 READ of size 4 at 0x50d000000958 thread T0
     - llvm_ks::X86Operand::getToken() const /src/keystone/llvm/lib/Target/X86/AsmParser/X86Operand.h:88:5

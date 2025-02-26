@@ -1,4 +1,4 @@
-The sanitizer detected a heap double free vulnerability.The explanation of the vulnerability is: A heap-allocated memory block is freed twice, potentially causing memory corruption or security vulnerabilities..Here is the detail: 
+The sanitizer detected a heap double free vulnerability. The explanation of the vulnerability is: A heap-allocated memory block is freed twice, potentially causing memory corruption or security vulnerabilities. Here is the detail: 
 
 [1m[0mSCARINESS: 42 (double-free)
     - operator delete[](void*) /src/llvm-project/compiler-rt/lib/asan/asan_new_delete.cpp:146:3

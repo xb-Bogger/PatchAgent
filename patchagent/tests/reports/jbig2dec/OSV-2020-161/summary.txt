@@ -1,4 +1,4 @@
-The sanitizer detected a stack use after return vulnerability.The explanation of the vulnerability is: A function accesses stack memory after returning, leading to use-after-free vulnerabilities..Here is the detail: 
+The sanitizer detected a stack use after return vulnerability. The explanation of the vulnerability is: A function accesses stack memory after returning, leading to use-after-free vulnerabilities. Here is the detail: 
 
 [1m[0m[1m[34mREAD of size 8 at 0x7f3eb2774f08 thread T0[1m[0m
     - jbig2_release_huffman_table /src/jbig2dec/jbig2_huffman.c:504:43

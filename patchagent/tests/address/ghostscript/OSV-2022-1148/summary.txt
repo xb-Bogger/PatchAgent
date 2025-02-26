@@ -1,4 +1,4 @@
-The sanitizer detected a stack buffer underflow vulnerability.The explanation of the vulnerability is: A program attempts to read data before the beginning of a stack buffer, leading to unintended behavior..Here is the detail: 
+The sanitizer detected a stack buffer underflow vulnerability. The explanation of the vulnerability is: A program attempts to read data before the beginning of a stack buffer, leading to unintended behavior. Here is the detail: 
 
 READ of size 4 at 0x7fbd01383814 thread T0
     - gs_type2_interpret /src/ghostpdl/base/gstype2.c:825:36

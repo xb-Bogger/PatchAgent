@@ -1,4 +1,4 @@
-The sanitizer detected a heap use after free vulnerability.The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks..Here is the detail: 
+The sanitizer detected a heap use after free vulnerability. The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks. Here is the detail: 
 
 [1m[0m[1m[34mREAD of size 4 at 0x52f00001c440 thread T0[1m[0m
     - mrb_gc_mark /src/mruby/src/gc.c:789:8

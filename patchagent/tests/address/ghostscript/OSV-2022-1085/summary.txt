@@ -1,4 +1,4 @@
-The sanitizer detected a heap buffer overflow vulnerability.The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes..Here is the detail: 
+The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
 READ of size 4 at 0x52a0001b0c04 thread T0
     - Ins_ALIGNRP /src/ghostpdl/base/ttinterp.c:4021:18

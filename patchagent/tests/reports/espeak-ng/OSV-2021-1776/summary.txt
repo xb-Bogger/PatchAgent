@@ -1,4 +1,4 @@
-The sanitizer detected a stack buffer underflow vulnerability.The explanation of the vulnerability is: A program attempts to read data before the beginning of a stack buffer, leading to unintended behavior..Here is the detail: 
+The sanitizer detected a stack buffer underflow vulnerability. The explanation of the vulnerability is: A program attempts to read data before the beginning of a stack buffer, leading to unintended behavior. Here is the detail: 
 
 [1m[0m[1m[34mREAD of size 8 at 0x7f3290a5b200 thread T0[1m[0m
     - CountVowelPosition /src/espeak-ng/src/libespeak-ng/synthdata.c:473:14

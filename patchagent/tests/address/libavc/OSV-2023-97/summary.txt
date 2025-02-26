@@ -1,4 +1,4 @@
-The sanitizer detected a heap buffer overflow vulnerability.The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes..Here is the detail: 
+The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
 READ of size 1 at 0x513000008f36 thread T0
     - isvcd_reflayer_construction_dyadic /src/libavc/decoder/svc/isvcd_intra_resamp.c:2116:45

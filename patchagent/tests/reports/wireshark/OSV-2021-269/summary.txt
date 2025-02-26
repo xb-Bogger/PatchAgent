@@ -1,4 +1,4 @@
-The sanitizer detected a stack use after return vulnerability.The explanation of the vulnerability is: A function accesses stack memory after returning, leading to use-after-free vulnerabilities..Here is the detail: 
+The sanitizer detected a stack use after return vulnerability. The explanation of the vulnerability is: A function accesses stack memory after returning, leading to use-after-free vulnerabilities. Here is the detail: 
 
 [1m[0m[1m[34mREAD of size 6 at 0x7fecc3e86c60 thread T0[1m[0m
     - MemcmpInterceptorCommon(void*, int (*)(void const*, void const*, unsigned long), void const*, void const*, unsigned long) /src/llvm-project/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors.inc:814:7

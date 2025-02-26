@@ -1,4 +1,4 @@
-The sanitizer detected a dynamic stack buffer overflow vulnerability.The explanation of the vulnerability is: A dynamically allocated stack buffer is overflowed, leading to potential memory corruption or execution hijacking..Here is the detail: 
+The sanitizer detected a dynamic stack buffer overflow vulnerability. The explanation of the vulnerability is: A dynamically allocated stack buffer is overflowed, leading to potential memory corruption or execution hijacking. Here is the detail: 
 
 [1m[0m[1m[34mREAD of size 4 at 0x7ffd173098a8 thread T0[1m[0m
     - zend_calc_live_ranges /src/php-src/Zend/zend_opcode.c:902:8

@@ -1,4 +1,4 @@
-The sanitizer detected a heap use after free vulnerability.The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks..Here is the detail: 
+The sanitizer detected a heap use after free vulnerability. The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks. Here is the detail: 
 
 READ of size 8 at 0x52b00000dcc8 thread T0
     - ZSTD_freeDDict /src/c-blosc2/internal-complibs/zstd-1.5.6/decompress/zstd_ddict.c:215:44

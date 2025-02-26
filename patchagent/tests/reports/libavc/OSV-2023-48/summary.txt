@@ -1,4 +1,4 @@
-The sanitizer detected a abort vulnerability.The explanation of the vulnerability is: The program was terminated due to an abort signal, indicating a critical error..Here is the detail: 
+The sanitizer detected a abort vulnerability. The explanation of the vulnerability is: The program was terminated due to an abort signal, indicating a critical error. Here is the detail: 
 
 [1m[0mSCARINESS: 10 (signal)
     - isvce_write_coeff4x4_cavlc /src/libavc/encoder/svc/isvce_cavlc.c:260:5

@@ -1,4 +1,4 @@
-The sanitizer detected a heap buffer overflow vulnerability.The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes..Here is the detail: 
+The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
 READ of size 8 at 0x5060000002a0 thread T0
     - wabt::interp::(anonymous namespace)::BinaryReaderInterp::OnExport(unsigned int, wabt::ExternalKind, unsigned int, std::__1::basic_string_view<char, std::__1::char_traits<char>>) /src/wabt/src/interp/binary-reader-interp.cc:693:63

@@ -1,4 +1,4 @@
-The sanitizer detected a container overflow vulnerability.The explanation of the vulnerability is: A data structure, such as a vector or list, is accessed beyond its allocated memory, causing memory corruption or unexpected behavior..Here is the detail: 
+The sanitizer detected a container overflow vulnerability. The explanation of the vulnerability is: A data structure, such as a vector or list, is accessed beyond its allocated memory, causing memory corruption or unexpected behavior. Here is the detail: 
 
 WRITE of size 4 at 0x50c000000398 thread T0
     - wabt::interp::(anonymous namespace)::BinaryReaderInterp::BeginFunctionBody(unsigned int, unsigned long) /src/wabt/src/interp/binary-reader-interp.cc:829:22

@@ -1,4 +1,4 @@
-The sanitizer detected a heap use after free vulnerability.The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks..Here is the detail: 
+The sanitizer detected a heap use after free vulnerability. The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks. Here is the detail: 
 
 READ of size 438 at 0x522000000130 thread T0
     - memcpy /src/llvm-project/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_memintrinsics.inc:115:5

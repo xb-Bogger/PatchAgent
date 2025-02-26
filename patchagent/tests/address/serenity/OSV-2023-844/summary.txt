@@ -1,4 +1,4 @@
-The sanitizer detected a heap buffer overflow vulnerability.The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes..Here is the detail: 
+The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
 READ of size 16 at 0x521000003900 thread T0
     - AK::ErrorOr<void, Media::DecoderError> Media::Video::VP9::Decoder::create_video_frame<unsigned short>(AK::Duration, Media::Video::VP9::FrameContext const&) /src/serenity/Userland/Libraries/LibMedia/Video/VP9/Decoder.cpp:177:77

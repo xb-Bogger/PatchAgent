@@ -1,4 +1,4 @@
-The sanitizer detected a heap buffer overflow vulnerability.The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes..Here is the detail: 
+The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
 [1m[0m[1m[34mREAD of size 8 at 0x5030000023f8 thread T0[1m[0m
     - std::__1::vector<unsigned char, std::__1::allocator<unsigned char>>::vector(std::__1::vector<unsigned char, std::__1::allocator<unsigned char>> const&) /usr/local/include/c++/v1/vector:1195:24

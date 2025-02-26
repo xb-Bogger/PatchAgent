@@ -1,4 +1,4 @@
-The sanitizer detected a heap use after free vulnerability.The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks..Here is the detail: 
+The sanitizer detected a heap use after free vulnerability. The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks. Here is the detail: 
 
 READ of size 16 at 0x7fbfa487c638 thread T0
     - ih264_inter_pred_luma_vert_ssse3 /src/libavc/common/x86/ih264_inter_pred_filters_ssse3.c:650:24

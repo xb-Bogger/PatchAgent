@@ -1,4 +1,4 @@
-The sanitizer detected a negative size param vulnerability.The explanation of the vulnerability is: A function receives a negative size parameter, leading to unexpected behavior or memory allocation errors..Here is the detail: 
+The sanitizer detected a negative size param vulnerability. The explanation of the vulnerability is: A function receives a negative size parameter, leading to unexpected behavior or memory allocation errors. Here is the detail: 
 
     - memset /src/llvm-project/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_memintrinsics.inc:87:3
     - pdf_resize_array /src/ghostpdl/devices/vector/gdevpdtf.c:362:5

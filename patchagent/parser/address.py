@@ -123,8 +123,8 @@ class AddressSanitizerReport(SanitizerReport):
             return self.content
 
         summary = (
-            f"The sanitizer detected a {self.cwe.value} vulnerability."
-            f"The explanation of the vulnerability is: {CWE_DESCRIPTIONS[self.cwe]}."
+            f"The sanitizer detected a {self.cwe.value} vulnerability. "
+            f"The explanation of the vulnerability is: {CWE_DESCRIPTIONS[self.cwe]}. "
             f"Here is the detail: \n\n{self.purified_content}\n\n"
             f"To fix this issue, follow the advice below:\n\n{CWE_REPAIR_ADVICE[self.cwe]}"
         )

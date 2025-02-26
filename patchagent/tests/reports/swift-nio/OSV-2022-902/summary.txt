@@ -1,4 +1,4 @@
-The sanitizer detected a ill vulnerability.The explanation of the vulnerability is: The program encountered an illegal instruction, indicating a hardware or software issue..Here is the detail: 
+The sanitizer detected a ill vulnerability. The explanation of the vulnerability is: The program encountered an illegal instruction, indicating a hardware or software issue. Here is the detail: 
 
 [1m[0mSCARINESS: 10 (signal)
     - function signature specialization <Arg[1] = Dead> of static NIOHTTP1.HTTPMethod.from(httpParserMethod: __C.llhttp_method) -> NIOHTTP1.HTTPMethod /src/swift-nio/Sources/NIOHTTP1/HTTPDecoder.swift:915:13

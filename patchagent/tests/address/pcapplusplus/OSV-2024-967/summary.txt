@@ -1,4 +1,4 @@
-The sanitizer detected a heap buffer overflow vulnerability.The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes..Here is the detail: 
+The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
 READ of size 1 at 0x50c000000191 thread T0
     - pcpp::byteArrayToHexString(unsigned char const*, unsigned long, int) /src/PcapPlusPlus/Common++/src/GeneralUtils.cpp:24:72

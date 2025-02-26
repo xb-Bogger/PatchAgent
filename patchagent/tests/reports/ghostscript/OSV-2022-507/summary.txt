@@ -1,4 +1,4 @@
-The sanitizer detected a heap use after free vulnerability.The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks..Here is the detail: 
+The sanitizer detected a heap use after free vulnerability. The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks. Here is the detail: 
 
 [1m[0m[1m[34mREAD of size 8 at 0x51c0000010f0 thread T0[1m[0m
     - psi_device_ref_finalize /src/ghostpdl/psi/zdevice.c:74:24

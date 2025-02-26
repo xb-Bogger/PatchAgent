@@ -1,4 +1,4 @@
-The sanitizer detected a heap double free vulnerability.The explanation of the vulnerability is: A heap-allocated memory block is freed twice, potentially causing memory corruption or security vulnerabilities..Here is the detail: 
+The sanitizer detected a heap double free vulnerability. The explanation of the vulnerability is: A heap-allocated memory block is freed twice, potentially causing memory corruption or security vulnerabilities. Here is the detail: 
 
     - free /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:52:3
     - sc_pkcs15_free_object_content /src/opensc/src/libopensc/pkcs15.c:2731:4

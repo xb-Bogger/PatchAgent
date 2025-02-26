@@ -1,4 +1,4 @@
-The sanitizer detected a segv on unknown address vulnerability.The explanation of the vulnerability is: The program attempted to access an invalid or unallocated memory address, leading to a segmentation fault..Here is the detail: 
+The sanitizer detected a segv on unknown address vulnerability. The explanation of the vulnerability is: The program attempted to access an invalid or unallocated memory address, leading to a segmentation fault. Here is the detail: 
 
 The signal is caused by a READ memory access.
     - ParseXMLElement /src/tidy-html5/src/parser.c:5732:14

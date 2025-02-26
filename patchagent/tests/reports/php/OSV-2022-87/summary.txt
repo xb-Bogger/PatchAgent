@@ -1,4 +1,4 @@
-The sanitizer detected a heap use after free vulnerability.The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks..Here is the detail: 
+The sanitizer detected a heap use after free vulnerability. The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks. Here is the detail: 
 
 [1m[0m[1m[34mREAD of size 8 at 0x504000028430 thread T0[1m[0m
     - zend_std_get_property_ptr_ptr /src/php-src/Zend/zend_object_handlers.c:1065:8

@@ -1,4 +1,4 @@
-The sanitizer detected a heap buffer overflow vulnerability.The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes..Here is the detail: 
+The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
 WRITE of size 7 at 0x7fcaab9ff130 thread T0
     - memset /src/llvm-project/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_memintrinsics.inc:87:3

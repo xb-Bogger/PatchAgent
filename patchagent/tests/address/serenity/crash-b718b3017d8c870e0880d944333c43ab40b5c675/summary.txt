@@ -1,4 +1,4 @@
-The sanitizer detected a stack overflow vulnerability.The explanation of the vulnerability is: Excessive function calls lead to stack exhaustion, causing the program to crash or behave unpredictably..Here is the detail: 
+The sanitizer detected a stack overflow vulnerability. The explanation of the vulnerability is: Excessive function calls lead to stack exhaustion, causing the program to crash or behave unpredictably. Here is the detail: 
 
     - JS::Parser::parse_secondary_expression(AK::NonnullRefPtr<JS::Expression const>, int, JS::Associativity, JS::Parser::ForbiddenTokens) /src/serenity/Userland/Libraries/LibJS/Parser.cpp:2342:0
     - JS::Parser::parse_expression(int, JS::Associativity, JS::Parser::ForbiddenTokens) /src/serenity/Userland/Libraries/LibJS/Parser.cpp:2305:27
