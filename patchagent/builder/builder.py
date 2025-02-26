@@ -76,3 +76,6 @@ class Builder:
 
     def replay(self, harness_name: str, poc_path: Path, patch: str = "") -> Optional[SanitizerReport]:
         raise NotImplementedError("run_poc not implemented")
+
+    def function_test(self, patch: str = "") -> bool:
+        return True
