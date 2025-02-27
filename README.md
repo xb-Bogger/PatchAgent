@@ -1,6 +1,12 @@
+> [!NOTE]
+> The original repository, primarily intended for research purposes, is located at [osf.io/8k2ac](https://osf.io/8k2ac). 
+> This repository is a fork of the original repository, which is focused on real-world bug fixing.
+
 # PatchAgent
 
 [![Build Status](https://github.com/cla7aye15I4nd/PatchAgent/actions/workflows/push-to-ghcr.yaml/badge.svg)](https://github.com/cla7aye15I4nd/PatchAgent/actions/workflows/push-to-ghcr.yml)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 
 PatchAgent is a LLM-based practical program repair agent that mimics human expertise. It is designed to automatically generate patches for real-world bugs. In essence, PatchAgent employs a language server, a patch verifier, and interaction optimization techniques to mimic human-like reasoning during vulnerability repair.
 
@@ -28,8 +34,7 @@ patchtask.repair(generic_agent_generator(patchtask))
 
 ## Fixed Bugs
 
-> [!NOTE]
-> This table is just a sample of the vulnerabilities fixed so far. We will unredact as responsible disclosure periods end.
+This table is just a sample of the vulnerabilities fixed so far. We will unredact as responsible disclosure periods end.
 
 | Repository | Stars | Vulnerabilities |
 | - | - | - |
