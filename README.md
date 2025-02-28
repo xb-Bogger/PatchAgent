@@ -39,6 +39,7 @@ This table is just a sample of the vulnerabilities fixed so far. We will unredac
 | Repository | Stars | Vulnerabilities |
 | - | - | - |
 | [assimp](https://github.com/assimp/assimp) | 11.4k | [#5763](https://github.com/assimp/assimp/pull/5763), [#5764](https://github.com/assimp/assimp/pull/5764), [#5765](https://github.com/assimp/assimp/pull/5765) |
+| [libssh2](https://github.com/libssh2/libssh2) | 1.4k | [#1508](https://github.com/libssh2/libssh2/pull/1508) |
 | [hdf5](https://github.com/HDFGroup/hdf5) | 0.6k | [#5201](https://github.com/HDFGroup/hdf5/pull/5201), [#5210](https://github.com/HDFGroup/hdf5/pull/5210) |
 | [libredwg](https://github.com/LibreDWG/libredwg) | 1.0k | [#1061](https://github.com/LibreDWG/libredwg/pull/1061) |
 | [Pcap++](https://github.com/seladb/PcapPlusPlus) | 2.8k | [#1678](https://github.com/seladb/PcapPlusPlus/pull/1678), [#1680](https://github.com/seladb/PcapPlusPlus/pull/1680) |
