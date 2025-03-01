@@ -1,40 +1,86 @@
-> [!NOTE]
-> The original repository, primarily intended for research purposes, is located at [osf.io/8k2ac](https://osf.io/8k2ac). 
-> This repository is a fork of the original repository, which is focused on real-world bug fixing.
-
 # PatchAgent
 
 [![Build Status](https://github.com/cla7aye15I4nd/PatchAgent/actions/workflows/push-to-ghcr.yaml/badge.svg)](https://github.com/cla7aye15I4nd/PatchAgent/actions/workflows/push-to-ghcr.yml)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+![Python](https://img.shields.io/badge/python-3.12+-blue.svg)
+![Platform](https://img.shields.io/badge/platform-linux-lightgrey.svg)
 
+> [!NOTE]  
+> The original research repository is located at [osf.io/8k2ac](https://osf.io/8k2ac). 
+> This repository is a production-focused fork dedicated to real-world bug fixing.
 
-PatchAgent is a LLM-based practical program repair agent that mimics human expertise. It is designed to automatically generate patches for real-world bugs. In essence, PatchAgent employs a language server, a patch verifier, and interaction optimization techniques to mimic human-like reasoning during vulnerability repair.
+## 📋 Overview
 
-## Example
+PatchAgent is an LLM-based program repair agent that mimics human expertise to automatically generate patches for real-world bugs. It integrates:
 
-PatchAgent can used to repair real-world bugs. For example, the following code snippet can be used to repair oss-fuzz issue:
+- **Language Server Protocol**: For accurate code navigation and analysis
+- **Patch Verification**: For ensuring correct and safe fixes
+- **Interaction Optimization**: To achieve human-like reasoning during vulnerability repair
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Python 3.12+
+- Docker (for OSS-Fuzz integration)
+- Git
+
+### Installation
+
+```bash
+# Pull the image
+docker pull ghcr.io/cla7aye15i4nd/patchagent:latest
+
+# Run the container
+docker run -it --privileged ghcr.io/cla7aye15i4nd/patchagent:latest
+```
+
+### Environment Configuration
+
+Create a `.env` file based on the template:
+
+```bash
+cp .env.template .env
+# Edit .env with your API keys and configuration
+```
+
+## 💻 Usage Example
+
+PatchAgent can be used to repair real-world bugs. Here's a simple example to repair an OSS-Fuzz issue:
 
 ```python
 from patchagent.builder import OSSFuzzBuilder
 from patchagent.agent.generator import generic_agent_generator
 from patchagent.task import PatchTask
 
+# Initialize the task with a crash reproduction
 patchtask = PatchTask(
-    ["poc.bin"],
-    "libpng_read_fuzzer",
+    ["poc.bin"],                         # Proof of Concept file(s)
+    "libpng_read_fuzzer",                # Name of the fuzz target
     OSSFuzzBuilder(
-        "libpng",
-        "<path-to-libpng>",
-        "<path-to-oss-fuzz>",
+        "libpng",                        # Project name
+        "/path/to/libpng",               # Source path
+        "/path/to/oss-fuzz",             # OSS-Fuzz path
     ),
 )
 
+# Run the repair process
 patchtask.repair(generic_agent_generator(patchtask))
 ```
 
-## Fixed Bugs
+## 🛠️ Development Setup
 
-This table is just a sample of the vulnerabilities fixed so far. We will unredact as responsible disclosure periods end.
+For development, we recommend using the VS Code devcontainer:
+
+1. Install the [VS Code Remote Development Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack)
+2. Open the repository in VS Code
+3. When prompted, click "Reopen in Container"
+
+This will set up a fully configured development environment with all the necessary tools.
+
+## 🏆 Fixed Vulnerabilities
+
+Below is a sample of the vulnerabilities fixed by PatchAgent. More will be disclosed as responsible disclosure periods end.
 
 | Repository | Stars | Vulnerabilities |
 | - | - | - |
@@ -44,13 +90,21 @@ This table is just a sample of the vulnerabilities fixed so far. We will unredac
 | [libredwg](https://github.com/LibreDWG/libredwg) | 1.0k | [#1061](https://github.com/LibreDWG/libredwg/pull/1061) |
 | [Pcap++](https://github.com/seladb/PcapPlusPlus) | 2.8k | [#1678](https://github.com/seladb/PcapPlusPlus/pull/1678), [#1680](https://github.com/seladb/PcapPlusPlus/pull/1680) |
 
-## Contact
 
-Feel free to use GitHub issues and pull requests for improvements, bug fixes, and questions. For personal communication related to PatchAgent, please contact [Zheng Yu](https://www.dataisland.org).
 
-## Reference
+## 📄 License
 
-To cite PatchAgent in scientific publications, please use the following reference:
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
+
+## 📞 Contact
+
+For questions, bugs, or feature requests:
+- Create [GitHub issues](https://github.com/cla7aye15I4nd/PatchAgent/issues)
+- For direct communication related to PatchAgent, contact [Zheng Yu](https://www.dataisland.org)
+
+## 📚 Citation
+
+To cite PatchAgent in scientific publications, please use:
 
 ```bibtex
 @article{PatchAgent,
