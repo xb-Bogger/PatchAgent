@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.12"
 license = {text = "Apache-2.0"}
 authors = [
-    {name = "Zheng Yu", email = "zhengyu@example.com"}  # Replace with actual email if known
+    {name = "Zheng Yu", email = "dataisland@outlook.com"}
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
