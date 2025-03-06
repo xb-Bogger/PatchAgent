@@ -72,15 +72,25 @@ class JazzerReport(SanitizerReport):
 
                 purified_content = ""
 
-                last_item, count = None, 0
-                for name, filepath, linum, _ in stacktrace:
+                repeat_times = 3
+                for i, (name, filepath, linum, _) in enumerate(stacktrace):
                     desc = f"- {name} ({filepath}:{linum})\n"
-                    if cwe is CWE.Stack_overflow and count > 5:
-                        purified_content += "  ... more stack frames\n"
-                        break
+                    if cwe is CWE.Stack_overflow:
+                        has_cyclic = False
+                        for cycle_len in range(1, i // repeat_times):
+                            always_repeat = True
+                            for j in range(cycle_len):
+                                for k in range(repeat_times):
+                                    always_repeat = always_repeat and (stacktrace[i - j] == stacktrace[i - j - cycle_len * k])
+                            if always_repeat:
+                                has_cyclic = True
+                                purified_content += "  ... more stack frames\n"
+                                break
+
+                        if has_cyclic:
+                            break
 
                     purified_content += desc
-                    last_item, count = desc, (0 if desc != last_item else count + 1)
 
                 return JazzerReport(Sanitizer.JazzerSanitizer, content, cwe, stacktrace, purified_content)
 
