@@ -8,7 +8,6 @@ from langchain.agents.output_parsers.openai_tools import OpenAIToolsAgentOutputP
 from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.agents import AgentAction, AgentFinish
 from langchain_core.utils.function_calling import convert_to_openai_tool
-from langchain_openai import AzureChatOpenAI
 
 from patchagent.agent.base import BaseAgent
 from patchagent.agent.java.prompt import (
@@ -19,6 +18,7 @@ from patchagent.agent.java.proxy.default import (
     create_validate_tool,
     create_viewcode_tool,
 )
+from patchagent.agent.utils import construct_chat_openai
 from patchagent.context import Context
 from patchagent.logger import log
 from patchagent.task import PatchTask
@@ -45,7 +45,10 @@ class OpenAIJavaAgent(BaseAgent):
         self.max_iterations = max_iterations
         self.counterexamples = self.get_counterexamples()
 
-        self.llm = AzureChatOpenAI(temperature=self.temperature, model=self.model)
+        self.llm = construct_chat_openai(
+            temperature=self.temperature,
+            model=self.model,
+        )
 
     def setup(self, context: Context):
         lc_tools = [
