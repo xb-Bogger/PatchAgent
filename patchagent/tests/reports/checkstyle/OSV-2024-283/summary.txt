@@ -6,9 +6,6 @@ The sanitizer detected a stack overflow vulnerability.The explanation of the vul
 - org.antlr.v4.runtime.atn.LexerATNSimulator.closure (org/antlr/v4/runtime/atn/LexerATNSimulator.java:455)
 - org.antlr.v4.runtime.atn.LexerATNSimulator.closure (org/antlr/v4/runtime/atn/LexerATNSimulator.java:455)
 - org.antlr.v4.runtime.atn.LexerATNSimulator.closure (org/antlr/v4/runtime/atn/LexerATNSimulator.java:455)
-- org.antlr.v4.runtime.atn.LexerATNSimulator.closure (org/antlr/v4/runtime/atn/LexerATNSimulator.java:455)
-- org.antlr.v4.runtime.atn.LexerATNSimulator.closure (org/antlr/v4/runtime/atn/LexerATNSimulator.java:455)
-- org.antlr.v4.runtime.atn.LexerATNSimulator.closure (org/antlr/v4/runtime/atn/LexerATNSimulator.java:455)
   ... more stack frames
 
 

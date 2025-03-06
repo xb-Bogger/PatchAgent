@@ -32,7 +32,7 @@ class Builder:
     @cached_property
     def source_path(self) -> Path:
         target_path = self.workspace / "immutable" / self.org_source_path.name
-        if not target_path.exists():
+        if not target_path.is_dir():
             shutil.copytree(self.org_source_path, target_path, symlinks=True)
 
         return target_path
@@ -40,10 +40,10 @@ class Builder:
     @cached_property
     def source_repo(self) -> Repo:
         target_path = self.workspace / "git" / self.org_source_path.name
-        if not target_path.exists():
+        if not target_path.is_dir():
             shutil.copytree(self.source_path, target_path, symlinks=True)
 
-        if (target_path / ".git").exists():
+        if (target_path / ".git").is_dir():
             shutil.rmtree(target_path / ".git")
 
         repo = Repo.init(target_path)

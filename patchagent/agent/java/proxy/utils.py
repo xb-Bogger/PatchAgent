@@ -1,11 +1,11 @@
-import os
 import re
 from pathlib import Path
 
 from patchagent.logger import log
+from patchagent.parser.utils import guess_relpath
 
 
-def revise_patch(patch: str, project_path: Path) -> tuple[str, bool]:
+def revise_patch(patch: str, source_path: Path) -> tuple[str, bool]:
     def revise_hunk(lines: list[str], file_content: list[str]) -> tuple[str, bool]:
         orignal_line_number = sum(1 for line in lines[1:] if not line.startswith("+"))
         patched_line_number = sum(1 for line in lines[1:] if not line.startswith("-"))
@@ -58,17 +58,21 @@ def revise_patch(patch: str, project_path: Path) -> tuple[str, bool]:
     def revise_block(lines: list[str]) -> tuple[list[str], bool]:
         file_path_a = re.findall(r"--- a/(.*)", lines[0])[0]
         file_path_b = re.findall(r"\+\+\+ b/(.*)", lines[1])[0]
-        fixed_file_path_a = os.path.normpath(file_path_a)
-        fixed_file_path_b = os.path.normpath(file_path_b)
-        block_fixed = file_path_a != fixed_file_path_a or file_path_b != fixed_file_path_b
 
-        assert file_path_a == file_path_b and fixed_file_path_a == fixed_file_path_b
+        guess_file_path_a = guess_relpath(source_path, Path(file_path_a))
+        guess_file_path_b = guess_relpath(source_path, Path(file_path_b))
+        assert guess_file_path_a is not None and guess_file_path_b is not None
+
+        fixed_file_path_a = guess_file_path_a.as_posix()
+        fixed_file_path_b = guess_file_path_b.as_posix()
+        block_fixed = file_path_a != fixed_file_path_a or file_path_b != fixed_file_path_b or fixed_file_path_a != fixed_file_path_b
+
         fixed_lines = [
             f"--- a/{fixed_file_path_a}\n",
-            f"+++ b/{fixed_file_path_b}\n",
+            f"+++ b/{fixed_file_path_a}\n",
         ]
 
-        with open(os.path.join(project_path, file_path_a), "r") as f:
+        with (source_path / fixed_file_path_a).open("r") as f:
             file_content = f.readlines()
 
         last_line = -1

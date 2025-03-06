@@ -52,7 +52,7 @@ class OSSFuzzBuilder(Builder):
     @cached_property
     def fuzz_tooling_path(self) -> Path:
         target_path = self.workspace / "immutable" / self.org_fuzz_tooling_path.name
-        if not target_path.exists():
+        if not target_path.is_dir():
             shutil.copytree(self.org_fuzz_tooling_path, target_path, symlinks=True)
 
         return target_path
@@ -64,7 +64,7 @@ class OSSFuzzBuilder(Builder):
         return self.workspace / self.hash_patch(patch) / ".build"
 
     def build(self, patch: str = "") -> None:
-        if self.build_finish_indicator(patch).exists():
+        if self.build_finish_indicator(patch).is_file():
             return
 
         log.info(f"[🧱] Building {self.project} with patch {self.hash_patch(patch)}")
@@ -114,8 +114,8 @@ class OSSFuzzBuilder(Builder):
     def replay(self, harness_name: str, poc_path: Path, patch: str = "") -> Optional[SanitizerReport]:
         self.build(patch)
 
-        assert poc_path.exists(), "PoC file does not exist"
-        assert self.build_finish_indicator(patch).exists(), "Build failed"
+        assert poc_path.is_file(), "PoC file does not exist"
+        assert self.build_finish_indicator(patch).is_file(), "Build failed"
 
         log.info(f"[🔄] Replaying {self.project}/{harness_name} with PoC {poc_path} and patch {self.hash_patch(patch)}")
         process = subprocess.Popen(
@@ -141,7 +141,7 @@ class OSSFuzzBuilder(Builder):
     @cached_property
     def language(self) -> Lang:
         project_yaml = self.fuzz_tooling_path / "projects" / self.project / "project.yaml"
-        assert project_yaml.exists(), "project.yaml not found"
+        assert project_yaml.is_file(), "project.yaml not found"
         yaml_data = yaml.safe_load(project_yaml.read_text())
         return Lang.from_string(yaml_data.get("language", "c"))
 
@@ -155,7 +155,7 @@ class OSSFuzzBuilder(Builder):
 
     def construct_c_language_server(self) -> HybridCServer:
         ctags_source = self.workspace / "ctags"
-        if not ctags_source.exists():
+        if not ctags_source.is_dir():
             shutil.copytree(self.source_path, ctags_source, symlinks=True)
 
         clangd_workdir = self.workspace / "clangd"
@@ -163,13 +163,13 @@ class OSSFuzzBuilder(Builder):
 
         clangd_source = clangd_workdir / self.source_path.name
         clangd_fuzz_tooling = clangd_workdir / self.fuzz_tooling_path.name
-        if not clangd_source.exists():
+        if not clangd_source.is_dir():
             shutil.copytree(self.source_path, clangd_source, symlinks=True)
-        if not clangd_fuzz_tooling.exists():
+        if not clangd_fuzz_tooling.is_dir():
             shutil.copytree(self.fuzz_tooling_path, clangd_fuzz_tooling, symlinks=True)
 
         compile_commands = clangd_source / "compile_commands.json"
-        if not compile_commands.exists():
+        if not compile_commands.is_file():
             if (
                 subprocess.run(
                     ["infra/helper.py", "build_image", "--pull", self.project],
@@ -193,8 +193,8 @@ class OSSFuzzBuilder(Builder):
             )
 
             dotpwd = clangd_source / ".pwd"
-            assert dotpwd.exists(), ".pwd not found"
-            assert compile_commands.exists(), "compile_commands.json not found"
+            assert dotpwd.is_file(), ".pwd not found"
+            assert compile_commands.is_file(), "compile_commands.json not found"
 
             workdir = dotpwd.read_text().strip()
             compile_commands.write_text(

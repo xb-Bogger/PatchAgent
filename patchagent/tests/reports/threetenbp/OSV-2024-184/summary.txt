@@ -8,11 +8,6 @@ The sanitizer detected a stack overflow vulnerability.The explanation of the vul
 - org.threeten.bp.format.DateTimeFormatterBuilder$PadPrinterParserDecorator.parse (org/threeten/bp/format/DateTimeFormatterBuilder$PadPrinterParserDecorator/parse:2111)
 - org.threeten.bp.format.DateTimeFormatterBuilder$CompositePrinterParser.parse (org/threeten/bp/format/DateTimeFormatterBuilder$CompositePrinterParser/parse:2014)
 - org.threeten.bp.format.DateTimeFormatterBuilder$CompositePrinterParser.parse (org/threeten/bp/format/DateTimeFormatterBuilder$CompositePrinterParser/parse:2014)
-- org.threeten.bp.format.DateTimeFormatterBuilder$CompositePrinterParser.parse (org/threeten/bp/format/DateTimeFormatterBuilder$CompositePrinterParser/parse:2014)
-- org.threeten.bp.format.DateTimeFormatterBuilder$CompositePrinterParser.parse (org/threeten/bp/format/DateTimeFormatterBuilder$CompositePrinterParser/parse:2014)
-- org.threeten.bp.format.DateTimeFormatterBuilder$CompositePrinterParser.parse (org/threeten/bp/format/DateTimeFormatterBuilder$CompositePrinterParser/parse:2014)
-- org.threeten.bp.format.DateTimeFormatterBuilder$CompositePrinterParser.parse (org/threeten/bp/format/DateTimeFormatterBuilder$CompositePrinterParser/parse:2014)
-- org.threeten.bp.format.DateTimeFormatterBuilder$CompositePrinterParser.parse (org/threeten/bp/format/DateTimeFormatterBuilder$CompositePrinterParser/parse:2014)
   ... more stack frames
 
 

@@ -27,11 +27,6 @@ The sanitizer detected a stack overflow vulnerability.The explanation of the vul
 - org.codehaus.janino.Parser.parseAssignmentExpression (org/codehaus/janino/Parser.java:2765)
 - org.codehaus.janino.Parser.parseAssignmentExpression (org/codehaus/janino/Parser.java:2770)
 - org.codehaus.janino.Parser.parseAssignmentExpression (org/codehaus/janino/Parser.java:2770)
-- org.codehaus.janino.Parser.parseAssignmentExpression (org/codehaus/janino/Parser.java:2770)
-- org.codehaus.janino.Parser.parseAssignmentExpression (org/codehaus/janino/Parser.java:2770)
-- org.codehaus.janino.Parser.parseAssignmentExpression (org/codehaus/janino/Parser.java:2770)
-- org.codehaus.janino.Parser.parseAssignmentExpression (org/codehaus/janino/Parser.java:2770)
-- org.codehaus.janino.Parser.parseAssignmentExpression (org/codehaus/janino/Parser.java:2770)
   ... more stack frames
 
 

@@ -9,11 +9,6 @@ The sanitizer detected a stack overflow vulnerability.The explanation of the vul
 - jflex.core.NFA.insertNFA (jflex/core/NFA.java:871)
 - jflex.core.NFA.insertNFA (jflex/core/NFA.java:872)
 - jflex.core.NFA.insertNFA (jflex/core/NFA.java:872)
-- jflex.core.NFA.insertNFA (jflex/core/NFA.java:872)
-- jflex.core.NFA.insertNFA (jflex/core/NFA.java:872)
-- jflex.core.NFA.insertNFA (jflex/core/NFA.java:872)
-- jflex.core.NFA.insertNFA (jflex/core/NFA.java:872)
-- jflex.core.NFA.insertNFA (jflex/core/NFA.java:872)
   ... more stack frames
 
 

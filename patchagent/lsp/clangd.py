@@ -80,7 +80,7 @@ class ClangdServer(LanguageServer):
 
     def start(self):
         compile_command_json = self.source_path / "compile_commands.json"
-        assert compile_command_json.exists(), "compile_commands.json not found"
+        assert compile_command_json.is_file(), "compile_commands.json not found"
 
         self.current_id: int = 0
         self.process: subprocess.Popen[bytes] = subprocess.Popen(

@@ -6,7 +6,6 @@ The sanitizer detected a stack overflow vulnerability.The explanation of the vul
 - org.apache.commons.jxpath.ri.compiler.CoreOperationMultiply.computeValue (org/apache/commons/jxpath/ri/compiler/CoreOperationMultiply.java:40)
 - org.apache.commons.jxpath.ri.compiler.CoreOperationMultiply.computeValue (org/apache/commons/jxpath/ri/compiler/CoreOperationMultiply.java:40)
 - org.apache.commons.jxpath.ri.compiler.CoreOperationMultiply.computeValue (org/apache/commons/jxpath/ri/compiler/CoreOperationMultiply.java:40)
-- org.apache.commons.jxpath.ri.compiler.CoreOperationMultiply.computeValue (org/apache/commons/jxpath/ri/compiler/CoreOperationMultiply.java:40)
   ... more stack frames
 
 

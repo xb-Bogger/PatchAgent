@@ -9,7 +9,7 @@ class LanguageServer:
     def viewcode(self, path: Path, start_line: int, end_line: int) -> Optional[List[str]]:
         assert not path.is_absolute()
         real_path = self.source_path / path
-        if real_path.exists():
+        if real_path.is_file():
             with open(real_path, "r") as f:
                 return f.readlines()[start_line - 1 : end_line]
 

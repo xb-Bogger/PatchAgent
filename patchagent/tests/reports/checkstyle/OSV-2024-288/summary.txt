@@ -19,11 +19,6 @@ The sanitizer detected a stack overflow vulnerability.The explanation of the vul
 - com.puppycrawl.tools.checkstyle.grammar.java.JavaLanguageParser.expr (com/puppycrawl/tools/checkstyle/grammar/java/JavaLanguageParser.java:9389)
 - com.puppycrawl.tools.checkstyle.grammar.java.JavaLanguageParser.expr (com/puppycrawl/tools/checkstyle/grammar/java/JavaLanguageParser.java:9392)
 - com.puppycrawl.tools.checkstyle.grammar.java.JavaLanguageParser.expr (com/puppycrawl/tools/checkstyle/grammar/java/JavaLanguageParser.java:9392)
-- com.puppycrawl.tools.checkstyle.grammar.java.JavaLanguageParser.expr (com/puppycrawl/tools/checkstyle/grammar/java/JavaLanguageParser.java:9392)
-- com.puppycrawl.tools.checkstyle.grammar.java.JavaLanguageParser.expr (com/puppycrawl/tools/checkstyle/grammar/java/JavaLanguageParser.java:9392)
-- com.puppycrawl.tools.checkstyle.grammar.java.JavaLanguageParser.expr (com/puppycrawl/tools/checkstyle/grammar/java/JavaLanguageParser.java:9392)
-- com.puppycrawl.tools.checkstyle.grammar.java.JavaLanguageParser.expr (com/puppycrawl/tools/checkstyle/grammar/java/JavaLanguageParser.java:9392)
-- com.puppycrawl.tools.checkstyle.grammar.java.JavaLanguageParser.expr (com/puppycrawl/tools/checkstyle/grammar/java/JavaLanguageParser.java:9392)
   ... more stack frames
 
 

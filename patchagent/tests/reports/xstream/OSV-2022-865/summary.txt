@@ -10,11 +10,6 @@ The sanitizer detected a stack overflow vulnerability.The explanation of the vul
 - com.ctc.wstx.dtd.FullDTDReader.readContentSpec (com/ctc/wstx/dtd/FullDTDReader.java:3099)
 - com.ctc.wstx.dtd.FullDTDReader.readContentSpec (com/ctc/wstx/dtd/FullDTDReader.java:3090)
 - com.ctc.wstx.dtd.FullDTDReader.readContentSpec (com/ctc/wstx/dtd/FullDTDReader.java:3090)
-- com.ctc.wstx.dtd.FullDTDReader.readContentSpec (com/ctc/wstx/dtd/FullDTDReader.java:3090)
-- com.ctc.wstx.dtd.FullDTDReader.readContentSpec (com/ctc/wstx/dtd/FullDTDReader.java:3090)
-- com.ctc.wstx.dtd.FullDTDReader.readContentSpec (com/ctc/wstx/dtd/FullDTDReader.java:3090)
-- com.ctc.wstx.dtd.FullDTDReader.readContentSpec (com/ctc/wstx/dtd/FullDTDReader.java:3090)
-- com.ctc.wstx.dtd.FullDTDReader.readContentSpec (com/ctc/wstx/dtd/FullDTDReader.java:3090)
   ... more stack frames
 
 

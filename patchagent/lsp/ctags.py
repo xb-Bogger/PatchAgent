@@ -24,7 +24,7 @@ class CtagsServer(LanguageServer):
             stderr=subprocess_none_pipe(),
         )
 
-        assert tagfile.exists(), "Failed to generate ctags"
+        assert tagfile.is_file(), "Failed to generate ctags"
 
         symbol_map = {}
         with open(tagfile, "rb") as f:

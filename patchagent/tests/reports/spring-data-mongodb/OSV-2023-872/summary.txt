@@ -21,11 +21,6 @@ The sanitizer detected a stack overflow vulnerability.The explanation of the vul
 - org.springframework.expression.spel.ast.OpPlus.getValueInternal (org/springframework/expression/spel/ast/OpPlus.java:140)
 - org.springframework.expression.spel.ast.OpPlus.getValueInternal (org/springframework/expression/spel/ast/OpPlus.java:93)
 - org.springframework.expression.spel.ast.OpPlus.getValueInternal (org/springframework/expression/spel/ast/OpPlus.java:93)
-- org.springframework.expression.spel.ast.OpPlus.getValueInternal (org/springframework/expression/spel/ast/OpPlus.java:93)
-- org.springframework.expression.spel.ast.OpPlus.getValueInternal (org/springframework/expression/spel/ast/OpPlus.java:93)
-- org.springframework.expression.spel.ast.OpPlus.getValueInternal (org/springframework/expression/spel/ast/OpPlus.java:93)
-- org.springframework.expression.spel.ast.OpPlus.getValueInternal (org/springframework/expression/spel/ast/OpPlus.java:93)
-- org.springframework.expression.spel.ast.OpPlus.getValueInternal (org/springframework/expression/spel/ast/OpPlus.java:93)
   ... more stack frames
 
 

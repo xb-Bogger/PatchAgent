@@ -75,23 +75,22 @@ def locate(task: PatchTask, symbol: str, auto_hint=False) -> tuple[dict, str]:
                     continue
                 relpath, start_line, end_line = tool_calls["args"]["path"], tool_calls["args"]["start_line"], tool_calls["args"]["end_line"]
                 realpath: Path = task.builder.source_path / relpath
-                if not realpath.exists():
-                    continue
-                try:
-                    index = clang.cindex.Index.create()
-                    tu = index.parse(realpath)
+                if realpath.is_file():
+                    try:
+                        index = clang.cindex.Index.create()
+                        tu = index.parse(realpath)
 
-                    location_set = set()
-                    for token in tu.get_tokens(extent=tu.cursor.extent):
-                        if token.kind.name == "IDENTIFIER" and token.spelling == symbol and start_line <= token.location.line <= end_line:
-                            for loc in task.builder.language_server.find_definition(Path(relpath), token.location.line, token.location.column):
-                                location_set.add(loc)
+                        location_set = set()
+                        for token in tu.get_tokens(extent=tu.cursor.extent):
+                            if token.kind.name == "IDENTIFIER" and token.spelling == symbol and start_line <= token.location.line <= end_line:
+                                for loc in task.builder.language_server.find_definition(Path(relpath), token.location.line, token.location.column):
+                                    location_set.add(loc)
 
-                    if len(location_set) > 0:
-                        return list(location_set)
-                except clang.cindex.TranslationUnitLoadError as e:
-                    log.warning(f"Failed to locate the symbol {symbol} in {realpath}: {e}")
-                    break
+                        if len(location_set) > 0:
+                            return list(location_set)
+                    except clang.cindex.TranslationUnitLoadError as e:
+                        log.warning(f"Failed to locate the symbol {symbol} in {realpath}: {e}")
+                        break
 
             for stack in task.report.stacktraces:  # type: ignore
                 for idx, frame in enumerate(stack):
@@ -104,7 +103,7 @@ def locate(task: PatchTask, symbol: str, auto_hint=False) -> tuple[dict, str]:
                                 return location
                         else:
                             realpath = task.builder.source_path / filepath
-                            if os.path.exists(realpath):
+                            if realpath.is_file():
                                 with realpath.open() as f:
                                     lines = f.readlines()
                                 for i in range(min(line, len(lines)) - 1, -1, -1):
