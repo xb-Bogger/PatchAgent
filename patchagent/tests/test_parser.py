@@ -28,8 +28,8 @@ class TestSanitizer(unittest.TestCase):
                         assert report is not None
                         assert report.cwe is not CWE.UNKNOWN
                         cover_error_type.add(report.cwe)
-                        # assert report.summary == summary_txt.read_text()
-                        # summary_txt.write_text(report.summary)
+                        assert report.summary == summary_txt.read_text()
+                        summary_txt.write_text(report.summary)
 
         for error_type in CWE:
             if error_type not in cover_error_type and error_type is not CWE.UNKNOWN:

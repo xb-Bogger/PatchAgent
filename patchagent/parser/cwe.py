@@ -65,9 +65,30 @@ CWE_DESCRIPTIONS = {
     CWE.Bad_free: "A program incorrectly deallocates memory, leading to potential memory corruption or instability",
     CWE.Bad_cast: "An invalid type conversion occurs, leading to memory corruption, crashes, or security vulnerabilities",
     CWE.Memory_Leak: "A program fails to free allocated memory, leading to resource exhaustion and degraded system performance over time",
+    ### HACK: LLM-gerated CWE descriptions
+    CWE.Out_of_memory: "The program runs out of memory, causing allocation failures and potential crashes",
+    CWE.File_path_traversal: "An attacker can manipulate file paths to access unauthorized files or directories",
+    CWE.LDAP_injection: "Untrusted input is used in LDAP queries, leading to potential injection attacks",
+    CWE.Naming_context_lookup: "An attacker can perform unauthorized JNDI lookups to access sensitive resources",
+    CWE.OS_command_injection: "Untrusted input is used in system commands, leading to potential command injection attacks",
+    CWE.Reflective_call: "An attacker can load and execute arbitrary libraries, leading to code execution vulnerabilities",
+    CWE.Remote_code_execution: "An attacker can execute arbitrary code on a remote system, leading to full compromise",
+    CWE.Regular_expression_injection: "Untrusted input is used in regular expressions, leading to potential injection attacks",
+    CWE.Script_engine_injection: "An attacker can execute arbitrary scripts in the application context, leading to code execution vulnerabilities",
+    CWE.Server_side_request_forgery: "An attacker can make the server perform unauthorized requests, leading to potential data exfiltration or unauthorized access",
+    CWE.SQL_injection: "Untrusted input is used in SQL queries, leading to potential injection attacks",
+    CWE.XPath_injection: "An XPath query is constructed using untrusted input, leading to potential injection attacks",
 }
 
 CWE_REPAIR_ADVICE = {
+    **dict.fromkeys(
+        [CWE.UNKNOWN],
+        (
+            "1. Review the code logic and memory operations to identify potential corruption.\n"
+            "2. Check for uninitialized variables or unintended pointer accesses.\n"
+            "3. Implement defensive programming techniques to validate all memory accesses."
+        ),
+    ),
     **dict.fromkeys(
         [CWE.ABORT],
         (
@@ -172,12 +193,101 @@ CWE_REPAIR_ADVICE = {
             "3. Reduce function call depth by refactoring complex recursive functions."
         ),
     ),
+    # TODO: LLM-generated CWEs suggestions
     **dict.fromkeys(
-        [CWE.UNKNOWN],
+        [CWE.Out_of_memory],
         (
-            "1. Review the code logic and memory operations to identify potential corruption.\n"
-            "2. Check for uninitialized variables or unintended pointer accesses.\n"
-            "3. Implement defensive programming techniques to validate all memory accesses."
+            "1. Check for memory leaks that may be consuming system resources.\n"
+            "2. Optimize memory usage by releasing unused resources.\n"
+            "3. Increase system memory or swap space to accommodate memory requirements."
+        ),
+    ),
+    **dict.fromkeys(
+        [CWE.File_path_traversal],
+        (
+            "1. Validate user input to prevent directory traversal attacks.\n"
+            "2. Use whitelists or allowlists to restrict file access to authorized directories.\n"
+            "3. Sanitize file paths before using them in file operations."
+        ),
+    ),
+    **dict.fromkeys(
+        [CWE.LDAP_injection],
+        (
+            "1. Avoid constructing LDAP queries using untrusted input.\n"
+            "2. Use parameterized queries or prepared statements to prevent injection attacks.\n"
+            "3. Sanitize user input before using it in LDAP queries."
+        ),
+    ),
+    **dict.fromkeys(
+        [CWE.Naming_context_lookup],
+        (
+            "1. Restrict access to naming contexts to prevent unauthorized lookups.\n"
+            "2. Use secure authentication mechanisms to control access to sensitive resources.\n"
+            "3. Monitor naming context lookups for suspicious activity."
+        ),
+    ),
+    **dict.fromkeys(
+        [CWE.OS_command_injection],
+        (
+            "1. Avoid constructing system commands using untrusted input.\n"
+            "2. Use parameterized commands or secure APIs to prevent injection attacks.\n"
+            "3. Sanitize user input before executing system commands."
+        ),
+    ),
+    **dict.fromkeys(
+        [CWE.Reflective_call],
+        (
+            "1. Avoid loading and executing arbitrary libraries in the application context.\n"
+            "2. Use secure APIs or sandboxed environments to execute external code.\n"
+            "3. Validate library paths and signatures before loading them into memory."
+        ),
+    ),
+    **dict.fromkeys(
+        [CWE.Remote_code_execution],
+        (
+            "1. Implement strong input validation to prevent code injection attacks.\n"
+            "2. Use secure communication protocols to protect against remote code execution.\n"
+            "3. Monitor network traffic for suspicious activity and unauthorized access."
+        ),
+    ),
+    **dict.fromkeys(
+        [CWE.Regular_expression_injection],
+        (
+            "1. Avoid constructing regular expressions using untrusted input.\n"
+            "2. Use predefined regex patterns or libraries to prevent injection attacks.\n"
+            "3. Sanitize user input before using it in regular expressions."
+        ),
+    ),
+    **dict.fromkeys(
+        [CWE.Script_engine_injection],
+        (
+            "1. Avoid executing untrusted scripts or code in the application context.\n"
+            "2. Use secure sandboxing techniques to isolate script execution.\n"
+            "3. Validate script inputs and restrict access to sensitive resources."
+        ),
+    ),
+    **dict.fromkeys(
+        [CWE.Server_side_request_forgery],
+        (
+            "1. Validate and sanitize all user-provided URLs to prevent SSRF attacks.\n"
+            "2. Use allowlists or secure APIs to restrict server-side requests to authorized domains.\n"
+            "3. Monitor server logs for unusual or unauthorized requests."
+        ),
+    ),
+    **dict.fromkeys(
+        [CWE.SQL_injection],
+        (
+            "1. Avoid constructing SQL queries using untrusted input.\n"
+            "2. Use parameterized queries or prepared statements to prevent injection attacks.\n"
+            "3. Sanitize user input before using it in SQL queries."
+        ),
+    ),
+    **dict.fromkeys(
+        [CWE.XPath_injection],
+        (
+            "1. Avoid constructing XPath queries using untrusted input.\n"
+            "2. Use parameterized queries or prepared statements to prevent injection attacks.\n"
+            "3. Sanitize user input before using it in XPath queries."
         ),
     ),
 }

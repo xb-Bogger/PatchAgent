@@ -16,7 +16,6 @@ from patchagent.agent.java.prompt import (
     JAVA_USER_PROMPT_TEMPLATE,
 )
 from patchagent.agent.java.proxy.default import (
-    create_locate_tool,
     create_validate_tool,
     create_viewcode_tool,
 )
@@ -52,7 +51,8 @@ class OpenAIJavaAgent(BaseAgent):
         lc_tools = [
             create_viewcode_tool(self.task, auto_hint=self.auto_hint),
             create_validate_tool(self.task, auto_hint=self.auto_hint),
-            create_locate_tool(self.task, auto_hint=self.auto_hint),
+            # TODO: remove the comment to enable locate tool
+            # create_locate_tool(self.task, auto_hint=self.auto_hint),
         ]
         oai_tools = [convert_to_openai_tool(tool) for tool in lc_tools]
 
