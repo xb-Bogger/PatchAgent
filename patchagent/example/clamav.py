@@ -4,7 +4,7 @@ from pathlib import Path
 
 import git
 
-from patchagent.agent.generator import generic_agent_generator
+from patchagent.agent.generator import agent_generator
 from patchagent.builder import OSSFuzzBuilder
 from patchagent.task import PatchTask
 
@@ -57,7 +57,7 @@ if __name__ == "__main__":
             ),
         )
 
-        print(f"Patch: {patchtask.repair(generic_agent_generator(patchtask))}")
+        print(f"Patch: {patchtask.repair(agent_generator(patchtask))}")
 
 # set -a; source .env; set +a;
 # python -m patchagent.example.clamav

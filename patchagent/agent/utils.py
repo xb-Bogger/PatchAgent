@@ -1,7 +1,10 @@
 from typing import List
 
-import openai
 from langchain_openai import AzureChatOpenAI, ChatOpenAI
+
+
+class OpenAIException(Exception):
+    pass
 
 
 def construct_chat_openai(*args, **kwargs):
@@ -11,8 +14,8 @@ def construct_chat_openai(*args, **kwargs):
     for cls in _openai_class_:
         try:
             return cls(*args, **kwargs)
-        except openai.OpenAIError as e:
+        except Exception as e:
             errors.append(str(e))
             continue
 
-    raise openai.OpenAIError(errors)
+    raise OpenAIException(f"Failed to construct OpenAI chat: {errors}")

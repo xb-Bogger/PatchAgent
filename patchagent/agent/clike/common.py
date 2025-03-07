@@ -26,7 +26,7 @@ from patchagent.task import PatchTask
 from patchagent.utils import debug_mode
 
 
-class OpenAICLikeAgent(BaseAgent):
+class CommonCLikeAgent(BaseAgent):
     def __init__(
         self,
         task: PatchTask,
