@@ -1,7 +1,7 @@
 The sanitizer detected a heap use after free vulnerability. The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 4 at 0x507000005758 thread T0[1m[0m
-llvm-symbolizer: [0;1;31merror: [0m'/dev/zero (deleted)': No such file or directory
+READ of size 4 at 0x507000005758 thread T0
+llvm-symbolizer: error: '/dev/zero (deleted)': No such file or directory
     - zend_gc_delref /src/php-src/Zend/zend_types.h:1228:2
     - i_zval_ptr_dtor /src/php-src/Zend/zend_variables.h:43:8
     - zend_reference_destroy /src/php-src/Zend/zend_variables.c:74:2
@@ -9,8 +9,8 @@ llvm-symbolizer: [0;1;31merror: [0m'/dev/zero (deleted)': No such file or dire
     - i_free_compiled_variables /src/php-src/Zend/zend_execute.c:3753:3
     - zend_leave_helper_SPEC /src/php-src/Zend/zend_vm_execute.h:1091:3
 
-[1m[32m0x507000005758 is located 40 bytes inside of 80-byte region [0x507000005730,0x507000005780)
-[1m[0m[1m[35mfreed by thread T0 here:[1m[0m
+0x507000005758 is located 40 bytes inside of 80-byte region [0x507000005730,0x507000005780)
+freed by thread T0 here:
     - free /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:52:3
     - zend_objects_store_del /src/php-src/Zend/zend_objects_API.c:204:3
     - i_zval_ptr_dtor /src/php-src/Zend/zend_variables.h:44:4
@@ -24,7 +24,7 @@ llvm-symbolizer: [0;1;31merror: [0m'/dev/zero (deleted)': No such file or dire
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[35mpreviously allocated by thread T0 here:[1m[0m
+previously allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - tracked_malloc /src/php-src/Zend/zend_alloc.c:2834:14
     - zend_object_alloc /src/php-src/Zend/zend_objects_API.h:92:14

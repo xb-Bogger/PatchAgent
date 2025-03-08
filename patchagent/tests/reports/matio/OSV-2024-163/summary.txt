@@ -1,6 +1,6 @@
 The sanitizer detected a stack buffer overflow vulnerability. The explanation of the vulnerability is: A function writes more data to a local stack variable than it can hold, overwriting adjacent memory and potentially leading to execution hijacking. Here is the detail: 
 
-[1m[0m[1m[34mWRITE of size 8 at 0x7fce79683628 thread T0[1m[0m
+WRITE of size 8 at 0x7fce79683628 thread T0
     - H5S_extent_get_dims /src/hdf5/src/H5S.c:920:29
     - H5S_get_simple_extent_dims /src/hdf5/src/H5S.c:962:22
     - H5Sget_simple_extent_dims /src/hdf5/src/H5S.c:882:17
@@ -31,11 +31,11 @@ The sanitizer detected a stack buffer overflow vulnerability. The explanation of
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32mAddress 0x7fce79683628 is located in stack of thread T0 at offset 40 in frame[1m[0m
-[1m[0m    #0 0x5611357cc02f in Mat_H5ReadGroupInfo /src/matio/src/mat73.c:835
+Address 0x7fce79683628 is located in stack of thread T0 at offset 40 in frame
+    - Mat_H5ReadGroupInfo /src/matio/src/mat73.c:835:0
 
   This frame has 7 object(s):
-    [32, 40) 'nfields' (line 837)[1m[32m <== Memory access at offset 40 overflows this variable[1m[0m
+    [32, 40) 'nfields' (line 837) <== Memory access at offset 40 overflows this variable
     [64, 68) 'nrows' (line 852)
     [80, 112) 'group_info' (line 909)
     [144, 160) 'group_data' (line 914)

@@ -1,6 +1,6 @@
 The sanitizer detected a stack buffer overflow vulnerability. The explanation of the vulnerability is: A function writes more data to a local stack variable than it can hold, overwriting adjacent memory and potentially leading to execution hijacking. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 4 at 0x7fc62bdc6d10 thread T0[1m[0m
+READ of size 4 at 0x7fc62bdc6d10 thread T0
     - TranslateWord3 /src/espeak-ng/src/libespeak-ng/translate.c:718:48
     - TranslateWord /src/espeak-ng/src/libespeak-ng/translate.c:1167:14
     - TranslateWord2 /src/espeak-ng/src/libespeak-ng/translate.c:1448:17
@@ -14,13 +14,13 @@ The sanitizer detected a stack buffer overflow vulnerability. The explanation of
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32mAddress 0x7fc62bdc6d10 is located in stack of thread T0 at offset 5392 in frame[1m[0m
-[1m[0m    #0 0x560552dc5e5f in TranslateClause /src/espeak-ng/src/libespeak-ng/translate.c:1985
+Address 0x7fc62bdc6d10 is located in stack of thread T0 at offset 5392 in frame
+    - TranslateClause /src/espeak-ng/src/libespeak-ng/translate.c:1985:0
 
   This frame has 8 object(s):
     [32, 36) 'charix_top' (line 2019)
     [48, 1656) 'charix' (line 2021)
-    [1792, 5392) 'words' (line 2022)[1m[32m <== Memory access at offset 5392 overflows this variable[1m[0m
+    [1792, 5392) 'words' (line 2022) <== Memory access at offset 5392 overflows this variable
     [5520, 6320) 'sbuf' (line 2026)
     [6448, 6452) 'tone' (line 2029)
     [6464, 6468) 'next2_in' (line 2338)

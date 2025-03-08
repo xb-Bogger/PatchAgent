@@ -1,6 +1,6 @@
 The sanitizer detected a stack buffer overflow vulnerability. The explanation of the vulnerability is: A function writes more data to a local stack variable than it can hold, overwriting adjacent memory and potentially leading to execution hijacking. Here is the detail: 
 
-[1m[0m[1m[34mWRITE of size 5 at 0x7fe12c1b59d8 thread T0[1m[0m
+WRITE of size 5 at 0x7fe12c1b59d8 thread T0
     - strcat /src/llvm-project/compiler-rt/lib/asan/asan_interceptors.cpp:508:7
     - TranslateNumber_1 /src/espeak-ng/src/libespeak-ng/numbers.c:2049:4
     - TranslateNumber /src/espeak-ng/src/libespeak-ng/numbers.c:2080:10
@@ -17,8 +17,8 @@ The sanitizer detected a stack buffer overflow vulnerability. The explanation of
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32mAddress 0x7fe12c1b59d8 is located in stack of thread T0 at offset 472 in frame[1m[0m
-[1m[0m    #0 0x5588ada0a2ef in TranslateWord3 /src/espeak-ng/src/libespeak-ng/translate.c:546
+Address 0x7fe12c1b59d8 is located in stack of thread T0 at offset 472 in frame
+    - TranslateWord3 /src/espeak-ng/src/libespeak-ng/translate.c:546:0
 
   This frame has 19 object(s):
     [32, 112) 'word_buf.i' (line 499)
@@ -26,7 +26,7 @@ The sanitizer detected a stack buffer overflow vulnerability. The explanation of
     [176, 184) 'dictionary_flags' (line 555)
     [208, 216) 'dictionary_flags2' (line 556)
     [240, 248) 'wordx' (line 561)
-    [272, 472) 'phonemes' (line 562)[1m[32m <== Memory access at offset 472 overflows this variable[1m[0m
+    [272, 472) 'phonemes' (line 562) <== Memory access at offset 472 overflows this variable
     [544, 744) 'phonemes2' (line 563)
     [816, 1016) 'prefix_phonemes' (line 564)
     [1088, 1288) 'unpron_phonemes' (line 565)

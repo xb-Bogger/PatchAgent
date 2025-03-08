@@ -1,6 +1,6 @@
 The sanitizer detected a stack buffer overflow vulnerability. The explanation of the vulnerability is: A function writes more data to a local stack variable than it can hold, overwriting adjacent memory and potentially leading to execution hijacking. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 1 at 0x7f49d439261f thread T0[1m[0m
+READ of size 1 at 0x7f49d439261f thread T0
     - entersafe_reverse_buffer /src/opensc/src/libopensc/card-entersafe.c:123:13
     - entersafe_gen_key /src/opensc/src/libopensc/card-entersafe.c:1445:2
     - entersafe_card_ctl_2048 /src/opensc/src/libopensc/card-entersafe.c:1647:10
@@ -14,13 +14,13 @@ The sanitizer detected a stack buffer overflow vulnerability. The explanation of
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32mAddress 0x7f49d439261f is located in stack of thread T0 at offset 543 in frame[1m[0m
-[1m[0m    #0 0x55b6e2ba3b0f in entersafe_gen_key /src/opensc/src/libopensc/card-entersafe.c:1373
+Address 0x7f49d439261f is located in stack of thread T0 at offset 543 in frame
+    - entersafe_gen_key /src/opensc/src/libopensc/card-entersafe.c:1373:0
 
   This frame has 3 object(s):
     [32, 136) 'apdu' (line 1376)
     [176, 476) 'rbuf' (line 1377)
-    [544, 548) 'sbuf' (line 1378)[1m[32m <== Memory access at offset 543 underflows this variable[1m[0m
+    [544, 548) 'sbuf' (line 1378) <== Memory access at offset 543 underflows this variable
 HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
       (longjmp and C++ exceptions *are* supported)
 

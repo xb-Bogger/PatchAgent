@@ -1,6 +1,6 @@
 The sanitizer detected a null dereference vulnerability. The explanation of the vulnerability is: The program attempts to dereference a null pointer, causing a segmentation fault or crash. Here is the detail: 
 
-[1m[0mThe signal is caused by a READ memory access.
+The signal is caused by a READ memory access.
 Hint: address points to the zero page.
     - filter_apply_chain /src/flex/src/filter.c:180:4
     - filter_apply_chain /src/flex/src/filter.c:136:3

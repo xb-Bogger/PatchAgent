@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 4 at 0x502000004eb1 thread T0[1m[0m
+READ of size 4 at 0x502000004eb1 thread T0
     - le_to_u32 /src/htslib/htslib/hts_endian.h:136:12
     - le_to_i32 /src/htslib/htslib/hts_endian.h:244:18
     - bcf_dec_typed_int1_safe /src/htslib/vcf.c:1280:20
@@ -13,8 +13,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x502000004eb4 is located 0 bytes after 4-byte region [0x502000004eb0,0x502000004eb4)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x502000004eb4 is located 0 bytes after 4-byte region [0x502000004eb0,0x502000004eb4)
+allocated by thread T0 here:
     - realloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:82:3
     - ks_resize /src/htslib/htslib/kstring.h:150:19
     - bcf_read1_core /src/htslib/vcf.c:1241:9

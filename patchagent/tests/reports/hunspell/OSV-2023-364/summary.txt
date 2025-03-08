@@ -1,6 +1,5 @@
 The sanitizer detected a heap double free vulnerability. The explanation of the vulnerability is: A heap-allocated memory block is freed twice, potentially causing memory corruption or security vulnerabilities. Here is the detail: 
 
-[1m[0mSCARINESS: 42 (double-free)
     - operator delete[](void*) /src/llvm-project/compiler-rt/lib/asan/asan_new_delete.cpp:146:3
     - HashMgr::~HashMgr() /src/hunspell/src/hunspell/hashmgr.cxx:131:5
     - HunspellImpl::~HunspellImpl() /src/hunspell/src/hunspell/hunspell.cxx:204:5
@@ -11,8 +10,8 @@ The sanitizer detected a heap double free vulnerability. The explanation of the 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x5020000000d0 is located 0 bytes inside of 4-byte region [0x5020000000d0,0x5020000000d4)
-[1m[0m[1m[35mfreed by thread T0 here:[1m[0m
+0x5020000000d0 is located 0 bytes inside of 4-byte region [0x5020000000d0,0x5020000000d4)
+freed by thread T0 here:
     - operator delete[](void*) /src/llvm-project/compiler-rt/lib/asan/asan_new_delete.cpp:146:3
     - free_flag /src/hunspell/src/hunspell/hashmgr.cxx:108:5
     - HashMgr::free_table() /src/hunspell/src/hunspell/hashmgr.cxx:119:7
@@ -25,7 +24,7 @@ The sanitizer detected a heap double free vulnerability. The explanation of the 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[35mpreviously allocated by thread T0 here:[1m[0m
+previously allocated by thread T0 here:
     - operator new[](unsigned long) /src/llvm-project/compiler-rt/lib/asan/asan_new_delete.cpp:89:3
     - HashMgr::decode_flags(unsigned short**, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, FileMgr*) const /src/hunspell/src/hunspell/hashmgr.cxx:727:17
     - HashMgr::parse_aliasf(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, FileMgr*) /src/hunspell/src/hunspell/hashmgr.cxx:1091:33

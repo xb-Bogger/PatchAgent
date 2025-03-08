@@ -1,6 +1,6 @@
 The sanitizer detected a heap use after free vulnerability. The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 8 at 0x506000000460 thread T0[1m[0m
+READ of size 8 at 0x506000000460 thread T0
     - QPDF::read_xref(long long) /src/qpdf/libqpdf/QPDF.cc:715:17
     - QPDF::reconstruct_xref(QPDFExc&) /src/qpdf/libqpdf/QPDF.cc:601:17
     - QPDF::parse(char const*) /src/qpdf/libqpdf/QPDF.cc:464:13
@@ -14,8 +14,8 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x506000000460 is located 32 bytes inside of 64-byte region [0x506000000440,0x506000000480)
-[1m[0m[1m[35mfreed by thread T0 here:[1m[0m
+0x506000000460 is located 32 bytes inside of 64-byte region [0x506000000440,0x506000000480)
+freed by thread T0 here:
     - operator delete(void*) /src/llvm-project/compiler-rt/lib/asan/asan_new_delete.cpp:143:3
     - void std::__1::__libcpp_operator_delete[abi:ne180100]<void*>(void*) /usr/local/include/c++/v1/new:280:3
     - void std::__1::__do_deallocate_handle_size[abi:ne180100]<>(void*, unsigned long) /usr/local/include/c++/v1/new:302:10
@@ -39,7 +39,7 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[35mpreviously allocated by thread T0 here:[1m[0m
+previously allocated by thread T0 here:
     - operator new(unsigned long) /src/llvm-project/compiler-rt/lib/asan/asan_new_delete.cpp:86:3
     - void* std::__1::__libcpp_operator_new[abi:ne180100]<unsigned long>(unsigned long) /usr/local/include/c++/v1/new:271:10
     - std::__1::__libcpp_allocate[abi:ne180100](unsigned long, unsigned long) /usr/local/include/c++/v1/new:295:10

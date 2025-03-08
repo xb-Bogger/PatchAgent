@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mWRITE of size 4 at 0x513000000aa8 thread T5 (aom tile worker)[1m[0m
+WRITE of size 4 at 0x513000000aa8 thread T5 (aom tile worker)
     - sync_write /src/aom/av1/decoder/decodeframe.c:2567:36
     - signal_decoding_done_for_erroneous_row /src/aom/av1/decoder/decodeframe.c:2591:3
     - row_mt_worker_hook /src/aom/av1/decoder/decodeframe.c:3174:5
@@ -8,8 +8,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - thread_loop /src/aom/aom_util/aom_thread.c:72:7
     - asan_thread_start(void*) /src/llvm-project/compiler-rt/lib/asan/asan_interceptors.cpp:239:28
 
-[1m[32m0x513000000aa8 is located 24 bytes before 371-byte region [0x513000000ac0,0x513000000c33)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x513000000aa8 is located 24 bytes before 371-byte region [0x513000000ac0,0x513000000c33)
+allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - aom_memalign /src/aom/aom_mem/aom_mem.c:59:22
     - aom_malloc /src/aom/aom_mem/aom_mem.c:67:40

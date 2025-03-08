@@ -1,6 +1,6 @@
 The sanitizer detected a heap use after free vulnerability. The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 8 at 0x502000000090 thread T0[1m[0m
+READ of size 8 at 0x502000000090 thread T0
     - CallbackToLogRedirector(char const*, char*) /src/assimp/code/Common/Assimp.cpp:359:8
     - Assimp::DefaultLogger::WriteToStreams(char const*, Assimp::Logger::ErrorSeverity) /src/assimp/code/Common/DefaultLogger.cpp:412:31
     - Assimp::DefaultLogger::OnInfo(char const*) /src/assimp/code/Common/DefaultLogger.cpp:292:5
@@ -15,8 +15,8 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x502000000090 is located 0 bytes inside of 16-byte region [0x502000000090,0x5020000000a0)
-[1m[0m[1m[35mfreed by thread T0 here:[1m[0m
+0x502000000090 is located 0 bytes inside of 16-byte region [0x502000000090,0x5020000000a0)
+freed by thread T0 here:
     - operator delete(void*) /src/llvm-project/compiler-rt/lib/asan/asan_new_delete.cpp:143:3
     - ~LogToCallbackRedirector /src/assimp/code/Common/Assimp.cpp:143:13
     - LogToCallbackRedirector::~LogToCallbackRedirector() /src/assimp/code/Common/Assimp.cpp:130:32
@@ -27,7 +27,7 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[35mpreviously allocated by thread T0 here:[1m[0m
+previously allocated by thread T0 here:
     - operator new(unsigned long) /src/llvm-project/compiler-rt/lib/asan/asan_new_delete.cpp:86:3
     - Assimp::LogStream::createDefaultStream(aiDefaultLogStream, char const*, Assimp::IOSystem*) /src/assimp/code/Common/DefaultLogger.cpp:112:16
     - aiGetPredefinedLogStream /src/assimp/code/Common/Assimp.cpp:370:25

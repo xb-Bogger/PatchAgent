@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 8 at 0x502000000118 thread T0[1m[0m
+READ of size 8 at 0x502000000118 thread T0
     - cli_bcomp_freemeta /src/clamav/libclamav/matcher-byte-comp.c:1023:17
     - cli_bcomp_addpatt /src/clamav/libclamav/matcher-byte-comp.c:0:0
     - cli_parse_add /src/clamav/libclamav/readdb.c:601:34
@@ -13,8 +13,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x502000000118 is located 0 bytes after 8-byte region [0x502000000110,0x502000000118)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x502000000118 is located 0 bytes after 8-byte region [0x502000000110,0x502000000118)
+allocated by thread T0 here:
     - calloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:75:3
     - cli_calloc /src/clamav/libclamav/others_common.c:234:13
     - cli_bcomp_addpatt /src/clamav/libclamav/matcher-byte-comp.c:358:46

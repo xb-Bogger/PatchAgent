@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 14 at 0x502000008e9d thread T0[1m[0m
+READ of size 14 at 0x502000008e9d thread T0
     - strlen /src/llvm-project/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors.inc:391:5
     - CRYPTO_strdup /src/openssl/crypto/o_str.c:21:25
     - X509V3_add_value /src/openssl/crypto/x509/v3_utl.c:46:28
@@ -15,8 +15,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x502000008e9d is located 0 bytes after 13-byte region [0x502000008e90,0x502000008e9d)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x502000008e9d is located 0 bytes after 13-byte region [0x502000008e90,0x502000008e9d)
+allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - ASN1_STRING_set /src/openssl/crypto/asn1/asn1_lib.c:284:21
     - c2i_ASN1_INTEGER /src/openssl/crypto/asn1/a_int.c:300:9

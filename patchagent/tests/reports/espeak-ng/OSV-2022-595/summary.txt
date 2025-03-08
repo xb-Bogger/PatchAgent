@@ -1,6 +1,6 @@
 The sanitizer detected a stack buffer overflow vulnerability. The explanation of the vulnerability is: A function writes more data to a local stack variable than it can hold, overwriting adjacent memory and potentially leading to execution hijacking. Here is the detail: 
 
-[1m[0m[1m[34mWRITE of size 63 at 0x7fc77aa7da68 thread T0[1m[0m
+WRITE of size 63 at 0x7fc77aa7da68 thread T0
     - strcpy /src/llvm-project/compiler-rt/lib/asan/asan_interceptors.cpp:556:5
     - Lookup /src/espeak-ng/src/libespeak-ng/dictionary.c:2984:3
     - LookupLetter /src/espeak-ng/src/libespeak-ng/numbers.c:530:7
@@ -19,12 +19,12 @@ The sanitizer detected a stack buffer overflow vulnerability. The explanation of
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32mAddress 0x7fc77aa7da68 is located in stack of thread T0 at offset 104 in frame[1m[0m
-[1m[0m    #0 0x556e2c56cc6f in LookupLetter /src/espeak-ng/src/libespeak-ng/numbers.c:478
+Address 0x7fc77aa7da68 is located in stack of thread T0 at offset 104 in frame
+    - LookupLetter /src/espeak-ng/src/libespeak-ng/numbers.c:478:0
 
   This frame has 2 object(s):
     [32, 40) 'dict_flags' (line 483)
-    [64, 104) 'ph_buf3' (line 484)[1m[32m <== Memory access at offset 104 overflows this variable[1m[0m
+    [64, 104) 'ph_buf3' (line 484) <== Memory access at offset 104 overflows this variable
 HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
       (longjmp and C++ exceptions *are* supported)
 

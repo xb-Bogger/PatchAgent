@@ -1,6 +1,6 @@
 The sanitizer detected a heap use after free vulnerability. The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks. Here is the detail: 
 
-[1m[0m[1m[34mWRITE of size 4 at 0x53100003c828 thread T0[1m[0m
+WRITE of size 4 at 0x53100003c828 thread T0
     - memcpy /usr/include/x86_64-linux-gnu/bits/string_fortified.h:34:10
     - usbredirparser_serialize /src/spice-usbredir/usbredirparser/usbredirparser.c:1720:5
     - try_serialize /src/spice-usbredir/fuzzing/usbredirparserfuzz.cc:400:11
@@ -10,8 +10,8 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x53100003c828 is located 40 bytes inside of 65536-byte region [0x53100003c800,0x53100004c800)
-[1m[0m[1m[35mfreed by thread T0 here:[1m[0m
+0x53100003c828 is located 40 bytes inside of 65536-byte region [0x53100003c800,0x53100004c800)
+freed by thread T0 here:
     - realloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:82:3
     - serialize_alloc /src/spice-usbredir/usbredirparser/usbredirparser.c:1534:14
     - serialize_data /src/spice-usbredir/usbredirparser/usbredirparser.c:1590:9
@@ -23,7 +23,7 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[35mpreviously allocated by thread T0 here:[1m[0m
+previously allocated by thread T0 here:
     - realloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:82:3
     - serialize_alloc /src/spice-usbredir/usbredirparser/usbredirparser.c:1534:14
     - serialize_int /src/spice-usbredir/usbredirparser/usbredirparser.c:1553:9

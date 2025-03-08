@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 1 at 0x5160000005a4 thread T0[1m[0m
+READ of size 1 at 0x5160000005a4 thread T0
     - dhcp_reply /src/dnsmasq/src/rfc2131.c:712:9
     - dhcp_packet /src/dnsmasq/src/dhcp.c:356:21
     - FuzzDhcp /src/fuzz_dhcp.c:41:3
@@ -10,8 +10,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x5160000005a4 is located 0 bytes after 548-byte region [0x516000000380,0x5160000005a4)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x5160000005a4 is located 0 bytes after 548-byte region [0x516000000380,0x5160000005a4)
+allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - FuzzDhcp /src/fuzz_dhcp.c:27:19
     - LLVMFuzzerTestOneInput /src/fuzz_dhcp.c:72:3

@@ -1,6 +1,6 @@
 The sanitizer detected a segv on unknown address vulnerability. The explanation of the vulnerability is: The program attempted to access an invalid or unallocated memory address, leading to a segmentation fault. Here is the detail: 
 
-[1m[0mThe signal is caused by a READ memory access.
+The signal is caused by a READ memory access.
 Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
     - gs_fapi_ft_get_scaled_font /src/ghostpdl/base/fapi_ft.c:1412:31
     - gs_fapi_prepare_font /src/ghostpdl/base/gxfapi.c:498:43

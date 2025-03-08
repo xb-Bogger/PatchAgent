@@ -1,6 +1,6 @@
 The sanitizer detected a stack buffer overflow vulnerability. The explanation of the vulnerability is: A function writes more data to a local stack variable than it can hold, overwriting adjacent memory and potentially leading to execution hijacking. Here is the detail: 
 
-[1m[0m[1m[34mWRITE of size 2 at 0x7f397614fe2c thread T0[1m[0m
+WRITE of size 2 at 0x7f397614fe2c thread T0
     - decNumberCopy /src/jq/src/decNumber/decNumber.c:3375:45
     - decNaNs /src/jq/src/decNumber/decNumber.c:7706:33
     - decCompareOp /src/jq/src/decNumber/decNumber.c:6085:7
@@ -17,11 +17,11 @@ The sanitizer detected a stack buffer overflow vulnerability. The explanation of
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32mAddress 0x7f397614fe2c is located in stack of thread T0 at offset 44 in frame[1m[0m
-[1m[0m    #0 0x55c3892b107f in jvp_number_cmp /src/jq/src/jv.c:737
+Address 0x7f397614fe2c is located in stack of thread T0 at offset 44 in frame
+    - jvp_number_cmp /src/jq/src/jv.c:737:0
 
   This frame has 1 object(s):
-    [32, 44) 'res' (line 743)[1m[32m <== Memory access at offset 44 overflows this variable[1m[0m
+    [32, 44) 'res' (line 743) <== Memory access at offset 44 overflows this variable
 HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
       (longjmp and C++ exceptions *are* supported)
 

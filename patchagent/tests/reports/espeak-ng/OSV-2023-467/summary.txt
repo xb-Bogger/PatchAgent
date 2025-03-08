@@ -1,6 +1,6 @@
 The sanitizer detected a stack buffer overflow vulnerability. The explanation of the vulnerability is: A function writes more data to a local stack variable than it can hold, overwriting adjacent memory and potentially leading to execution hijacking. Here is the detail: 
 
-[1m[0m[1m[34mWRITE of size 1 at 0x7f4df6fccf94 thread T0[1m[0m
+WRITE of size 1 at 0x7f4df6fccf94 thread T0
     - set_pitch /src/espeak-ng/src/libespeak-ng/intonation.c:395:14
     - SetPitchGradient /src/espeak-ng/src/libespeak-ng/intonation.c:650:4
     - calc_pitches2 /src/espeak-ng/src/libespeak-ng/intonation.c:678:2
@@ -15,11 +15,11 @@ The sanitizer detected a stack buffer overflow vulnerability. The explanation of
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32mAddress 0x7f4df6fccf94 is located in stack of thread T0 at offset 6036 in frame[1m[0m
-[1m[0m    #0 0x55b70dc08cef in CalcPitches /src/espeak-ng/src/libespeak-ng/intonation.c:927
+Address 0x7f4df6fccf94 is located in stack of thread T0 at offset 6036 in frame
+    - CalcPitches /src/espeak-ng/src/libespeak-ng/intonation.c:927:0
 
   This frame has 1 object(s):
-    [32, 6032) 'syllable_tab' (line 948)[1m[32m <== Memory access at offset 6036 overflows this variable[1m[0m
+    [32, 6032) 'syllable_tab' (line 948) <== Memory access at offset 6036 overflows this variable
 HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
       (longjmp and C++ exceptions *are* supported)
 

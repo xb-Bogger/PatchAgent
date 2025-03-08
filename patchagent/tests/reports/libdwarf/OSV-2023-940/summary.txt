@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 1 at 0x512000000600 thread T0[1m[0m
+READ of size 1 at 0x512000000600 thread T0
     - _dwarf_memcpy_swap_bytes /src/libdwarf/src/lib/libdwarf/dwarf_memcpy_swap.c:70:20
     - fill_in_uni_arch_64 /src/libdwarf/src/lib/libdwarf/dwarf_machoread.c:1210:9
     - _dwarf_object_detector_universal_head_fd /src/libdwarf/src/lib/libdwarf/dwarf_machoread.c:1340:15
@@ -16,8 +16,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x512000000600 is located 0 bytes after 320-byte region [0x5120000004c0,0x512000000600)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x512000000600 is located 0 bytes after 320-byte region [0x5120000004c0,0x512000000600)
+allocated by thread T0 here:
     - calloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:75:3
     - _dwarf_object_detector_universal_head_fd /src/libdwarf/src/lib/libdwarf/dwarf_machoread.c:1323:36
     - _dwarf_macho_inner_object_fd /src/libdwarf/src/lib/libdwarf/dwarf_machoread.c:948:12

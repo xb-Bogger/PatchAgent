@@ -1,6 +1,6 @@
 The sanitizer detected a heap use after free vulnerability. The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 8 at 0x506000000030 thread T0[1m[0m
+READ of size 8 at 0x506000000030 thread T0
     - RemoveCodePageOfCapacity /src/wasm3/source/m3_env.c:0:0
     - Environment_AcquireCodePage /src/wasm3/source/m3_env.c:138:12
     - AcquireCodePageWithCapacity /src/wasm3/source/m3_env.c:985:16
@@ -17,11 +17,11 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x506000000030 is located 16 bytes inside of 56-byte region [0x506000000020,0x506000000058)
-[1m[0m[1m[35mfreed by thread T0 here:[1m[0m
+0x506000000030 is located 16 bytes inside of 56-byte region [0x506000000020,0x506000000058)
+freed by thread T0 here:
     - free /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:52:3
 
-[1m[35mpreviously allocated by thread T0 here:[1m[0m
+previously allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
 
 

@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 10 at 0x50300000da70 thread T0[1m[0m
+READ of size 10 at 0x50300000da70 thread T0
     - strlen /src/llvm-project/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors.inc:391:5
     - __constexpr_strlen /usr/local/include/c++/v1/__string/constexpr_c_functions.h:49:10
     - length /usr/local/include/c++/v1/__string/char_traits.h:227:12
@@ -19,8 +19,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x50300000da70 is located 0 bytes after 32-byte region [0x50300000da50,0x50300000da70)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x50300000da70 is located 0 bytes after 32-byte region [0x50300000da50,0x50300000da70)
+allocated by thread T0 here:
     - operator new(unsigned long) /src/llvm-project/compiler-rt/lib/asan/asan_new_delete.cpp:86:3
     - __libcpp_operator_new<unsigned long> /usr/local/include/c++/v1/new:271:10
     - __libcpp_allocate /usr/local/include/c++/v1/new:295:10

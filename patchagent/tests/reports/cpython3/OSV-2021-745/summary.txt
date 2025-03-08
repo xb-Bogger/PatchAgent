@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 1 at 0x50800001d771 thread T0[1m[0m
+READ of size 1 at 0x50800001d771 thread T0
     - skip_to_next_entry /src/cpython3/Python/ceval.c:4798:13
     - get_exception_handler /src/cpython3/Python/ceval.c:4866:16
     - _PyEval_EvalFrameDefault /src/cpython3/Python/ceval.c:4465:33
@@ -35,8 +35,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x50800001d771 is located 0 bytes after 81-byte region [0x50800001d720,0x50800001d771)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x50800001d771 is located 0 bytes after 81-byte region [0x50800001d720,0x50800001d771)
+allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - _PyBytes_FromSize /src/cpython3/Objects/bytesobject.c:126:31
     - PyBytes_FromStringAndSize /src/cpython3/Objects/bytesobject.c:159:27

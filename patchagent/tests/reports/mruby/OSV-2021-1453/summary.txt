@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mWRITE of size 8 at 0x51f000002880 thread T0[1m[0m
+WRITE of size 8 at 0x51f000002880 thread T0
     - mrb_funcall_with_block /src/mruby/src/vm.c:0:0
     - mrb_funcall_argv /src/mruby/src/vm.c:541:10
     - mrb_funcall_id /src/mruby/src/vm.c:393:10
@@ -312,8 +312,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - mrb_equal /src/mruby/src/object.c:62:12
     - rational_eq /src/mruby/mrbgems/mruby-rational/src/rational.c:397:16
 
-[1m[32m0x51f000002880 is located 0 bytes after 3072-byte region [0x51f000001c80,0x51f000002880)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x51f000002880 is located 0 bytes after 3072-byte region [0x51f000001c80,0x51f000002880)
+allocated by thread T0 here:
     - realloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:82:3
     - mrb_realloc_simple /src/mruby/src/gc.c:226:8
     - stack_extend_alloc /src/mruby/src/vm.c:180:27

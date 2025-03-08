@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mWRITE of size 4 at 0x5150000007d4 thread T0[1m[0m
+WRITE of size 4 at 0x5150000007d4 thread T0
     - sync_write /src/aom/av1/decoder/decodeframe.c:2567:36
     - signal_decoding_done_for_erroneous_row /src/aom/av1/decoder/decodeframe.c:2591:3
     - row_mt_worker_hook /src/aom/av1/decoder/decodeframe.c:3174:5
@@ -22,8 +22,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x5150000007d4 is located 44 bytes before 459-byte region [0x515000000800,0x5150000009cb)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x5150000007d4 is located 44 bytes before 459-byte region [0x515000000800,0x5150000009cb)
+allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - aom_memalign /src/aom/aom_mem/aom_mem.c:59:22
     - aom_malloc /src/aom/aom_mem/aom_mem.c:67:40

@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 987 at 0x519000000968 thread T0[1m[0m
+READ of size 987 at 0x519000000968 thread T0
     - strdup /src/llvm-project/compiler-rt/lib/asan/asan_interceptors.cpp:568:5
     - mosquitto__strdup /src/mosquitto/lib/memory_mosq.c:152:8
     - config__read_file_core /src/mosquitto/src/conf.c:1843:27
@@ -15,8 +15,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x519000000968 is located 0 bytes after 1000-byte region [0x519000000580,0x519000000968)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x519000000968 is located 0 bytes after 1000-byte region [0x519000000580,0x519000000968)
+allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - mosquitto__malloc /src/mosquitto/lib/memory_mosq.c:93:8
     - config__read_file /src/mosquitto/src/conf.c:2493:8

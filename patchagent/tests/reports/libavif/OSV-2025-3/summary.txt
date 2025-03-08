@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 16 at 0x50200000187f thread T0[1m[0m
+READ of size 16 at 0x50200000187f thread T0
     - __asan_memcpy /src/llvm-project/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cpp:63:3
     - avifImagePushProperty /src/libavif/src/avif.c:404:5
     - avifImageAddUUIDProperty /src/libavif/src/avif.c:426:12
@@ -31,8 +31,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - RUN_ALL_TESTS() /src/libavif/build/_deps/googletest-src/googletest/include/gtest/gtest.h:2317:73
     - main /src/libavif/ext/fuzztest/fuzztest/fuzztest_gtest_main.cc:28:10
 
-[1m[32m0x50200000187f is located 0 bytes after 15-byte region [0x502000001870,0x50200000187f)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x50200000187f is located 0 bytes after 15-byte region [0x502000001870,0x50200000187f)
+allocated by thread T0 here:
     - operator new(unsigned long) /src/llvm-project/compiler-rt/lib/asan/asan_new_delete.cpp:86:3
     - void* std::__1::__libcpp_operator_new[abi:ne180100]<unsigned long>(unsigned long) /usr/local/include/c++/v1/new:271:10
     - std::__1::__libcpp_allocate[abi:ne180100](unsigned long, unsigned long) /usr/local/include/c++/v1/new:295:10

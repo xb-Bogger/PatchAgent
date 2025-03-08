@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 4 at 0x50400000010c thread T0[1m[0m
+READ of size 4 at 0x50400000010c thread T0
     - __asan_memcpy /src/llvm-project/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cpp:63:3
     - _dwarf_memcpy_noswap_bytes /src/libdwarf/src/lib/libdwarf/dwarf_memcpy_swap.c:49:5
     - _dwarf_extract_string_offset_via_str_offsets /src/libdwarf/src/lib/libdwarf/dwarf_form.c:1801:5
@@ -17,8 +17,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x50400000010c is located 4 bytes before 36-byte region [0x504000000110,0x504000000134)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x50400000010c is located 4 bytes before 36-byte region [0x504000000110,0x504000000134)
+allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - elf_load_nolibelf_section /src/libdwarf/src/lib/libdwarf/dwarf_elfread.c:230:26
     - _dwarf_load_section /src/libdwarf/src/lib/libdwarf/dwarf_init_finish.c:1999:11

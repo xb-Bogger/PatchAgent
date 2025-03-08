@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 1 at 0x7efcfa7a1810 thread T0[1m[0m
+READ of size 1 at 0x7efcfa7a1810 thread T0
     - zval_get_type /src/php-src/Zend/zend_types.h:568:18
     - gc_mark_grey /src/php-src/Zend/zend_gc.c:891:8
     - gc_mark_roots /src/php-src/Zend/zend_gc.c:986:5
@@ -13,8 +13,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x7efcfa7a1810 is located 8 bytes after 67108872-byte region [0x7efcf67a1800,0x7efcfa7a1808)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x7efcfa7a1810 is located 8 bytes after 67108872-byte region [0x7efcf67a1800,0x7efcfa7a1808)
+allocated by thread T0 here:
     - realloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:82:3
     - __zend_realloc /src/php-src/Zend/zend_alloc.c:3087:6
     - tracked_realloc /src/php-src/Zend/zend_alloc.c:2813:8

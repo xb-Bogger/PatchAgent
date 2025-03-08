@@ -1,6 +1,6 @@
 The sanitizer detected a null dereference vulnerability. The explanation of the vulnerability is: The program attempts to dereference a null pointer, causing a segmentation fault or crash. Here is the detail: 
 
-[1m[0mThe signal is caused by a READ memory access.
+The signal is caused by a READ memory access.
 Hint: address points to the zero page.
     - zfp_getcell /src/c-blosc2/plugins/codecs/zfp/blosc2-zfp.c:0:0
     - blosc_d /src/c-blosc2/blosc/blosc2.c:1716:20

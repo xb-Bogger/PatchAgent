@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mWRITE of size 3828 at 0x51e0000016d0 thread T0[1m[0m
+WRITE of size 3828 at 0x51e0000016d0 thread T0
     - __asan_memset /src/llvm-project/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cpp:67:3
     - opj_t1_allocate_buffers /src/openjpeg/src/lib/openjp2/t1.c:1504:9
     - opj_t1_decode_cblk /src/openjpeg/src/lib/openjp2/t1.c:1983:10
@@ -19,8 +19,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x51e0000016d0 is located 0 bytes after 2640-byte region [0x51e000000c80,0x51e0000016d0)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x51e0000016d0 is located 0 bytes after 2640-byte region [0x51e000000c80,0x51e0000016d0)
+allocated by thread T0 here:
     - posix_memalign /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:142:3
     - opj_aligned_alloc_n /src/openjpeg/src/lib/openjp2/opj_malloc.c:61:9
     - opj_aligned_malloc /src/openjpeg/src/lib/openjp2/opj_malloc.c:209:12

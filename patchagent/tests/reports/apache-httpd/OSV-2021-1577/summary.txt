@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 1 at 0x50200000009c thread T0[1m[0m
+READ of size 1 at 0x50200000009c thread T0
     - apreq_header_attribute /src/httpd/server/apreq_util.c:863:17
     - create_multipart_context /src/httpd/server/apreq_parser_multipart.c:231:9
     - apreq_parse_multipart /src/httpd/server/apreq_parser_multipart.c:270:15
@@ -10,8 +10,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x50200000009c is located 0 bytes after 12-byte region [0x502000000090,0x50200000009c)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x50200000009c is located 0 bytes after 12-byte region [0x502000000090,0x50200000009c)
+allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - pool_alloc /src/httpd/srclib/apr/memory/unix/apr_pools.c:1787:16
     - apr_pmemdup /src/httpd/srclib/apr/strings/apr_strings.c:118:11

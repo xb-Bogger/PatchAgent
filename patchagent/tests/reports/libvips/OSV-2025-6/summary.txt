@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 1 at 0x7fc8846b5800 thread T4 (libvips worker)[1m[0m
+READ of size 1 at 0x7fc8846b5800 thread T4 (libvips worker)
     - next_marker /src/libjpeg-turbo/src/jdmarker.c:0:0
     - read_markers /src/libjpeg-turbo/src/jdmarker.c:979:14
     - consume_markers /src/libjpeg-turbo/src/jdinput.c:339:9
@@ -46,8 +46,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - vips_thread_run /src/libvips/libvips/iofuncs/thread.c:148:11
     - asan_thread_start(void*) /src/llvm-project/compiler-rt/lib/asan/asan_interceptors.cpp:239:28
 
-[1m[32m0x7fc8846b5800 is located 0 bytes after 524288-byte region [0x7fc884635800,0x7fc8846b5800)
-[1m[0m[1m[35mallocated by thread T4 (libvips worker) here:[1m[0m
+0x7fc8846b5800 is located 0 bytes after 524288-byte region [0x7fc884635800,0x7fc8846b5800)
+allocated by thread T4 (libvips worker) here:
     - calloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:75:3
     - rtiff_seq_start /src/libvips/libvips/foreign/tiff2vips.c:1976:31
     - vips__region_start /src/libvips/libvips/iofuncs/region.c:238:17

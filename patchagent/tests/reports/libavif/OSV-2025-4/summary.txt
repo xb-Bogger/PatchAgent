@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 8 at 0x5030000023f8 thread T0[1m[0m
+READ of size 8 at 0x5030000023f8 thread T0
     - std::__1::vector<unsigned char, std::__1::allocator<unsigned char>>::vector(std::__1::vector<unsigned char, std::__1::allocator<unsigned char>> const&) /usr/local/include/c++/v1/vector:1195:24
     - fuzztest::internal::ElementOfImpl<std::__1::vector<unsigned char, std::__1::allocator<unsigned char>>>::GetValue(fuzztest::internal::ElementOfImplCorpusType) const /src/libavif/ext/fuzztest/fuzztest/internal/domains/element_of_impl.h:72:12
     - auto fuzztest::internal::AggregateOfImpl<avif::testutil::(anonymous namespace)::TestProp, (fuzztest::internal::RequireCustomCorpusType)1, fuzztest::internal::ElementOfImpl<std::__1::vector<unsigned char, std::__1::allocator<unsigned char>>>, fuzztest::internal::SequenceContainerOfImpl<std::__1::vector<unsigned char, std::__1::allocator<unsigned char>>, fuzztest::internal::ArbitraryImpl<unsigned char, void>>, fuzztest::internal::ArbitraryImpl<std::__1::vector<unsigned char, std::__1::allocator<unsigned char>>, void>>::GetValue(std::__1::tuple<fuzztest::internal::ElementOfImplCorpusType, std::__1::vector<unsigned char, std::__1::allocator<unsigned char>>, std::__1::vector<unsigned char, std::__1::allocator<unsigned char>>> const&) const::'lambda'(auto...)::operator()<std::__1::integral_constant<unsigned long, 0ul>, std::__1::integral_constant<unsigned long, 1ul>, std::__1::integral_constant<unsigned long, 2ul>>(auto...) const /src/libavif/ext/fuzztest/fuzztest/internal/domains/aggregate_of_impl.h:113:40
@@ -45,11 +45,11 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - RUN_ALL_TESTS() /src/libavif/build/_deps/googletest-src/googletest/include/gtest/gtest.h:2317:73
     - main /src/libavif/ext/fuzztest/fuzztest/fuzztest_gtest_main.cc:28:10
 
-[1m[32m0x5030000023f8 is located 3016 bytes after 32-byte region [0x503000001810,0x503000001830)
-[1m[0m[1m[35mfreed by thread T1 here:[1m[0m
+0x5030000023f8 is located 3016 bytes after 32-byte region [0x503000001810,0x503000001830)
+freed by thread T1 here:
     - free /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:52:3
 
-[1m[35mpreviously allocated by thread T1 here:[1m[0m
+previously allocated by thread T1 here:
     - realloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:82:3
 
 Thread T1 created by T0 here:

@@ -1,6 +1,6 @@
 The sanitizer detected a stack use after return vulnerability. The explanation of the vulnerability is: A function accesses stack memory after returning, leading to use-after-free vulnerabilities. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 6 at 0x7fecc3e86c60 thread T0[1m[0m
+READ of size 6 at 0x7fecc3e86c60 thread T0
     - MemcmpInterceptorCommon(void*, int (*)(void const*, void const*, unsigned long), void const*, void const*, unsigned long) /src/llvm-project/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors.inc:814:7
     - memcmp /src/llvm-project/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors.inc:845:10
     - sta_prop_equal_fn /src/wireshark/epan/dissectors/packet-ieee80211.c:137:11
@@ -46,8 +46,8 @@ The sanitizer detected a stack use after return vulnerability. The explanation o
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32mAddress 0x7fecc3e86c60 is located in stack of thread T0 at offset 1120 in frame[1m[0m
-[1m[0m    #0 0x117c7ef in dissect_ieee80211_common /src/wireshark/epan/dissectors/packet-ieee80211.c:29047
+Address 0x7fecc3e86c60 is located in stack of thread T0 at offset 1120 in frame
+    - dissect_ieee80211_common /src/wireshark/epan/dissectors/packet-ieee80211.c:29047:0
 
   This frame has 22 object(s):
     [32, 80) 'association_sanity_check.i' (line 27152)
@@ -66,7 +66,7 @@ The sanitizer detected a stack use after return vulnerability. The explanation o
     [752, 1008) 'out_buff' (line 29069)
     [1072, 1076) 'iv_buff' (line 29071)
     [1088, 1098) 'flag_str' (line 29075)
-    [1120, 1128) 'src_addr' (line 30053)[1m[32m <== Memory access at offset 1120 is inside this variable[1m[0m
+    [1120, 1128) 'src_addr' (line 30053) <== Memory access at offset 1120 is inside this variable
     [1152, 1156) 's1g_val' (line 30054)
     [1168, 1188) 'key' (line 30317)
     [1232, 1656) 'used_key' (line 30386)

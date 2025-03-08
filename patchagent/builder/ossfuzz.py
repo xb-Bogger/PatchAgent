@@ -1,5 +1,4 @@
 import os
-import re
 import shutil
 import subprocess
 from functools import cached_property
@@ -133,10 +132,7 @@ class OSSFuzzBuilder(Builder):
         )
 
         report_bytes = process.communicate(timeout=self.replay_poc_timeout)[0]
-        ansi_escape = re.compile(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])")
-        raw_report = ansi_escape.sub("", report_bytes.decode(errors="ignore"))
-
-        return parse_sanitizer_report(raw_report, self.sanitizer, source_path=self.source_path)
+        return parse_sanitizer_report(report_bytes.decode(errors="ignore"), self.sanitizer, source_path=self.source_path)
 
     @cached_property
     def language(self) -> Lang:

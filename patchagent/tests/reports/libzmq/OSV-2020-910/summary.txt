@@ -1,13 +1,13 @@
 The sanitizer detected a heap use after free vulnerability. The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 8 at 0x52b000000660 thread T3 (ZMQbg/IO/0)[1m[0m
+READ of size 8 at 0x52b000000660 thread T3 (ZMQbg/IO/0)
     - zmq::stream_engine_base_t::out_event() /src/libzmq/src/stream_engine_base.cpp:360:13
     - zmq::epoll_t::loop() /src/libzmq/src/epoll.cpp:202:29
     - thread_routine(void*) /src/libzmq/src/thread.cpp:250:5
     - asan_thread_start(void*) /src/llvm-project/compiler-rt/lib/asan/asan_interceptors.cpp:239:28
 
-[1m[32m0x52b000000660 is located 1120 bytes inside of 25384-byte region [0x52b000000200,0x52b000006528)
-[1m[0m[1m[35mfreed by thread T3 (ZMQbg/IO/0) here:[1m[0m
+0x52b000000660 is located 1120 bytes inside of 25384-byte region [0x52b000000200,0x52b000006528)
+freed by thread T3 (ZMQbg/IO/0) here:
     - operator delete(void*) /src/llvm-project/compiler-rt/lib/asan/asan_new_delete.cpp:143:3
     - zmq::stream_engine_base_t::error(zmq::i_engine::error_reason_t) /src/libzmq/src/stream_engine_base.cpp:715:5
     - zmq::ws_engine_t::close_connection_after_close(zmq::msg_t*) /src/libzmq/src/ws_engine.cpp:975:5
@@ -16,7 +16,7 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - thread_routine(void*) /src/libzmq/src/thread.cpp:250:5
     - asan_thread_start(void*) /src/llvm-project/compiler-rt/lib/asan/asan_interceptors.cpp:239:28
 
-[1m[35mpreviously allocated by thread T3 (ZMQbg/IO/0) here:[1m[0m
+previously allocated by thread T3 (ZMQbg/IO/0) here:
     - operator new(unsigned long, std::nothrow_t const&) /src/llvm-project/compiler-rt/lib/asan/asan_new_delete.cpp:92:3
     - zmq::ws_connecter_t::create_engine(int, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&) /src/libzmq/src/ws_connecter.cpp:294:18
     - zmq::ws_connecter_t::out_event() /src/libzmq/src/ws_connecter.cpp:130:9

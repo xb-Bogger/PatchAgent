@@ -1,6 +1,6 @@
 The sanitizer detected a heap use after free vulnerability. The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 24 at 0x52b000014cc0 thread T0[1m[0m
+READ of size 24 at 0x52b000014cc0 thread T0
     - __asan_memcpy /src/llvm-project/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cpp:63:3
     - ZSTD_freeDDict /src/c-blosc2/internal-complibs/zstd-1.4.8/decompress/zstd_ddict.c:215:44
     - blosc2_free_ctx /src/c-blosc2/blosc/blosc2.c:3299:5
@@ -11,8 +11,8 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x52b000014cc0 is located 27328 bytes inside of 27352-byte region [0x52b00000e200,0x52b000014cd8)
-[1m[0m[1m[35mfreed by thread T0 here:[1m[0m
+0x52b000014cc0 is located 27328 bytes inside of 27352-byte region [0x52b00000e200,0x52b000014cd8)
+freed by thread T0 here:
     - free /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:52:3
     - ZSTD_customFree /src/c-blosc2/internal-complibs/zstd-1.4.8/common/zstd_common.c:81:13
     - ZSTD_freeDDict /src/c-blosc2/internal-complibs/zstd-1.4.8/decompress/zstd_ddict.c:217:9
@@ -26,7 +26,7 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[35mpreviously allocated by thread T0 here:[1m[0m
+previously allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - ZSTD_customMalloc /src/c-blosc2/internal-complibs/zstd-1.4.8/common/zstd_common.c:60:12
     - ZSTD_createDDict_advanced /src/c-blosc2/internal-complibs/zstd-1.4.8/decompress/zstd_ddict.c:152:49

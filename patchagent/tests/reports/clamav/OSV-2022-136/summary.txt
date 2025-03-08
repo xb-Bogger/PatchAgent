@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 4 at 0x52d000008428 thread T0[1m[0m
+READ of size 4 at 0x52d000008428 thread T0
     - handle_de /src/clamav/libclamav/jsparse/js-norm.c:669:34
     - run_decoders /src/clamav/libclamav/jsparse/js-norm.c:815:17
     - cli_js_parse_done /src/clamav/libclamav/jsparse/js-norm.c:906:5
@@ -15,8 +15,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x52d000008428 is located 8 bytes after 32800-byte region [0x52d000000400,0x52d000008420)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x52d000008428 is located 8 bytes after 32800-byte region [0x52d000000400,0x52d000008420)
+allocated by thread T0 here:
     - realloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:82:3
     - cli_realloc /src/clamav/libclamav/others_common.c:253:13
     - tokens_ensure_capacity /src/clamav/libclamav/jsparse/js-norm.c:292:16

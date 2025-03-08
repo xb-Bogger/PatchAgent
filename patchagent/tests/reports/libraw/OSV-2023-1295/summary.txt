@@ -1,6 +1,6 @@
 The sanitizer detected a global buffer overflow vulnerability. The explanation of the vulnerability is: A buffer overflow occurs in globally allocated memory, leading to memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 4 at 0x55ddea6e1cac thread T0[1m[0m
+READ of size 4 at 0x55ddea6e1cac thread T0
     - libraw_tagtype_dataunit_bytes(int) /src/libraw/src/tables/wblists.cpp:28:12
     - checked_buffer_t::tiff_sget(unsigned int, long long*, unsigned int*, unsigned int*, long long*, unsigned int*, int*) /src/libraw/src/metadata/sony.cpp:2014:28
     - LibRaw::parseSonySR2(unsigned char*, unsigned int, unsigned int, unsigned int) /src/libraw/src/metadata/sony.cpp:2053:24
@@ -15,9 +15,8 @@ The sanitizer detected a global buffer overflow vulnerability. The explanation o
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x55ddea6e1cac is located 52 bytes before global variable '_Canon_wbi2std' defined in 'src/tables/wblists.cpp' (0x55ddea6e1ce0) of size 96
-[1m[0m[1m[32m0x55ddea6e1cac is located 0 bytes after global variable '_tagtype_dataunit_bytes' defined in 'src/tables/wblists.cpp' (0x55ddea6e1c60) of size 76
-[1m[0m
+0x55ddea6e1cac is located 52 bytes before global variable '_Canon_wbi2std' defined in 'src/tables/wblists.cpp' (0x55ddea6e1ce0) of size 96
+0x55ddea6e1cac is located 0 bytes after global variable '_tagtype_dataunit_bytes' defined in 'src/tables/wblists.cpp' (0x55ddea6e1c60) of size 76
 
 To fix this issue, follow the advice below:
 

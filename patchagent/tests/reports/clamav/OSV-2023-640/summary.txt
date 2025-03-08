@@ -1,6 +1,6 @@
 The sanitizer detected a stack buffer overflow vulnerability. The explanation of the vulnerability is: A function writes more data to a local stack variable than it can hold, overwriting adjacent memory and potentially leading to execution hijacking. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 72 at 0x7f4d205b0ff0 thread T0[1m[0m
+READ of size 72 at 0x7f4d205b0ff0 thread T0
     - __asan_memcpy /src/llvm-project/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cpp:63:3
     - copy_encryption_verifier /src/clamav/libclamav/ole2_extract.c:2033:5
     - initialize_encryption_key /src/clamav/libclamav/ole2_extract.c:2362:5
@@ -17,15 +17,15 @@ The sanitizer detected a stack buffer overflow vulnerability. The explanation of
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32mAddress 0x7f4d205b0ff0 is located in stack of thread T0 at offset 2032 in frame[1m[0m
-[1m[0m    #0 0x55deae1d427f in cli_ole2_extract /src/clamav/libclamav/ole2_extract.c:2399
+Address 0x7f4d205b0ff0 is located in stack of thread T0 at offset 2032 in frame
+    - cli_ole2_extract /src/clamav/libclamav/ole2_extract.c:2399:0
 
   This frame has 5 object(s):
     [32, 292) 'key.i' (line 2243)
     [368, 440) 'ev.i' (line 2244)
     [480, 1048) 'hdr' (line 2400)
     [1184, 1444) 'key' (line 2406)
-    [1520, 2032) 'encryption_info_stream_standard' (line 2470)[1m[32m <== Memory access at offset 2032 overflows this variable[1m[0m
+    [1520, 2032) 'encryption_info_stream_standard' (line 2470) <== Memory access at offset 2032 overflows this variable
 HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
       (longjmp and C++ exceptions *are* supported)
 

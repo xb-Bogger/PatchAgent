@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 32 at 0x50300000017f thread T0[1m[0m
+READ of size 32 at 0x50300000017f thread T0
     - __asan_memmove /src/llvm-project/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cpp:71:3
     - asn_build_string /src/net-snmp/snmplib/asn1.c:1026:13
     - snmpv3_scopedPDU_header_build /src/net-snmp/snmplib/snmp_api.c:2539:10
@@ -14,8 +14,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x50300000017f is located 0 bytes after 31-byte region [0x503000000160,0x50300000017f)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x50300000017f is located 0 bytes after 31-byte region [0x503000000160,0x50300000017f)
+allocated by thread T0 here:
     - strdup /src/llvm-project/compiler-rt/lib/asan/asan_interceptors.cpp:570:3
     - agentx_parse /src/net-snmp/agent/mibgroup/agentx/protocol.c:1646:35
     - LLVMFuzzerTestOneInput /src/net-snmp/testing/fuzzing/snmp_api_fuzzer.c:72:5

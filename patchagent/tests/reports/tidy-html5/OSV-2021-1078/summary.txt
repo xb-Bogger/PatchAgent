@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mWRITE of size 128 at 0x503000000210 thread T0[1m[0m
+WRITE of size 128 at 0x503000000210 thread T0
     - __asan_memcpy /src/llvm-project/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cpp:63:3
     - prvTidygrowStack /src/tidy-html5/src/lexer.c:4482:5
     - prvTidypush /src/tidy-html5/src/lexer.c:4514:9
@@ -16,8 +16,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x503000000210 is located 0 bytes after 32-byte region [0x5030000001f0,0x503000000210)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x503000000210 is located 0 bytes after 32-byte region [0x5030000001f0,0x503000000210)
+allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - defaultAlloc /src/tidy-html5/src/alloc.c:64:45
     - prvTidygrowStack /src/tidy-html5/src/lexer.c:4480:33

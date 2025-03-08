@@ -1,6 +1,6 @@
 The sanitizer detected a stack buffer overflow vulnerability. The explanation of the vulnerability is: A function writes more data to a local stack variable than it can hold, overwriting adjacent memory and potentially leading to execution hijacking. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 4 at 0x7ffcc37af4dc thread T0[1m[0m
+READ of size 4 at 0x7ffcc37af4dc thread T0
     - dump_stats /src/flac/src/flac/analyze.c:219:53
     - flac__analyze_frame /src/flac/src/flac/analyze.c:159:10
     - write_callback /src/flac/src/flac/decode.c:1231:4
@@ -18,12 +18,12 @@ The sanitizer detected a stack buffer overflow vulnerability. The explanation of
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32mAddress 0x7ffcc37af4dc is located in stack of thread T0 at offset 1180 in frame[1m[0m
-[1m[0m    #0 0x55dc8796c5df in flac__analyze_frame /src/flac/oss-fuzz/../src/flac/analyze.c:66
+Address 0x7ffcc37af4dc is located in stack of thread T0 at offset 1180 in frame
+    - flac__analyze_frame /src/flac/src/flac/analyze.c:66:0
 
   This frame has 2 object(s):
     [32, 1056) 'outfilename' (line 68)
-    [1184, 525520) 'stats' (line 69)[1m[32m <== Memory access at offset 1180 underflows this variable[1m[0m
+    [1184, 525520) 'stats' (line 69) <== Memory access at offset 1180 underflows this variable
 HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
       (longjmp and C++ exceptions *are* supported)
 

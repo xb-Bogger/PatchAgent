@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mWRITE of size 624 at 0x5070000001b7 thread T0[1m[0m
+WRITE of size 624 at 0x5070000001b7 thread T0
     - __asan_memset /src/llvm-project/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cpp:67:3
     - init_mt /src/libvpx/vp9/decoder/vp9_decodeframe.c:2311:3
     - decode_tiles_mt /src/libvpx/vp9/decoder/vp9_decodeframe.c:2453:3
@@ -15,8 +15,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x5070000001b7 is located 0 bytes after 71-byte region [0x507000000170,0x5070000001b7)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x5070000001b7 is located 0 bytes after 71-byte region [0x507000000170,0x5070000001b7)
+allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - vpx_memalign /src/libvpx/vpx_mem/vpx_mem.c:62:10
     - vpx_malloc /src/libvpx/vpx_mem/vpx_mem.c:70:40

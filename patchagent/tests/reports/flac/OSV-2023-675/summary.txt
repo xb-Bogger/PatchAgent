@@ -1,6 +1,6 @@
 The sanitizer detected a heap use after free vulnerability. The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks. Here is the detail: 
 
-[1m[0m[1m[34mWRITE of size 8 at 0x51d000000900 thread T0[1m[0m
+WRITE of size 8 at 0x51d000000900 thread T0
     - parse_options /src/flac/src/metaflac/options.c:254:57
     - main_to_fuzz /src/flac/src/metaflac/main.c:67:13
     - LLVMFuzzerTestOneInput /src/flac/oss-fuzz/tool_metaflac.c:89:2
@@ -9,8 +9,8 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x51d000000900 is located 2176 bytes inside of 2400-byte region [0x51d000000080,0x51d0000009e0)
-[1m[0m[1m[35mfreed by thread T0 here:[1m[0m
+0x51d000000900 is located 2176 bytes inside of 2400-byte region [0x51d000000080,0x51d0000009e0)
+freed by thread T0 here:
     - realloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:82:3
     - safe_realloc_ /src/flac/include/share/alloc.h:207:11
     - safe_realloc_mul_2op_ /src/flac/include/share/alloc.h:282:9
@@ -24,7 +24,7 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[35mpreviously allocated by thread T0 here:[1m[0m
+previously allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - append_new_operation /src/flac/src/metaflac/options.c:740:38
     - append_shorthand_operation /src/flac/src/metaflac/options.c:793:2

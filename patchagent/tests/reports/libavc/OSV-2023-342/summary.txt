@@ -1,6 +1,6 @@
 The sanitizer detected a heap use after free vulnerability. The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 16 at 0x7fb8fdb7c638 thread T0[1m[0m
+READ of size 16 at 0x7fb8fdb7c638 thread T0
     - ih264_inter_pred_luma_vert_ssse3 /src/libavc/common/x86/ih264_inter_pred_filters_ssse3.c:650:24
     - ih264d_motion_compensate_mp /src/libavc/decoder/ih264d_inter_pred.c:1125:13
     - isvcd_decode_recon_tfr_nmb_non_base_lyr /src/libavc/decoder/svc/isvcd_process_epslice.c:1215:17
@@ -16,8 +16,8 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x7fb8fdb7c638 is located 986680 bytes inside of 1204224-byte region [0x7fb8fda8b800,0x7fb8fdbb1800)
-[1m[0m[1m[35mfreed by thread T0 here:[1m[0m
+0x7fb8fdb7c638 is located 986680 bytes inside of 1204224-byte region [0x7fb8fda8b800,0x7fb8fdbb1800)
+freed by thread T0 here:
     - free /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:52:3
     - ih264d_free_dynamic_bufs /src/libavc/decoder/ih264d_utils.c:2337:5
     - isvcd_free_dynamic_bufs /src/libavc/decoder/svc/isvcd_utils.c:87:5
@@ -32,7 +32,7 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[35mpreviously allocated by thread T0 here:[1m[0m
+previously allocated by thread T0 here:
     - posix_memalign /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:142:3
     - iv_aligned_malloc(void*, int, int) /src/libavc/fuzzer/svc_dec_fuzzer.cpp:85:13
     - ih264d_allocate_dynamic_bufs /src/libavc/decoder/ih264d_utils.c:2170:14

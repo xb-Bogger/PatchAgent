@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 12 at 0x514000001994 thread T0[1m[0m
+READ of size 12 at 0x514000001994 thread T0
     - memcpy /src/llvm-project/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_memintrinsics.inc:115:5
     - get_mediawp /src/ghostpdl/base/gsicc_create.c:3272:5
     - gsicc_create_v2 /src/ghostpdl/base/gsicc_create.c:3315:10
@@ -42,8 +42,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x514000001994 is located 970 bytes after 394-byte region [0x514000001440,0x5140000015ca)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x514000001994 is located 970 bytes after 394-byte region [0x514000001440,0x5140000015ca)
+allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - gs_heap_alloc_bytes /src/ghostpdl/base/gsmalloc.c:192:34
     - cmsOpenIOhandlerFromMem /src/ghostpdl/lcms2mt/src/cmsio0.c:264:40

@@ -1,6 +1,6 @@
 The sanitizer detected a heap use after free vulnerability. The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 2 at 0x531000034800 thread T0[1m[0m
+READ of size 2 at 0x531000034800 thread T0
     - operator()<unsigned short, int> /usr/local/include/c++/v1/__algorithm/comp.h:41:12
     - __invoke<std::__1::__less<void, void> &, unsigned short &, const int &> /usr/local/include/c++/v1/__type_traits/invoke.h:344:25
     - __lower_bound<std::__1::_ClassicAlgPolicy, unsigned short *, unsigned short *, int, std::__1::__identity, std::__1::__less<void, void> > /usr/local/include/c++/v1/__algorithm/lower_bound.h:39:9
@@ -19,8 +19,8 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x531000034800 is located 49152 bytes inside of 65936-byte region [0x531000028800,0x531000038990)
-[1m[0m[1m[35mfreed by thread T0 here:[1m[0m
+0x531000034800 is located 49152 bytes inside of 65936-byte region [0x531000028800,0x531000038990)
+freed by thread T0 here:
     - operator delete(void*) /src/llvm-project/compiler-rt/lib/asan/asan_new_delete.cpp:143:3
     - HashMgr::load_config(char const*, char const*) /src/hunspell/src/hunspell/hashmgr.cxx:0:0
     - HashMgr::HashMgr(char const*, char const*, char const*) /src/hunspell/src/hunspell/hashmgr.cxx:96:3
@@ -32,7 +32,7 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[35mpreviously allocated by thread T0 here:[1m[0m
+previously allocated by thread T0 here:
     - operator new(unsigned long) /src/llvm-project/compiler-rt/lib/asan/asan_new_delete.cpp:86:3
     - HashMgr::load_config(char const*, char const*) /src/hunspell/src/hunspell/hashmgr.cxx:940:21
     - HashMgr::HashMgr(char const*, char const*, char const*) /src/hunspell/src/hunspell/hashmgr.cxx:96:3

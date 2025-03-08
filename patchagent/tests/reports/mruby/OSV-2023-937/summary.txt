@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 1 at 0x52f00000c420 thread T0[1m[0m
+READ of size 1 at 0x52f00000c420 thread T0
     - unpack_bstr /src/mruby/mrbgems/mruby-pack/src/pack.c:940:34
     - pack_unpack /src/mruby/mrbgems/mruby-pack/src/pack.c:1669:17
     - mrb_vm_exec /src/mruby/src/vm.c:0:0
@@ -12,8 +12,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x52f00000c420 is located 0 bytes after 49184-byte region [0x52f000000400,0x52f00000c420)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x52f00000c420 is located 0 bytes after 49184-byte region [0x52f000000400,0x52f00000c420)
+allocated by thread T0 here:
     - realloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:82:3
     - mrb_realloc_simple /src/mruby/src/gc.c:191:8
     - mrb_realloc /src/mruby/src/gc.c:205:8

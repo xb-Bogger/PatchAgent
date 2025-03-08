@@ -1,6 +1,6 @@
 The sanitizer detected a container overflow vulnerability. The explanation of the vulnerability is: A data structure, such as a vector or list, is accessed beyond its allocated memory, causing memory corruption or unexpected behavior. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 3 at 0x5060000001c2 thread T0[1m[0m
+READ of size 3 at 0x5060000001c2 thread T0
     - StrtolFixAndCheck(void*, char const*, char**, char*, int) /src/llvm-project/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors.inc:3566:3
     - StrtolImpl<long (*)(const char *, char **, int)> /src/llvm-project/compiler-rt/lib/asan/asan_interceptors.cpp:618:3
     - strtol /src/llvm-project/compiler-rt/lib/asan/asan_interceptors.cpp:630:1
@@ -17,8 +17,8 @@ The sanitizer detected a container overflow vulnerability. The explanation of th
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x5060000001c2 is located 34 bytes inside of 64-byte region [0x5060000001a0,0x5060000001e0)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x5060000001c2 is located 34 bytes inside of 64-byte region [0x5060000001a0,0x5060000001e0)
+allocated by thread T0 here:
     - operator new(unsigned long) /src/llvm-project/compiler-rt/lib/asan/asan_new_delete.cpp:86:3
     - __libcpp_operator_new<unsigned long> /usr/local/include/c++/v1/new:271:10
     - __libcpp_allocate /usr/local/include/c++/v1/new:295:10

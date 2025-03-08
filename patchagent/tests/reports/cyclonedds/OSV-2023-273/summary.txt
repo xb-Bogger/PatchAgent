@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 8 at 0x51d000003bc8 thread T0[1m[0m
+READ of size 8 at 0x51d000003bc8 thread T0
     - add_complete_typeobj /src/cyclonedds/src/core/ddsi/src/ddsi_typewrap.c:1168:73
     - ddsi_xt_type_add_typeobj /src/cyclonedds/src/core/ddsi/src/ddsi_typewrap.c:1300:76
     - ddsi_type_add_typeobj /src/cyclonedds/src/core/ddsi/src/ddsi_typelib.c:464:19
@@ -10,8 +10,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x51d000003bc8 is located 8 bytes after 2368-byte region [0x51d000003280,0x51d000003bc0)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x51d000003bc8 is located 8 bytes after 2368-byte region [0x51d000003280,0x51d000003bc0)
+allocated by thread T0 here:
     - calloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:75:3
     - ddsrt_calloc_s /src/cyclonedds/src/ddsrt/src/heap/posix/heap.c:57:10
     - ddsrt_calloc /src/cyclonedds/src/ddsrt/src/heap/posix/heap.c:41:9

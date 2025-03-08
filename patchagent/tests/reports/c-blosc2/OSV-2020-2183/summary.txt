@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 2 at 0x50700000014e thread T0[1m[0m
+READ of size 2 at 0x50700000014e thread T0
     - Lizard_decompress_LIZv1 /src/c-blosc2/internal-complibs/lizard-1.0/lizard_decompress_liz.h:70:34
     - Lizard_decompress_generic /src/c-blosc2/internal-complibs/lizard-1.0/lizard_decompress.c:241:19
     - Lizard_decompress_safe /src/c-blosc2/internal-complibs/lizard-1.0/lizard_decompress.c:269:12
@@ -16,8 +16,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x50700000014e is located 0 bytes after 78-byte region [0x507000000100,0x50700000014e)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x50700000014e is located 0 bytes after 78-byte region [0x507000000100,0x50700000014e)
+allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:327:6
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9

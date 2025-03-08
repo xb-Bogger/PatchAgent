@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 8 at 0x7f8ddbe23470 thread T0[1m[0m
+READ of size 8 at 0x7f8ddbe23470 thread T0
     - read_xref_section /src/ghostpdl/pdf/pdf_xref.c:739:20
     - read_xref /src/ghostpdl/pdf/pdf_xref.c:775:16
     - pdfi_read_xref /src/ghostpdl/pdf/pdf_xref.c:1008:16
@@ -25,8 +25,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x7f8ddbe23470 is located 912 bytes before 1309840-byte region [0x7f8ddbe23800,0x7f8ddbf63490)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x7f8ddbe23470 is located 912 bytes before 1309840-byte region [0x7f8ddbe23800,0x7f8ddbf63490)
+allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - gs_heap_alloc_bytes /src/ghostpdl/base/gsmalloc.c:192:34
     - chunk_obj_alloc /src/ghostpdl/base/gsmchunk.c:807:35

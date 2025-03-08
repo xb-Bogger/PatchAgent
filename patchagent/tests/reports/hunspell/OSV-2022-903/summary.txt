@@ -1,6 +1,6 @@
 The sanitizer detected a stack buffer overflow vulnerability. The explanation of the vulnerability is: A function writes more data to a local stack variable than it can hold, overwriting adjacent memory and potentially leading to execution hijacking. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 1 at 0x7f18be475841 thread T0[1m[0m
+READ of size 1 at 0x7f18be475841 thread T0
     - AffixMgr::compound_check(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, short, short, short, short, hentry**, hentry**, char, char, int*) /src/hunspell/src/hunspell/affixmgr.cxx:2118:28
     - SuggestMgr::checkword(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, int, int*, long*) /src/hunspell/src/hunspell/suggestmgr.cxx:1653:21
     - SuggestMgr::testsug(std::__1::vector<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>, std::__1::allocator<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>>>&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, int, int*, long*) /src/hunspell/src/hunspell/suggestmgr.cxx:173:17
@@ -16,11 +16,11 @@ The sanitizer detected a stack buffer overflow vulnerability. The explanation of
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32mAddress 0x7f18be475841 is located in stack of thread T0 at offset 65 in frame[1m[0m
-[1m[0m    #0 0x55b7a237825f in AffixMgr::compound_check(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, short, short, short, short, hentry**, hentry**, char, char, int*) /src/hunspell/src/hunspell/affixmgr.cxx:1582
+Address 0x7f18be475841 is located in stack of thread T0 at offset 65 in frame
+    - AffixMgr::compound_check(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, short, short, short, short, hentry**, hentry**, char, char, int*) /src/hunspell/src/hunspell/affixmgr.cxx:1582:0
 
   This frame has 9 object(s):
-    [32, 56) 'st' (line 1586)[1m[32m <== Memory access at offset 65 overflows this variable[1m[0m
+    [32, 56) 'st' (line 1586) <== Memory access at offset 65 overflows this variable
     [96, 120) 'ref.tmp' (line 1658)
     [160, 184) 'ref.tmp956' (line 1855)
     [224, 248) 'ref.tmp972' (line 1858)

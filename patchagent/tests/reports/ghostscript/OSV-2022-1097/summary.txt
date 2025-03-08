@@ -1,6 +1,6 @@
 The sanitizer detected a stack use after return vulnerability. The explanation of the vulnerability is: A function accesses stack memory after returning, leading to use-after-free vulnerabilities. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 4 at 0x7f479fe84bd4 thread T0[1m[0m
+READ of size 4 at 0x7f479fe84bd4 thread T0
     - gs_type2_interpret /src/ghostpdl/base/gstype2.c:774:30
     - pdfi_cff_glyph_outline /src/ghostpdl/pdf/pdf_font1C.c:377:16
     - gs_default_glyph_info /src/ghostpdl/base/gsfont.c:1061:12
@@ -47,14 +47,14 @@ The sanitizer detected a stack use after return vulnerability. The explanation o
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32mAddress 0x7f479fe84bd4 is located in stack of thread T0 at offset 468 in frame[1m[0m
-[1m[0m    #0 0x55f207dc444f in gs_type2_interpret /src/ghostpdl/./base/gstype2.c:124
+Address 0x7f479fe84bd4 is located in stack of thread T0 at offset 468 in frame
+    - gs_type2_interpret /src/ghostpdl/base/gstype2.c:124:0
 
   This frame has 4 object(s):
     [32, 224) 'cstack' (line 129)
     [288, 300) 'mask' (line 459)
     [320, 336) 'join' (line 851)
-    [352, 368) 'end' (line 851)[1m[32m <== Memory access at offset 468 overflows this variable[1m[0m
+    [352, 368) 'end' (line 851) <== Memory access at offset 468 overflows this variable
 HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
       (longjmp and C++ exceptions *are* supported)
 

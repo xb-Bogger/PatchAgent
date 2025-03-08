@@ -1,6 +1,6 @@
 The sanitizer detected a heap use after free vulnerability. The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 4 at 0x50e000002ce0 thread T0[1m[0m
+READ of size 4 at 0x50e000002ce0 thread T0
     - zend_gc_refcount /src/php-src/Zend/zend_types.h:1252:12
     - zval_refcount_p /src/php-src/Zend/zend_types.h:1301:9
     - zval_call_destructor /src/php-src/Zend/zend_execute_API.c:215:35
@@ -16,8 +16,8 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x50e000002ce0 is located 0 bytes inside of 152-byte region [0x50e000002ce0,0x50e000002d78)
-[1m[0m[1m[35mfreed by thread T0 here:[1m[0m
+0x50e000002ce0 is located 0 bytes inside of 152-byte region [0x50e000002ce0,0x50e000002d78)
+freed by thread T0 here:
     - free /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:52:3
     - zend_objects_store_del /src/php-src/Zend/zend_objects_API.c:204:3
     - i_zval_ptr_dtor /src/php-src/Zend/zend_variables.h:44:4
@@ -33,7 +33,7 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[35mpreviously allocated by thread T0 here:[1m[0m
+previously allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - tracked_malloc /src/php-src/Zend/zend_alloc.c:2829:14
     - zend_objects_new /src/php-src/Zend/zend_objects.c:187:24

@@ -1,6 +1,6 @@
 The sanitizer detected a dynamic stack buffer overflow vulnerability. The explanation of the vulnerability is: A dynamically allocated stack buffer is overflowed, leading to potential memory corruption or execution hijacking. Here is the detail: 
 
-[1m[0m[1m[34mWRITE of size 16 at 0x7fb65613e6f0 thread T2 (source:src)[1m[0m
+WRITE of size 16 at 0x7fb65613e6f0 thread T2 (source:src)
     - __asan_memcpy /src/llvm-project/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cpp:63:3
     - thread_memory_swap_magazines /src/gstreamer/subprojects/glib/glib/gslice.c:862:19
     - g_slice_alloc /src/gstreamer/subprojects/glib/glib/gslice.c:1059:11
@@ -37,7 +37,7 @@ The sanitizer detected a dynamic stack buffer overflow vulnerability. The explan
     - g_thread_proxy /src/gstreamer/subprojects/glib/glib/gthread.c:827:20
     - asan_thread_start(void*) /src/llvm-project/compiler-rt/lib/asan/asan_interceptors.cpp:239:28
 
-[1m[32mAddress 0x7fb65613e6f0 is located in stack of thread T2 (source:src)[1m[0m
+Address 0x7fb65613e6f0 is located in stack of thread T2 (source:src)
 
 To fix this issue, follow the advice below:
 

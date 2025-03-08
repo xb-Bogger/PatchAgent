@@ -1,6 +1,6 @@
 The sanitizer detected a heap use after free vulnerability. The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 2 at 0x531000070800 thread T0[1m[0m
+READ of size 2 at 0x531000070800 thread T0
     - operator()<unsigned short, unsigned short> /usr/local/include/c++/v1/__algorithm/comp.h:41:12
     - __invoke<std::__1::__less<void, void> &, const unsigned short &, const unsigned short &> /usr/local/include/c++/v1/__type_traits/invoke.h:344:25
     - __lower_bound<std::__1::_ClassicAlgPolicy, const unsigned short *, const unsigned short *, unsigned short, std::__1::__identity, std::__1::__less<void, void> > /usr/local/include/c++/v1/__algorithm/lower_bound.h:39:9
@@ -19,8 +19,8 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x531000070800 is located 49152 bytes inside of 65936-byte region [0x531000064800,0x531000074990)
-[1m[0m[1m[35mfreed by thread T0 here:[1m[0m
+0x531000070800 is located 49152 bytes inside of 65936-byte region [0x531000064800,0x531000074990)
+freed by thread T0 here:
     - operator delete(void*) /src/llvm-project/compiler-rt/lib/asan/asan_new_delete.cpp:143:3
     - finishFileMgr /src/hunspell/src/hunspell/affixmgr.cxx:257:3
     - AffixMgr::parse_file(char const*, char const*) /src/hunspell/src/hunspell/affixmgr.cxx:719:3
@@ -33,7 +33,7 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[35mpreviously allocated by thread T0 here:[1m[0m
+previously allocated by thread T0 here:
     - operator new(unsigned long) /src/llvm-project/compiler-rt/lib/asan/asan_new_delete.cpp:86:3
     - AffixMgr::parse_file(char const*, char const*) /src/hunspell/src/hunspell/affixmgr.cxx:275:21
     - AffixMgr::AffixMgr(char const*, std::__1::vector<HashMgr*, std::__1::allocator<HashMgr*>> const&, char const*) /src/hunspell/src/hunspell/affixmgr.cxx:171:7

@@ -1,6 +1,5 @@
 The sanitizer detected a heap double free vulnerability. The explanation of the vulnerability is: A heap-allocated memory block is freed twice, potentially causing memory corruption or security vulnerabilities. Here is the detail: 
 
-[1m[0mSCARINESS: 42 (double-free)
     - free /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:52:3
     - libssh2_default_free /src/libssh2/src/session.c:86:5
     - session_free /src/libssh2/src/session.c:1135:9
@@ -11,8 +10,8 @@ The sanitizer detected a heap double free vulnerability. The explanation of the 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x502000000c50 is located 0 bytes inside of 6-byte region [0x502000000c50,0x502000000c56)
-[1m[0m[1m[35mfreed by thread T0 here:[1m[0m
+0x502000000c50 is located 0 bytes inside of 6-byte region [0x502000000c50,0x502000000c56)
+freed by thread T0 here:
     - free /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:52:3
     - libssh2_default_free /src/libssh2/src/session.c:86:5
     - diffie_hellman_sha_algo /src/libssh2/src/kex.c:387:13
@@ -26,7 +25,7 @@ The sanitizer detected a heap double free vulnerability. The explanation of the 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[35mpreviously allocated by thread T0 here:[1m[0m
+previously allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - libssh2_default_alloc /src/libssh2/src/session.c:77:12
     - _libssh2_copy_string /src/libssh2/src/misc.c:920:19

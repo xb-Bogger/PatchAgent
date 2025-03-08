@@ -1,6 +1,6 @@
 The sanitizer detected a stack buffer overflow vulnerability. The explanation of the vulnerability is: A function writes more data to a local stack variable than it can hold, overwriting adjacent memory and potentially leading to execution hijacking. Here is the detail: 
 
-[1m[0m[1m[34mWRITE of size 49 at 0x7f071d97f64f thread T0[1m[0m
+WRITE of size 49 at 0x7f071d97f64f thread T0
     - __asan_memcpy /src/llvm-project/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cpp:63:3
     - tvb_memcpy /src/wireshark/epan/tvbuff.c:859:10
     - composite_memcpy /src/wireshark/epan/tvbuff_composite.c:142:10
@@ -58,13 +58,13 @@ The sanitizer detected a stack buffer overflow vulnerability. The explanation of
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32mAddress 0x7f071d97f64f is located in stack of thread T0 at offset 79 in frame[1m[0m
-[1m[0m    #0 0x13da52f in dissect_megaco_text /src/wireshark/epan/dissectors/packet-megaco.c:578
+Address 0x7f071d97f64f is located in stack of thread T0 at offset 79 in frame
+    - dissect_megaco_text /src/wireshark/epan/dissectors/packet-megaco.c:578:0
 
   This frame has 7 object(s):
     [32, 40) 'sub_ti' (line 585)
     [64, 79) 'word' (line 587)
-    [96, 126) 'TermID' (line 588)[1m[32m <== Memory access at offset 79 partially underflows this variable[1m[0m
+    [96, 126) 'TermID' (line 588) <== Memory access at offset 79 partially underflows this variable
     [160, 161) 'needle' (line 593)
     [176, 177) 'ber_class' (line 670)
     [192, 196) 'pc' (line 671)

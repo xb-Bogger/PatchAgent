@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 1 at 0x502000000153 thread T0[1m[0m
+READ of size 1 at 0x502000000153 thread T0
     - string_decoder_getc_utf_8 /src/espeak-ng/src/libespeak-ng/encoding.c:539:15
     - GetC /src/espeak-ng/src/libespeak-ng/readclause.c:174:9
     - ReadClause /src/espeak-ng/src/libespeak-ng/readclause.c:610:11
@@ -14,8 +14,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x502000000153 is located 0 bytes after 3-byte region [0x502000000150,0x502000000153)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x502000000153 is located 0 bytes after 3-byte region [0x502000000150,0x502000000153)
+allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - LLVMFuzzerTestOneInput /src/espeak-ng/tests/ssml-fuzzer.c:61:20
     - fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:614:13

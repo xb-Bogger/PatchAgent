@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 4 at 0x50f000005b0d thread T0[1m[0m
+READ of size 4 at 0x50f000005b0d thread T0
     - initialize_context_decompression /src/c-blosc2/blosc/blosc2.c:1803:34
     - blosc_run_decompression_with_context /src/c-blosc2/blosc/blosc2.c:2350:8
     - blosc2_decompress_ctx /src/c-blosc2/blosc/blosc2.c:2376:12

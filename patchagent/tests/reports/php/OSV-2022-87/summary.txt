@@ -1,6 +1,6 @@
 The sanitizer detected a heap use after free vulnerability. The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 8 at 0x504000028430 thread T0[1m[0m
+READ of size 8 at 0x504000028430 thread T0
     - zend_std_get_property_ptr_ptr /src/php-src/Zend/zend_object_handlers.c:1065:8
     - zend_fetch_property_address /src/php-src/Zend/zend_execute.c:2878:8
     - ZEND_FETCH_OBJ_W_SPEC_CV_CONST_HANDLER /src/php-src/Zend/zend_vm_execute.h:40112:2
@@ -13,8 +13,8 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x504000028430 is located 32 bytes inside of 40-byte region [0x504000028410,0x504000028438)
-[1m[0m[1m[35mfreed by thread T0 here:[1m[0m
+0x504000028430 is located 32 bytes inside of 40-byte region [0x504000028410,0x504000028438)
+freed by thread T0 here:
     - free /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:52:3
     - zend_objects_store_del /src/php-src/Zend/zend_objects_API.c:204:3
     - zend_assign_to_variable /src/php-src/Zend/zend_execute.h:158:5
@@ -38,7 +38,7 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[35mpreviously allocated by thread T0 here:[1m[0m
+previously allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - tracked_malloc /src/php-src/Zend/zend_alloc.c:2752:14
     - zend_objects_new /src/php-src/Zend/zend_objects.c:186:24

@@ -1,6 +1,6 @@
 The sanitizer detected a stack buffer overflow vulnerability. The explanation of the vulnerability is: A function writes more data to a local stack variable than it can hold, overwriting adjacent memory and potentially leading to execution hijacking. Here is the detail: 
 
-[1m[0m[1m[34mWRITE of size 8 at 0x7f0b8eaa6440 thread T0[1m[0m
+WRITE of size 8 at 0x7f0b8eaa6440 thread T0
     - gs_glyph_data_from_string /src/ghostpdl/base/gsgdata.c:119:5
     - copied_type1_subr_data /src/ghostpdl/devices/gxfcopy.c:961:5
     - gs_type2_interpret /src/ghostpdl/base/gstype2.c:560:28
@@ -22,12 +22,12 @@ The sanitizer detected a stack buffer overflow vulnerability. The explanation of
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32mAddress 0x7f0b8eaa6440 is located in stack of thread T0 at offset 11328 in frame[1m[0m
-[1m[0m    #0 0x557e5176785f in copied_type1_glyph_outline /src/ghostpdl/./devices/gxfcopy.c:1064
+Address 0x7f0b8eaa6440 is located in stack of thread T0 at offset 11328 in frame
+    - copied_type1_glyph_outline /src/ghostpdl/devices/gxfcopy.c:1064:0
 
   This frame has 5 object(s):
     [32, 80) 'gdata' (line 1074)
-    [112, 11328) 'cis' (line 1078)[1m[32m <== Memory access at offset 11328 overflows this variable[1m[0m
+    [112, 11328) 'cis' (line 1078) <== Memory access at offset 11328 overflows this variable
     [11584, 13640) 'ggs' (line 1079)
     [13776, 13800) 'imat' (line 1093)
     [13840, 13844) 'value' (line 1106)

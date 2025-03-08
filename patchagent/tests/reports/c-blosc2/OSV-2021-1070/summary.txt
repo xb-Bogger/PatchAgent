@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 8 at 0x526000013424 thread T0[1m[0m
+READ of size 8 at 0x526000013424 thread T0
     - BIT_initDStream /src/c-blosc2/internal-complibs/zstd-1.4.8/common/bitstream.h:286:30
     - ZSTD_decompressSequences_body /src/c-blosc2/internal-complibs/zstd-1.4.8/decompress/zstd_decompress_block.c:1128:9
     - ZSTD_decompressSequences_bmi2 /src/c-blosc2/internal-complibs/zstd-1.4.8/decompress/zstd_decompress_block.c:1352:12

@@ -1,6 +1,6 @@
 The sanitizer detected a container overflow vulnerability. The explanation of the vulnerability is: A data structure, such as a vector or list, is accessed beyond its allocated memory, causing memory corruption or unexpected behavior. Here is the detail: 
 
-[1m[0m[1m[34mWRITE of size 65534 at 0x7fe04ad4c802 thread T0[1m[0m
+WRITE of size 65534 at 0x7fe04ad4c802 thread T0
     - memcpy /src/llvm-project/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_memintrinsics.inc:115:5
     - Exiv2::BmffImage::brotliUncompress(unsigned char const*, unsigned long, Exiv2::DataBuf&) /src/exiv2/src/bmffimage.cpp:208:9
     - Exiv2::BmffImage::boxHandler(std::__1::basic_ostream<char, std::__1::char_traits<char>>&, Exiv2::PrintStructureOption, unsigned long, unsigned long) /src/exiv2/src/bmffimage.cpp:541:7
@@ -11,8 +11,8 @@ The sanitizer detected a container overflow vulnerability. The explanation of th
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x7fe04ad4c802 is located 0 bytes after 131074-byte region [0x7fe04ad2c800,0x7fe04ad4c802)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x7fe04ad4c802 is located 0 bytes after 131074-byte region [0x7fe04ad2c800,0x7fe04ad4c802)
+allocated by thread T0 here:
     - operator new(unsigned long) /src/llvm-project/compiler-rt/lib/asan/asan_new_delete.cpp:86:3
     - __libcpp_operator_new<unsigned long> /usr/local/include/c++/v1/new:271:10
     - __libcpp_allocate /usr/local/include/c++/v1/new:295:10

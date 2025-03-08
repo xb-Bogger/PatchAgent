@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 4 at 0x520000001f80 thread T0[1m[0m
+READ of size 4 at 0x520000001f80 thread T0
     - process_page_ /src/flac/src/libFLAC/ogg_decoder_aspect.c:130:23
     - FLAC__ogg_decoder_aspect_skip_link /src/flac/src/libFLAC/ogg_decoder_aspect.c:668:49
     - seek_to_absolute_sample_ogg_ /src/flac/src/libFLAC/stream_decoder.c:3873:13
@@ -11,8 +11,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x520000001f80 is located 32 bytes after 3808-byte region [0x520000001080,0x520000001f60)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x520000001f80 is located 32 bytes after 3808-byte region [0x520000001080,0x520000001f60)
+allocated by thread T0 here:
     - realloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:82:3
     - safe_realloc_nofree_mul_2op_ /src/flac/include/share/alloc.h:0:0
     - check_size_of_link_allocation_ /src/flac/src/libFLAC/ogg_decoder_aspect.c:152:24

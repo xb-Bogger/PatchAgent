@@ -1,6 +1,6 @@
 The sanitizer detected a stack buffer overflow vulnerability. The explanation of the vulnerability is: A function writes more data to a local stack variable than it can hold, overwriting adjacent memory and potentially leading to execution hijacking. Here is the detail: 
 
-[1m[0m[1m[34mWRITE of size 8 at 0x7f2788ca5c60 thread T0[1m[0m
+WRITE of size 8 at 0x7f2788ca5c60 thread T0
     - gs_glyph_data_from_bytes /src/ghostpdl/base/gsgdata.c:127:5
     - pdfi_cff_subr_data /src/ghostpdl/pdf/pdf_font1C.c:176:13
     - gs_type1_piece_codes /src/ghostpdl/base/gxtype1.c:462:20
@@ -46,12 +46,12 @@ The sanitizer detected a stack buffer overflow vulnerability. The explanation of
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32mAddress 0x7f2788ca5c60 is located in stack of thread T0 at offset 1120 in frame[1m[0m
-[1m[0m    #0 0x56497922381f in gs_type1_piece_codes /src/ghostpdl/./base/gxtype1.c:351
+Address 0x7f2788ca5c60 is located in stack of thread T0 at offset 1120 in frame
+    - gs_type1_piece_codes /src/ghostpdl/base/gxtype1.c:351:0
 
   This frame has 2 object(s):
     [32, 224) 'cstack' (line 367)
-    [288, 1080) 'ipstack' (line 369)[1m[32m <== Memory access at offset 1120 overflows this variable[1m[0m
+    [288, 1080) 'ipstack' (line 369) <== Memory access at offset 1120 overflows this variable
 HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
       (longjmp and C++ exceptions *are* supported)
 

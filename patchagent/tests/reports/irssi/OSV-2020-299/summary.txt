@@ -1,6 +1,5 @@
 The sanitizer detected a invalid free vulnerability. The explanation of the vulnerability is: A program attempts to free a memory block that was not dynamically allocated, causing undefined behavior or crashes. Here is the detail: 
 
-[1m[0mSCARINESS: 40 (bad-free)
     - free /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:52:3
     - sig_destroyed /src/irssi/src/irc/core/irc-servers.c:459:2
     - signal_emit_real /src/irssi/src/core/signals.c:242:3
@@ -12,8 +11,8 @@ The sanitizer detected a invalid free vulnerability. The explanation of the vuln
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x519000000ce0 is located 224 bytes inside of 496-byte region [0x519000000c00,0x519000000df0)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x519000000ce0 is located 224 bytes inside of 496-byte region [0x519000000c00,0x519000000df0)
+allocated by thread T0 here:
     - posix_memalign /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:142:3
     - allocator_memalign /src/irssi/subprojects/glib-2.58.3/glib/gslice.c:1409:9
     - allocator_add_slab /src/irssi/subprojects/glib-2.58.3/glib/gslice.c:1283:20

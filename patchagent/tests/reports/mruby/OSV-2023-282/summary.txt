@@ -1,6 +1,6 @@
 The sanitizer detected a heap use after free vulnerability. The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 4 at 0x52f000044410 thread T0[1m[0m
+READ of size 4 at 0x52f000044410 thread T0
     - mrb_gc_mark /src/mruby/src/gc.c:742:8
     - iv_mark_i /src/mruby/src/variable.c:240:3
     - iv_foreach /src/mruby/src/variable.c:190:11
@@ -23,8 +23,8 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x52f000044410 is located 49168 bytes inside of 49200-byte region [0x52f000038400,0x52f000044430)
-[1m[0m[1m[35mfreed by thread T0 here:[1m[0m
+0x52f000044410 is located 49168 bytes inside of 49200-byte region [0x52f000038400,0x52f000044430)
+freed by thread T0 here:
     - free /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:52:3
     - mrb_default_allocf /src/mruby/src/state.c:65:5
     - mrb_free /src/mruby/src/gc.c:253:3
@@ -45,7 +45,7 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[35mpreviously allocated by thread T0 here:[1m[0m
+previously allocated by thread T0 here:
     - realloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:82:3
     - mrb_realloc_simple /src/mruby/src/gc.c:191:8
     - mrb_realloc /src/mruby/src/gc.c:205:8

@@ -1,6 +1,6 @@
 The sanitizer detected a heap use after free vulnerability. The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 4 at 0x502000000bb0 thread T0[1m[0m
+READ of size 4 at 0x502000000bb0 thread T0
     - iasecc_delete_file /src/opensc/src/libopensc/card-iasecc.c:1565:2
     - sc_delete_file /src/opensc/src/libopensc/card.c:614:6
     - iasecc_pkcs15_delete_file /src/opensc/src/pkcs15init/pkcs15-iasecc.c:108:7
@@ -15,8 +15,8 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x502000000bb0 is located 0 bytes inside of 16-byte region [0x502000000bb0,0x502000000bc0)
-[1m[0m[1m[35mfreed by thread T0 here:[1m[0m
+0x502000000bb0 is located 0 bytes inside of 16-byte region [0x502000000bb0,0x502000000bc0)
+freed by thread T0 here:
     - free /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:52:3
     - sc_file_clear_acl_entries /src/opensc/src/libopensc/sc.c:611:3
     - sc_file_free /src/opensc/src/libopensc/sc.c:634:3
@@ -34,7 +34,7 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[35mpreviously allocated by thread T0 here:[1m[0m
+previously allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - sc_file_add_acl_entry /src/opensc/src/libopensc/sc.c:545:9
     - iasecc_process_fci /src/opensc/src/libopensc/card-iasecc.c:1276:4

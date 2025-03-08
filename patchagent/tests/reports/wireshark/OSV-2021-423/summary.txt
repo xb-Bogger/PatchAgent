@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 1 at 0x5020000dced0 thread T0[1m[0m
+READ of size 1 at 0x5020000dced0 thread T0
     - dissect_vjc_uncomp /src/wireshark/epan/dissectors/packet-vj-comp.c:305:25
     - call_dissector_through_handle /src/wireshark/epan/packet.c:720:9
     - call_dissector_work /src/wireshark/epan/packet.c:813:9
@@ -39,8 +39,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x5020000dced0 is located 48 bytes after 16-byte region [0x5020000dce90,0x5020000dcea0)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x5020000dced0 is located 48 bytes after 16-byte region [0x5020000dce90,0x5020000dcea0)
+allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - tvb_memdup /src/wireshark/epan/tvbuff.c:905:10
     - dissect_vjc_uncomp /src/wireshark/epan/dissectors/packet-vj-comp.c:296:49

@@ -1,6 +1,6 @@
 The sanitizer detected a stack buffer overflow vulnerability. The explanation of the vulnerability is: A function writes more data to a local stack variable than it can hold, overwriting adjacent memory and potentially leading to execution hijacking. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 9 at 0x7efdf8b6f9a8 thread T0[1m[0m
+READ of size 9 at 0x7efdf8b6f9a8 thread T0
     - strchr /src/llvm-project/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors.inc:712:5
     - input_osc_52 /src/tmux/input.c:2714:38
     - input_set_state /src/tmux/input.c:883:3
@@ -12,13 +12,13 @@ The sanitizer detected a stack buffer overflow vulnerability. The explanation of
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32mAddress 0x7efdf8b6f9a8 is located in stack of thread T0 at offset 168 in frame[1m[0m
-[1m[0m    #0 0x5593a86d2b0f in input_osc_52 /src/tmux/input.c:2687
+Address 0x7efdf8b6f9a8 is located in stack of thread T0 at offset 168 in frame
+    - input_osc_52 /src/tmux/input.c:2687:0
 
   This frame has 3 object(s):
     [32, 40) 'len' (line 2691)
     [64, 120) 'ctx' (line 2694)
-    [160, 168) 'flags' (line 2697)[1m[32m <== Memory access at offset 168 overflows this variable[1m[0m
+    [160, 168) 'flags' (line 2697) <== Memory access at offset 168 overflows this variable
 HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
       (longjmp and C++ exceptions *are* supported)
 

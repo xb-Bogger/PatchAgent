@@ -1,6 +1,5 @@
 The sanitizer detected a memcpy param overlap vulnerability. The explanation of the vulnerability is: The source and destination buffers of a memory copy operation overlap, causing data corruption. Here is the detail: 
 
-[1m[0mSCARINESS: 10 (memcpy-param-overlap)
     - memcpy /src/llvm-project/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_memintrinsics.inc:115:5
     - FT_Stream_TryRead /src/ghostpdl/freetype/src/base/ftstream.c:181:7
     - bdf_readstream_ /src/ghostpdl/freetype/src/bdf/bdflib.c:558:29
@@ -40,8 +39,8 @@ The sanitizer detected a memcpy param overlap vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x5310000f2a78 is located 8824 bytes inside of 65584-byte region [0x5310000f0800,0x531000100830)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x5310000f2a78 is located 8824 bytes inside of 65584-byte region [0x5310000f0800,0x531000100830)
+allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - gs_heap_alloc_bytes /src/ghostpdl/base/gsmalloc.c:192:34
     - chunk_obj_alloc /src/ghostpdl/base/gsmchunk.c:928:36
@@ -76,8 +75,8 @@ The sanitizer detected a memcpy param overlap vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x5310000f26b8 is located 7864 bytes inside of 65584-byte region [0x5310000f0800,0x531000100830)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x5310000f26b8 is located 7864 bytes inside of 65584-byte region [0x5310000f0800,0x531000100830)
+allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - gs_heap_alloc_bytes /src/ghostpdl/base/gsmalloc.c:192:34
     - chunk_obj_alloc /src/ghostpdl/base/gsmchunk.c:928:36

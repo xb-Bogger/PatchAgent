@@ -1,6 +1,6 @@
 The sanitizer detected a heap use after free vulnerability. The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 8 at 0x52d000093c80 thread T0[1m[0m
+READ of size 8 at 0x52d000093c80 thread T0
     - xps_image_enum_finalize /src/ghostpdl/devices/vector/gdevxps.c:2591:9
     - restore_finalize /src/ghostpdl/psi/isave.c:954:13
     - alloc_restore_step_in /src/ghostpdl/psi/isave.c:759:9
@@ -23,8 +23,8 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x52d000093c80 is located 30848 bytes inside of 32856-byte region [0x52d00008c400,0x52d000094458)
-[1m[0m[1m[35mfreed by thread T0 here:[1m[0m
+0x52d000093c80 is located 30848 bytes inside of 32856-byte region [0x52d00008c400,0x52d000094458)
+freed by thread T0 here:
     - free /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:52:3
     - chunk_mem_node_free_all_slabs /src/ghostpdl/base/gsmchunk.c:281:9
     - chunk_free_all /src/ghostpdl/base/gsmchunk.c:298:9
@@ -52,7 +52,7 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[35mpreviously allocated by thread T0 here:[1m[0m
+previously allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - gs_heap_alloc_bytes /src/ghostpdl/base/gsmalloc.c:192:34
     - chunk_obj_alloc /src/ghostpdl/base/gsmchunk.c:928:36

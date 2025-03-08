@@ -1,6 +1,6 @@
 The sanitizer detected a heap use after free vulnerability. The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 1 at 0x5080000124c8 thread T0[1m[0m
+READ of size 1 at 0x5080000124c8 thread T0
     - duckdb::LogicalType::id() const /src/duckdb/src/include/duckdb/common/types.hpp:401:10
     - duckdb::Planner::CreatePlan(duckdb::SQLStatement&) /src/duckdb/src/planner/planner.cpp:45:25
     - duckdb::Planner::CreatePlan(std::__1::unique_ptr<duckdb::SQLStatement, std::__1::default_delete<duckdb::SQLStatement>>) /src/duckdb/src/planner/planner.cpp:181:3
@@ -17,8 +17,8 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x5080000124c8 is located 40 bytes inside of 88-byte region [0x5080000124a0,0x5080000124f8)
-[1m[0m[1m[35mfreed by thread T0 here:[1m[0m
+0x5080000124c8 is located 40 bytes inside of 88-byte region [0x5080000124a0,0x5080000124f8)
+freed by thread T0 here:
     - operator delete(void*) /src/llvm-project/compiler-rt/lib/asan/asan_new_delete.cpp:143:3
     - std::__1::default_delete<duckdb::Expression>::operator()[abi:ne180100](duckdb::Expression*) const /usr/local/include/c++/v1/__memory/unique_ptr.h:66:5
     - std::__1::unique_ptr<duckdb::Expression, std::__1::default_delete<duckdb::Expression>>::reset[abi:ne180100](duckdb::Expression*) /usr/local/include/c++/v1/__memory/unique_ptr.h:266:7
@@ -49,7 +49,7 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[35mpreviously allocated by thread T0 here:[1m[0m
+previously allocated by thread T0 here:
     - operator new(unsigned long) /src/llvm-project/compiler-rt/lib/asan/asan_new_delete.cpp:86:3
     - std::__1::unique_ptr<duckdb::BoundParameterExpression, std::__1::default_delete<duckdb::BoundParameterExpression>> duckdb::make_unique<duckdb::BoundParameterExpression, unsigned long&>(unsigned long&) /src/duckdb/src/include/duckdb/common/helper.hpp:41:23
     - duckdb::ExpressionBinder::BindExpression(duckdb::ParameterExpression&, unsigned long) /src/duckdb/src/planner/binder/expression/bind_parameter_expression.cpp:9:25

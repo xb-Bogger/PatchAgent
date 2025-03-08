@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 1 at 0x502000000493 thread T0[1m[0m
+READ of size 1 at 0x502000000493 thread T0
     - exif_get_slong /src/libexif/libexif/exif-utils.c:137:36
     - exif_get_srational /src/libexif/libexif/exif-utils.c:181:24
     - mnote_apple_entry_get_value /src/libexif/libexif/apple/mnote-apple-entry.c:141:12
@@ -11,8 +11,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x502000000493 is located 2 bytes after 1-byte region [0x502000000490,0x502000000491)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x502000000493 is located 2 bytes after 1-byte region [0x502000000490,0x502000000491)
+allocated by thread T0 here:
     - calloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:75:3
     - exif_mnote_data_apple_load /src/libexif/libexif/apple/exif-mnote-data-apple.c:143:30
     - exif_data_load_data /src/libexif/libexif/exif-data.c:1010:2

@@ -1,6 +1,6 @@
 The sanitizer detected a stack buffer overflow vulnerability. The explanation of the vulnerability is: A function writes more data to a local stack variable than it can hold, overwriting adjacent memory and potentially leading to execution hijacking. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 8 at 0x7f96c2d73db0 thread T0[1m[0m
+READ of size 8 at 0x7f96c2d73db0 thread T0
     - asn1_decode_entry /src/opensc/src/libopensc/asn1.c:1588:18
     - asn1_decode /src/opensc/src/libopensc/asn1.c:1783:7
     - _sc_asn1_decode /src/opensc/src/libopensc/asn1.c:2091:9
@@ -31,13 +31,13 @@ The sanitizer detected a stack buffer overflow vulnerability. The explanation of
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32mAddress 0x7f96c2d73db0 is located in stack of thread T0 at offset 176 in frame[1m[0m
-[1m[0m    #0 0x55d02c41cbdf in asn1_decode_des_params /src/opensc/src/libopensc/pkcs15-algo.c:45
+Address 0x7f96c2d73db0 is located in stack of thread T0 at offset 176 in frame
+    - asn1_decode_des_params /src/opensc/src/libopensc/pkcs15-algo.c:45:0
 
   This frame has 3 object(s):
     [32, 112) 'asn1_des_iv' (line 46)
     [144, 152) 'iv' (line 47)
-    [176, 180) 'ivlen' (line 48)[1m[32m <== Memory access at offset 176 partially overflows this variable[1m[0m
+    [176, 180) 'ivlen' (line 48) <== Memory access at offset 176 partially overflows this variable
 HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
       (longjmp and C++ exceptions *are* supported)
 

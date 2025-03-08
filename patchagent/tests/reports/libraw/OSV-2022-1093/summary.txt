@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mWRITE of size 2 at 0x53300001b780 thread T0[1m[0m
+WRITE of size 2 at 0x53300001b780 thread T0
     - LibRaw::kodak_rgb_load_raw() /src/libraw/src/decoders/kodak_decoders.cpp:525:23
     - LibRaw::kodak_thumb_loader() /src/libraw/src/utils/thumb_utils.cpp:55:5
     - LibRaw::unpack_thumb() /src/libraw/src/decoders/unpack_thumb.cpp:52:7
@@ -10,8 +10,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x53300001b780 is located 0 bytes after 110464-byte region [0x533000000800,0x53300001b780)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x53300001b780 is located 0 bytes after 110464-byte region [0x533000000800,0x53300001b780)
+allocated by thread T0 here:
     - calloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:75:3
     - calloc /src/libraw/libraw/libraw_alloc.h:56:17
     - LibRaw::calloc(unsigned long, unsigned long) /src/libraw/src/utils/utils_libraw.cpp:254:20

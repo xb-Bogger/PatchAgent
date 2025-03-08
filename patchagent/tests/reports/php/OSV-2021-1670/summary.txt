@@ -1,6 +1,6 @@
 The sanitizer detected a dynamic stack buffer overflow vulnerability. The explanation of the vulnerability is: A dynamically allocated stack buffer is overflowed, leading to potential memory corruption or execution hijacking. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 4 at 0x7ffd173098a8 thread T0[1m[0m
+READ of size 4 at 0x7ffd173098a8 thread T0
     - zend_calc_live_ranges /src/php-src/Zend/zend_opcode.c:902:8
     - zend_compile_func_decl /src/php-src/Zend/zend_compile.c:7202:2
     - zend_compile_expr_inner /src/php-src/Zend/zend_compile.c:10123:4
@@ -23,7 +23,7 @@ The sanitizer detected a dynamic stack buffer overflow vulnerability. The explan
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32mAddress 0x7ffd173098a8 is located in stack of thread T0[1m[0m
+Address 0x7ffd173098a8 is located in stack of thread T0
 
 To fix this issue, follow the advice below:
 

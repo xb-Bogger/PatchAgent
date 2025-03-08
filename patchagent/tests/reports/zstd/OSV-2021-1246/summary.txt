@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mWRITE of size 1 at 0x51b00000061f thread T0[1m[0m
+WRITE of size 1 at 0x51b00000061f thread T0
     - FSE_writeNCount_generic /src/zstd/lib/compress/fse_compress.c:317:12
     - ZSTD_buildCTable /src/zstd/lib/compress/zstd_compress_sequences.c:280:39
     - ZSTD_buildSequencesStatistics /src/zstd/lib/compress/zstd_compress.c:2516:38
@@ -17,8 +17,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x51b00000061f is located 0 bytes after 1439-byte region [0x51b000000080,0x51b00000061f)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x51b00000061f is located 0 bytes after 1439-byte region [0x51b000000080,0x51b00000061f)
+allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - FUZZ_malloc /src/zstd/tests/fuzz/fuzz_helpers.c:19:27
     - LLVMFuzzerTestOneInput /src/zstd/tests/fuzz/simple_compress.c:45:18

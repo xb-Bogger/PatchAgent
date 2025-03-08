@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 1 at 0x5020000005b1 thread T0[1m[0m
+READ of size 1 at 0x5020000005b1 thread T0
     - iasecc_parse_size /src/opensc/src/libopensc/iasecc-sdo.c:392:6
     - iasecc_parse_get_tlv /src/opensc/src/libopensc/iasecc-sdo.c:427:13
     - iasecc_parse_docp /src/opensc/src/libopensc/iasecc-sdo.c:589:8
@@ -23,8 +23,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x5020000005b1 is located 0 bytes after 1-byte region [0x5020000005b0,0x5020000005b1)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x5020000005b1 is located 0 bytes after 1-byte region [0x5020000005b0,0x5020000005b1)
+allocated by thread T0 here:
     - calloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:75:3
     - iasecc_parse_get_tlv /src/opensc/src/libopensc/iasecc-sdo.c:430:15
     - iasecc_sdo_parse_data /src/opensc/src/libopensc/iasecc-sdo.c:653:13

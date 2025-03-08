@@ -1,6 +1,6 @@
 The sanitizer detected a heap use after free vulnerability. The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 1 at 0x52e00000c450 thread T0[1m[0m
+READ of size 1 at 0x52e00000c450 thread T0
     - FT_Stream_ReadULong /src/ghostpdl/freetype/src/base/ftstream.c:655:18
     - sfnt_open_font /src/ghostpdl/freetype/src/sfnt/sfobjs.c:380:10
     - sfnt_init_face /src/ghostpdl/freetype/src/sfnt/sfobjs.c:552:13
@@ -40,8 +40,8 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x52e00000c450 is located 80 bytes inside of 44336-byte region [0x52e00000c400,0x52e000017130)
-[1m[0m[1m[35mfreed by thread T0 here:[1m[0m
+0x52e00000c450 is located 80 bytes inside of 44336-byte region [0x52e00000c400,0x52e000017130)
+freed by thread T0 here:
     - free /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:52:3
     - FF_free /src/ghostpdl/base/fapi_ft.c:162:5
     - gs_fapi_ft_get_scaled_font /src/ghostpdl/base/fapi_ft.c:1347:17
@@ -77,7 +77,7 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[35mpreviously allocated by thread T0 here:[1m[0m
+previously allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - gs_heap_alloc_bytes /src/ghostpdl/base/gsmalloc.c:192:34
     - chunk_obj_alloc /src/ghostpdl/base/gsmchunk.c:807:35

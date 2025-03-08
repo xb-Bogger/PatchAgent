@@ -1,6 +1,6 @@
 The sanitizer detected a heap use after free vulnerability. The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 8 at 0x506000008e18 thread T0[1m[0m
+READ of size 8 at 0x506000008e18 thread T0
     - xps_tifsSeekProc /src/ghostpdl/devices/vector/gdevxps.c:2411:28
     - TIFFRewriteDirectory /src/ghostpdl/tiff/libtiff/tif_dirwrite.c:295:4
     - TIFFFlush /src/ghostpdl/tiff/libtiff/tif_flush.c:53:13
@@ -36,8 +36,8 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x506000008e18 is located 56 bytes inside of 64-byte region [0x506000008de0,0x506000008e20)
-[1m[0m[1m[35mfreed by thread T0 here:[1m[0m
+0x506000008e18 is located 56 bytes inside of 64-byte region [0x506000008de0,0x506000008e20)
+freed by thread T0 here:
     - free /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:52:3
     - tiff_client_release /src/ghostpdl/devices/vector/gdevxps.c:2581:5
     - xps_image_enum_finalize /src/ghostpdl/devices/vector/gdevxps.c:2592:9
@@ -71,7 +71,7 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[35mpreviously allocated by thread T0 here:[1m[0m
+previously allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - gs_heap_alloc_bytes /src/ghostpdl/base/gsmalloc.c:192:34
     - tiff_from_name /src/ghostpdl/devices/vector/gdevxps.c:2553:29

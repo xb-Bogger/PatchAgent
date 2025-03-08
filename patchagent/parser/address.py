@@ -7,8 +7,9 @@ from patchagent.parser.cwe import CWE, CWE_DESCRIPTIONS, CWE_REPAIR_ADVICE
 from patchagent.parser.sanitizer import Sanitizer, SanitizerReport
 from patchagent.parser.utils import guess_relpath
 
-AddressSanitizerPattern = r"(==[0-9]+==ERROR: AddressSanitizer: .*)SUMMARY: AddressSanitizer"
+AddressSanitizerPattern = r"(==[0-9]+==ERROR: AddressSanitizer: .*)"
 StackTracePattern = r"^\s*#(\d+)\s+(0x[\w\d]+)\s+in\s+(.+)\s+(/.*)\s*"
+ANSIEscape = re.compile(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])")
 
 cwe_pattern_map = {
     CWE.ILL: r"==[0-9]+==ERROR: AddressSanitizer: (ILL|illegal-instruction) on unknown address (0x[0-9a-f]+)*",
@@ -55,6 +56,7 @@ class AddressSanitizerReport(SanitizerReport):
 
     @staticmethod
     def parse(raw_content: str, source_path: Optional[Path] = None, work_path: Optional[Path] = None) -> Optional["AddressSanitizerReport"]:
+        raw_content = ANSIEscape.sub("", raw_content)
         match = re.search(AddressSanitizerPattern, raw_content, re.DOTALL)
         if match is None:
             return None
@@ -78,6 +80,9 @@ class AddressSanitizerReport(SanitizerReport):
                 stacktraces: List[List[Tuple[str, Path, int, int]]] = [[]]
                 current_count = -1
                 for line in old_body:
+                    if line.strip().startswith("SUMMARY:"):
+                        break
+
                     if line.strip().startswith("#"):
                         count = int(line.split()[0][1:])
                         if count == current_count + 1:

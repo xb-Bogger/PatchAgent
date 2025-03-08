@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 8 at 0x51d000003080 thread T0[1m[0m
+READ of size 8 at 0x51d000003080 thread T0
     - H5FS__sect_link_size /src/hdf5/src/H5FSsection.c:935:26
     - H5FS__sect_link /src/hdf5/src/H5FSsection.c:1074:9
     - H5FS_sect_add /src/hdf5/src/H5FSsection.c:1340:13
@@ -38,8 +38,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x51d000003080 is located 56 bytes after 1992-byte region [0x51d000002880,0x51d000003048)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x51d000003080 is located 56 bytes after 1992-byte region [0x51d000002880,0x51d000003048)
+allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - H5FL__malloc /src/hdf5/src/H5FL.c:203:30
     - H5FL_blk_malloc /src/hdf5/src/H5FL.c:765:48

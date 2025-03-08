@@ -1,6 +1,6 @@
 The sanitizer detected a stack buffer underflow vulnerability. The explanation of the vulnerability is: A program attempts to read data before the beginning of a stack buffer, leading to unintended behavior. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 8 at 0x7f3290a5b200 thread T0[1m[0m
+READ of size 8 at 0x7f3290a5b200 thread T0
     - CountVowelPosition /src/espeak-ng/src/libespeak-ng/synthdata.c:473:14
     - InterpretCondition /src/espeak-ng/src/libespeak-ng/synthdata.c:652:12
     - InterpretPhoneme /src/espeak-ng/src/libespeak-ng/synthdata.c:851:14
@@ -16,8 +16,8 @@ The sanitizer detected a stack buffer underflow vulnerability. The explanation o
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32mAddress 0x7f3290a5b200 is located in stack of thread T0 at offset 0 in frame[1m[0m
-[1m[0m    #0 0x56404b15643f in InterpretPhoneme2 /src/espeak-ng/src/libespeak-ng/synthdata.c:983
+Address 0x7f3290a5b200 is located in stack of thread T0 at offset 0 in frame
+    - InterpretPhoneme2 /src/espeak-ng/src/libespeak-ng/synthdata.c:983:0
 
   This frame has 1 object(s):
     [32, 192) 'plist' (line 986)

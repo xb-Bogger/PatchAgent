@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 1 at 0x5030000000cf thread T0[1m[0m
+READ of size 1 at 0x5030000000cf thread T0
     - AffixMgr::redundant_condition(char, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, int) /src/hunspell/src/hunspell/affixmgr.cxx:4825:29
     - AffixMgr::parse_affix(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, char, FileMgr*, char*) /src/hunspell/src/hunspell/affixmgr.cxx:4678:15
     - AffixMgr::parse_file(char const*, char const*) /src/hunspell/src/hunspell/affixmgr.cxx:692:12
@@ -13,8 +13,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x5030000000cf is located 1 bytes before 26-byte region [0x5030000000d0,0x5030000000ea)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x5030000000cf is located 1 bytes before 26-byte region [0x5030000000d0,0x5030000000ea)
+allocated by thread T0 here:
     - operator new(unsigned long) /src/llvm-project/compiler-rt/lib/asan/asan_new_delete.cpp:86:3
     - __libcpp_operator_new<unsigned long> /usr/local/include/c++/v1/new:271:10
     - __libcpp_allocate /usr/local/include/c++/v1/new:295:10

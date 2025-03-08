@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mWRITE of size 640 at 0x51f000001ae0 thread T0[1m[0m
+WRITE of size 640 at 0x51f000001ae0 thread T0
     - __asan_memcpy /src/llvm-project/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cpp:63:3
     - ih264d_fmt_conv_420sp_to_420p /src/libavc/decoder/ih264d_format_conv.c:611:13
     - ih264d_format_convert /src/libavc/decoder/ih264d_format_conv.c:724:9
@@ -12,8 +12,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x51f000001ae0 is located 0 bytes after 3168-byte region [0x51f000000e80,0x51f000001ae0)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x51f000001ae0 is located 0 bytes after 3168-byte region [0x51f000000e80,0x51f000001ae0)
+allocated by thread T0 here:
     - posix_memalign /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:142:3
     - iv_aligned_malloc /src/libavc/fuzzer/svc_dec_fuzzer.cpp:85:13
     - Codec::allocFrame() /src/libavc/fuzzer/svc_dec_fuzzer.cpp:308:48

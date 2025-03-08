@@ -1,6 +1,6 @@
 The sanitizer detected a heap use after free vulnerability. The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 1 at 0x50e0000076c8 thread T0[1m[0m
+READ of size 1 at 0x50e0000076c8 thread T0
     - on_body /src/h2o/lib/core/proxy.c:387:24
     - on_error /src/h2o/lib/common/http1client.c:120:9
     - on_whole_request_sent /src/h2o/lib/common/http1client.c:478:9
@@ -16,8 +16,8 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x50e0000076c8 is located 104 bytes inside of 160-byte region [0x50e000007660,0x50e000007700)
-[1m[0m[1m[35mfreed by thread T0 here:[1m[0m
+0x50e0000076c8 is located 104 bytes inside of 160-byte region [0x50e000007660,0x50e000007700)
+freed by thread T0 here:
     - free /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:52:3
     - h2o_mem_release_shared /src/h2o/include/h2o/memory.h:442:9
     - h2o_mem_clear_pool /src/h2o/lib/common/memory.c:142:13
@@ -37,7 +37,7 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[35mpreviously allocated by thread T0 here:[1m[0m
+previously allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - h2o_mem_alloc /src/h2o/include/h2o/memory.h:404:15
     - h2o_mem_alloc_shared /src/h2o/lib/common/memory.c:206:52

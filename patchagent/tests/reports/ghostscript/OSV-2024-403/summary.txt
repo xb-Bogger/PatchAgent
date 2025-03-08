@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 1 at 0x532000031790 thread T0[1m[0m
+READ of size 1 at 0x532000031790 thread T0
     - mem_planar_put_image_slow /src/ghostpdl/base/gdevmpla.c:350:22
     - pdf14_put_blended_image_cmykspot /src/ghostpdl/base/gdevp14.c:3431:16
     - pdf14_cmykspot_put_image /src/ghostpdl/base/gdevp14.c:3591:12

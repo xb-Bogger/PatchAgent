@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 1 at 0x511000000242 thread T8 (aom tile worker)[1m[0m
+READ of size 1 at 0x511000000242 thread T8 (aom tile worker)
     - od_ec_dec_refill /src/aom/aom_dsp/entdec.c:94:26
     - od_ec_dec_init /src/aom/aom_dsp/entdec.c:152:3
     - aom_reader_init /src/aom/aom_dsp/bitreader.c:20:3
@@ -11,8 +11,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - thread_loop /src/aom/aom_util/aom_thread.c:82:7
     - asan_thread_start(void*) /src/llvm-project/compiler-rt/lib/asan/asan_interceptors.cpp:239:28
 
-[1m[32m0x511000000242 is located 0 bytes after 194-byte region [0x511000000180,0x511000000242)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x511000000242 is located 0 bytes after 194-byte region [0x511000000180,0x511000000242)
+allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:327:6
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9

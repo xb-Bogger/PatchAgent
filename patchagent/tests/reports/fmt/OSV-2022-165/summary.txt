@@ -1,6 +1,6 @@
 The sanitizer detected a stack buffer overflow vulnerability. The explanation of the vulnerability is: A function writes more data to a local stack variable than it can hold, overwriting adjacent memory and potentially leading to execution hijacking. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 4 at 0x7fd5b31900d0 thread T0[1m[0m
+READ of size 4 at 0x7fd5b31900d0 thread T0
     - std::__1::pair<unsigned int*, unsigned int*> std::__1::__uninitialized_copy[abi:ne180100]<unsigned int, unsigned int*, unsigned int*, unsigned int*, std::__1::__always_false>(unsigned int*, unsigned int*, unsigned int*, std::__1::__always_false) /usr/local/include/c++/v1/__memory/uninitialized_algorithms.h:67:49
     - unsigned int* std::__1::uninitialized_copy[abi:ne180100]<unsigned int*, unsigned int*>(unsigned int*, unsigned int*, unsigned int*) /usr/local/include/c++/v1/__memory/uninitialized_algorithms.h:82:19
     - fmt::v8::basic_memory_buffer<unsigned int, 32ul, std::__1::allocator<unsigned int>>::grow(unsigned long) /src/fmt/include/fmt/format.h:795:3
@@ -26,11 +26,11 @@ The sanitizer detected a stack buffer overflow vulnerability. The explanation of
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32mAddress 0x7fd5b31900d0 is located in stack of thread T0 at offset 208 in frame[1m[0m
-[1m[0m    #0 0x5597a9be047f in fmt::v8::detail::format_dragon(fmt::v8::detail::fp, bool, int, fmt::v8::detail::buffer<char>&, int&) /src/fmt/include/fmt/format-inl.h:2111
+Address 0x7fd5b31900d0 is located in stack of thread T0 at offset 208 in frame
+    - fmt::v8::detail::format_dragon(fmt::v8::detail::fp, bool, int, fmt::v8::detail::buffer<char>&, int&) /src/fmt/include/fmt/format-inl.h:2111:0
 
   This frame has 4 object(s):
-    [32, 208) 'numerator' (line 2112)[1m[32m <== Memory access at offset 208 overflows this variable[1m[0m
+    [32, 208) 'numerator' (line 2112) <== Memory access at offset 208 overflows this variable
     [272, 448) 'denominator' (line 2113)
     [512, 688) 'lower' (line 2115)
     [752, 928) 'upper_store' (line 2116)

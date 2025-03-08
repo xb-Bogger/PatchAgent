@@ -1,6 +1,6 @@
 The sanitizer detected a global buffer overflow vulnerability. The explanation of the vulnerability is: A buffer overflow occurs in globally allocated memory, leading to memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 1 at 0x55672f4eeb09 thread T0[1m[0m
+READ of size 1 at 0x55672f4eeb09 thread T0
     - GetSsmlAttribute /src/espeak-ng/src/libespeak-ng/ssml.c:289:18
     - GetVoiceAttributes /src/espeak-ng/src/libespeak-ng/ssml.c:339:10
     - ProcessSsmlTag /src/espeak-ng/src/libespeak-ng/ssml.c:935:24
@@ -15,12 +15,12 @@ The sanitizer detected a global buffer overflow vulnerability. The explanation o
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x55672f4eeb09 is located 55 bytes before global variable '.str.105' defined in 'src/libespeak-ng/ssml.c' (0x55672f4eeb40) of size 4
-[1m[0m  '.str.105' is ascii string 'age'
-[1m[32m0x55672f4eeb09 is located 23 bytes before global variable '.str.104' defined in 'src/libespeak-ng/ssml.c' (0x55672f4eeb20) of size 8
-[1m[0m  '.str.104' is ascii string 'variant'
-[1m[32m0x55672f4eeb09 is located 0 bytes after global variable '.str.103' defined in 'src/libespeak-ng/ssml.c' (0x55672f4eeb00) of size 9
-[1m[0m  '.str.103' is ascii string 'xml:lang'
+0x55672f4eeb09 is located 55 bytes before global variable '.str.105' defined in 'src/libespeak-ng/ssml.c' (0x55672f4eeb40) of size 4
+  '.str.105' is ascii string 'age'
+0x55672f4eeb09 is located 23 bytes before global variable '.str.104' defined in 'src/libespeak-ng/ssml.c' (0x55672f4eeb20) of size 8
+  '.str.104' is ascii string 'variant'
+0x55672f4eeb09 is located 0 bytes after global variable '.str.103' defined in 'src/libespeak-ng/ssml.c' (0x55672f4eeb00) of size 9
+  '.str.103' is ascii string 'xml:lang'
 
 To fix this issue, follow the advice below:
 

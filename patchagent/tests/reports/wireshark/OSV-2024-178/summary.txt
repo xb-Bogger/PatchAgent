@@ -1,6 +1,6 @@
 The sanitizer detected a global buffer overflow vulnerability. The explanation of the vulnerability is: A buffer overflow occurs in globally allocated memory, leading to memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mWRITE of size 4 at 0x000010796e00 thread T0[1m[0m
+WRITE of size 4 at 0x000010796e00 thread T0
     - add_rr_to_tree /src/wireshark/epan/dissectors/packet-dns.c:1981:54
     - dissect_dns_answer /src/wireshark/epan/dissectors/packet-dns.c:2358:5
     - dissect_answer_records /src/wireshark/epan/dissectors/packet-dns.c:4438:15
@@ -25,8 +25,7 @@ The sanitizer detected a global buffer overflow vulnerability. The explanation o
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x000010796e00 is located 0 bytes after global variable 'dns_qr_r_ra_ttls' defined in '/src/wireshark/epan/dissectors/packet-dns.c:190' (0x10792e00) of size 16384
-[1m[0m
+0x000010796e00 is located 0 bytes after global variable 'dns_qr_r_ra_ttls' defined in '/src/wireshark/epan/dissectors/packet-dns.c:190' (0x10792e00) of size 16384
 
 To fix this issue, follow the advice below:
 

@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 65487 at 0x531000038a20 thread T0[1m[0m
+READ of size 65487 at 0x531000038a20 thread T0
     - StrstrCheck(void*, char*, char const*, char const*) /src/llvm-project/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors.inc:584:5
     - strstr /src/llvm-project/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors.inc:601:5
     - set_data /src/libgit2/src/libgit2/transports/smart_pkt.c:234:26
@@ -16,8 +16,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x531000038a20 is located 0 bytes after 66080-byte region [0x531000028800,0x531000038a20)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x531000038a20 is located 0 bytes after 66080-byte region [0x531000028800,0x531000038a20)
+allocated by thread T0 here:
     - calloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:75:3
     - stdalloc__calloc /src/libgit2/src/util/allocators/stdalloc.c:42:8
     - git_transport_smart /src/libgit2/src/libgit2/transports/smart.c:480:6

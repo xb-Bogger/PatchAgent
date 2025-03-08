@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 1 at 0x5310001b38b6 thread T0[1m[0m
+READ of size 1 at 0x5310001b38b6 thread T0
     - pdfi_cidtype2_get_glyph_index /src/ghostpdl/pdf/pdf_font11.c:73:23
     - gs_type42_glyph_info /src/ghostpdl/base/gstype42.c:1425:23
     - pdfi_cidtype2_glyph_info /src/ghostpdl/pdf/pdf_font11.c:90:12

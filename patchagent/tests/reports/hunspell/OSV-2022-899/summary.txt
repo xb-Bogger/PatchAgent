@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 7 at 0x5040000000b8 thread T0[1m[0m
+READ of size 7 at 0x5040000000b8 thread T0
     - strlen /src/llvm-project/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors.inc:391:5
     - PfxEntry::add(char const*, unsigned long) /src/hunspell/src/hunspell/affentry.cxx:105:12
     - AffixMgr::expand_rootword(guessword*, int, char const*, int, unsigned short const*, unsigned short, char const*, int, char const*) /src/hunspell/src/hunspell/affixmgr.cxx:3484:36
@@ -15,8 +15,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x5040000000b8 is located 0 bytes after 40-byte region [0x504000000090,0x5040000000b8)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x5040000000b8 is located 0 bytes after 40-byte region [0x504000000090,0x5040000000b8)
+allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - HashMgr::add_word(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, int, unsigned short*, int, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const*, bool, int) /src/hunspell/src/hunspell/hashmgr.cxx:229:23
     - HashMgr::load_tables(char const*, char const*) /src/hunspell/src/hunspell/hashmgr.cxx:685:9

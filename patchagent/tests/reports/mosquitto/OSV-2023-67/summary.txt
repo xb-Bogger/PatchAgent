@@ -1,6 +1,6 @@
 The sanitizer detected a heap use after free vulnerability. The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 8 at 0x502000001010 thread T0[1m[0m
+READ of size 8 at 0x502000001010 thread T0
     - config__cleanup /src/mosquitto/src/conf.c:401:5
     - mosquitto_fuzz_main /src/mosquitto/src/mosquitto.c:359:3
     - run_broker(char*) /src/mosquitto/fuzzing/broker/broker_fuzz_test_config.cpp:42:2
@@ -10,8 +10,8 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x502000001010 is located 0 bytes inside of 8-byte region [0x502000001010,0x502000001018)
-[1m[0m[1m[35mfreed by thread T0 here:[1m[0m
+0x502000001010 is located 0 bytes inside of 8-byte region [0x502000001010,0x502000001018)
+freed by thread T0 here:
     - realloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:82:3
     - mosquitto__realloc /src/mosquitto/lib/memory_mosq.c:130:8
     - config__read_file_core /src/mosquitto/src/conf.c:2439:19
@@ -26,7 +26,7 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[35mpreviously allocated by thread T0 here:[1m[0m
+previously allocated by thread T0 here:
     - realloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:82:3
     - mosquitto__realloc /src/mosquitto/lib/memory_mosq.c:130:8
     - config__read_file_core /src/mosquitto/src/conf.c:2439:19

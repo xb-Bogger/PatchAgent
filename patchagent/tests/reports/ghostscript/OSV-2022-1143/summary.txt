@@ -1,6 +1,6 @@
 The sanitizer detected a segv on unknown address vulnerability. The explanation of the vulnerability is: The program attempted to access an invalid or unallocated memory address, leading to a segmentation fault. Here is the detail: 
 
-[1m[0mThe signal is caused by a READ memory access.
+The signal is caused by a READ memory access.
     - Ins_MSIRP /src/ghostpdl/base/ttinterp.c:3652:0
     - RunIns /src/ghostpdl/base/ttinterp.c:5084:7
     - Instance_Reset /src/ghostpdl/base/ttobjs.c:831:15

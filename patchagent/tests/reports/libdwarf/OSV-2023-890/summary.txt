@@ -1,6 +1,6 @@
 The sanitizer detected a heap use after free vulnerability. The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 2 at 0x51000000084a thread T0[1m[0m
+READ of size 2 at 0x51000000084a thread T0
     - dwarf_dealloc /src/libdwarf/src/lib/libdwarf/dwarf_alloc.c:872:33
     - _dwarf_fde_destructor /src/libdwarf/src/lib/libdwarf/dwarf_frame.c:3014:9
     - tdestroy_free_node /src/libdwarf/src/lib/libdwarf/dwarf_alloc.c:525:9
@@ -13,8 +13,8 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x51000000084a is located 10 bytes inside of 184-byte region [0x510000000840,0x5100000008f8)
-[1m[0m[1m[35mfreed by thread T0 here:[1m[0m
+0x51000000084a is located 10 bytes inside of 184-byte region [0x510000000840,0x5100000008f8)
+freed by thread T0 here:
     - free /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:52:3
     - _dwarf_tdestroy_inner /src/libdwarf/src/lib/libdwarf/dwarf_tsearchhash.c:672:17
     - _dwarf_tdestroy /src/libdwarf/src/lib/libdwarf/dwarf_tsearchhash.c:705:5
@@ -25,7 +25,7 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[35mpreviously allocated by thread T0 here:[1m[0m
+previously allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - _dwarf_get_alloc /src/libdwarf/src/lib/libdwarf/dwarf_alloc.c:608:17
     - _dwarf_create_cie_from_after_start /src/libdwarf/src/lib/libdwarf/dwarf_frame2.c:964:27

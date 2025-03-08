@@ -1,6 +1,6 @@
 The sanitizer detected a stack buffer overflow vulnerability. The explanation of the vulnerability is: A function writes more data to a local stack variable than it can hold, overwriting adjacent memory and potentially leading to execution hijacking. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 1 at 0x7f0152c96e38 thread T0[1m[0m
+READ of size 1 at 0x7f0152c96e38 thread T0
     - AffixMgr::suffix_check(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, int, int, int, PfxEntry*, unsigned short, unsigned short, char) /src/hunspell/src/hunspell/affixmgr.cxx:2786:22
     - AffixMgr::affix_check(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, int, int, unsigned short, char) /src/hunspell/src/hunspell/affixmgr.cxx:3133:8
     - AffixMgr::compound_check(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, short, short, short, short, hentry**, hentry**, char, char, int*) /src/hunspell/src/hunspell/affixmgr.cxx:2130:29
@@ -16,8 +16,8 @@ The sanitizer detected a stack buffer overflow vulnerability. The explanation of
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32mAddress 0x7f0152c96e38 is located in stack of thread T0 at offset 568 in frame[1m[0m
-[1m[0m    #0 0x56032f15f8ff in AffixMgr::compound_check(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, short, short, short, short, hentry**, hentry**, char, char, int*) /src/hunspell/src/hunspell/affixmgr.cxx:1581
+Address 0x7f0152c96e38 is located in stack of thread T0 at offset 568 in frame
+    - AffixMgr::compound_check(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, short, short, short, short, hentry**, hentry**, char, char, int*) /src/hunspell/src/hunspell/affixmgr.cxx:1581:0
 
   This frame has 9 object(s):
     [32, 56) 'st' (line 1585)
@@ -28,7 +28,7 @@ The sanitizer detected a stack buffer overflow vulnerability. The explanation of
     [352, 376) 'ref.tmp1622' (line 2026)
     [416, 440) 'tmp' (line 2031)
     [480, 504) 'ref.tmp1667' (line 2040)
-    [544, 568) 'ref.tmp1799' (line 2091)[1m[32m <== Memory access at offset 568 overflows this variable[1m[0m
+    [544, 568) 'ref.tmp1799' (line 2091) <== Memory access at offset 568 overflows this variable
 HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
       (longjmp and C++ exceptions *are* supported)
 

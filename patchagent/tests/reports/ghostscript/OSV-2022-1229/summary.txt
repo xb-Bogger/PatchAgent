@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mWRITE of size 980 at 0x7f022e589578 thread T0[1m[0m
+WRITE of size 980 at 0x7f022e589578 thread T0
     - memset /src/llvm-project/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_memintrinsics.inc:87:3
     - bits_fill_rectangle /src/ghostpdl/base/gsbitops.c:121:25
     - mem_mono_fill_rectangle /src/ghostpdl/base/gdevm1.c:486:5
@@ -24,8 +24,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x7f022e589578 is located 0 bytes after 200056-byte region [0x7f022e558800,0x7f022e589578)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x7f022e589578 is located 0 bytes after 200056-byte region [0x7f022e558800,0x7f022e589578)
+allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - gs_heap_alloc_bytes /src/ghostpdl/base/gsmalloc.c:192:34
     - gs_heap_alloc_byte_array /src/ghostpdl/base/gsmalloc.c:251:12

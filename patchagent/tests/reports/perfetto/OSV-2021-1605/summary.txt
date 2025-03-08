@@ -1,6 +1,6 @@
 The sanitizer detected a heap use after free vulnerability. The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks. Here is the detail: 
 
-[1m[0m[1m[34mREAD of size 8 at 0x7f69cc54b7e0 thread T0[1m[0m
+READ of size 8 at 0x7f69cc54b7e0 thread T0
     - size /usr/local/include/c++/v1/vector:595:41
     - perfetto::trace_processor::SliceTracker::GetStackHash(std::__1::vector<perfetto::trace_processor::SliceTracker::SliceInfo, std::__1::allocator<perfetto::trace_processor::SliceTracker::SliceInfo>> const&) /src/perfetto/src/trace_processor/importers/common/slice_tracker.cc:361:32
     - perfetto::trace_processor::SliceTracker::StartSlice(long, perfetto::trace_processor::tables::TrackTable::DefinedId, std::__1::function<void (perfetto::trace_processor::ArgsTracker::BoundInserter*)>, std::__1::function<perfetto::trace_processor::tables::SliceTable::DefinedId ()>) /src/perfetto/src/trace_processor/importers/common/slice_tracker.cc:173:46
@@ -14,8 +14,8 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x7f69cc54b7e0 is located 245728 bytes inside of 327680-byte region [0x7f69cc50f800,0x7f69cc55f800)
-[1m[0m[1m[35mfreed by thread T0 here:[1m[0m
+0x7f69cc54b7e0 is located 245728 bytes inside of 327680-byte region [0x7f69cc50f800,0x7f69cc55f800)
+freed by thread T0 here:
     - free /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:52:3
     - operator() /src/perfetto/include/perfetto/ext/base/utils.h:147:42
     - reset /usr/local/include/c++/v1/__memory/unique_ptr.h:445:7
@@ -35,7 +35,7 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[35mpreviously allocated by thread T0 here:[1m[0m
+previously allocated by thread T0 here:
     - posix_memalign /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:142:3
     - perfetto::base::AlignedAlloc(unsigned long, unsigned long) /src/perfetto/src/base/utils.cc:255:17
     - AlignedAllocTyped<perfetto::trace_processor::SliceTracker::TrackInfo[]> /src/perfetto/include/perfetto/ext/base/utils.h:161:24

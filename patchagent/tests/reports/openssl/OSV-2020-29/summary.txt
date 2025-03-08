@@ -1,6 +1,6 @@
 The sanitizer detected a heap use after free vulnerability. The explanation of the vulnerability is: Memory is accessed after it has been freed, leading to undefined behavior and security risks. Here is the detail: 
 
-[1m[0m[1m[34mWRITE of size 4 at 0x50f00002b580 thread T0[1m[0m
+WRITE of size 4 at 0x50f00002b580 thread T0
     - CRYPTO_DOWN_REF /src/openssl/include/internal/refcount.h:51:12
     - DH_free /src/openssl/crypto/dh/dh_lib.c:128:5
     - evp_pkey_free_it /src/openssl/crypto/evp/p_lib.c:878:9
@@ -17,8 +17,8 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x50f00002b580 is located 112 bytes inside of 176-byte region [0x50f00002b510,0x50f00002b5c0)
-[1m[0m[1m[35mfreed by thread T0 here:[1m[0m
+0x50f00002b580 is located 112 bytes inside of 176-byte region [0x50f00002b510,0x50f00002b5c0)
+freed by thread T0 here:
     - free /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:52:3
     - tls_process_ske_dhe /src/openssl/ssl/statem/statem_clnt.c:2179:5
     - tls_process_key_exchange /src/openssl/ssl/statem/statem_clnt.c:2288:14
@@ -32,7 +32,7 @@ The sanitizer detected a heap use after free vulnerability. The explanation of t
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[35mpreviously allocated by thread T0 here:[1m[0m
+previously allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - CRYPTO_malloc /src/openssl/crypto/mem.c:184:12
     - CRYPTO_zalloc /src/openssl/crypto/mem.c:191:11

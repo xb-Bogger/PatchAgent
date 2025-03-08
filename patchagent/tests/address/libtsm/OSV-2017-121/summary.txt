@@ -15,7 +15,7 @@ READ of size 1 at 0x5560aba55590 thread T0
 0x5560aba55590 is located 16 bytes before global variable '__func__.do_esc' defined in 'src/tsm/tsm-vte.c' (0x5560aba555a0) of size 7
   '__func__.do_esc' is ascii string 'do_esc'
 0x5560aba55590 is located 0 bytes after global variable '.str.130' defined in 'src/tsm/tsm-vte.c' (0x5560aba55580) of size 16
-  '.str.130' is ascii string '[?60;1;6;9;15c'
+  '.str.130' is ascii string ''
 
 To fix this issue, follow the advice below:
 

@@ -1,6 +1,5 @@
 The sanitizer detected a memcpy param overlap vulnerability. The explanation of the vulnerability is: The source and destination buffers of a memory copy operation overlap, causing data corruption. Here is the detail: 
 
-[1m[0mSCARINESS: 10 (memcpy-param-overlap)
     - memcpy /src/llvm-project/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_memintrinsics.inc:115:5
     - pdfi_copy_truetype_font /src/ghostpdl/pdf/pdf_fontTT.c:726:9
     - pdfi_copy_font /src/ghostpdl/pdf/pdf_font.c:644:18
@@ -31,15 +30,15 @@ The sanitizer detected a memcpy param overlap vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x52d000066d18 is located 10520 bytes inside of 32856-byte region [0x52d000064400,0x52d00006c458)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x52d000066d18 is located 10520 bytes inside of 32856-byte region [0x52d000064400,0x52d00006c458)
+allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - gs_heap_alloc_bytes /src/ghostpdl/base/gsmalloc.c:192:34
     - chunk_obj_alloc /src/ghostpdl/base/gsmchunk.c:928:36
     - s_zlib_alloc /src/ghostpdl/base/szlibc.c:88:9
 
-[1m[32m0x52d000066318 is located 7960 bytes inside of 32856-byte region [0x52d000064400,0x52d00006c458)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x52d000066318 is located 7960 bytes inside of 32856-byte region [0x52d000064400,0x52d00006c458)
+allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - gs_heap_alloc_bytes /src/ghostpdl/base/gsmalloc.c:192:34
     - chunk_obj_alloc /src/ghostpdl/base/gsmchunk.c:928:36

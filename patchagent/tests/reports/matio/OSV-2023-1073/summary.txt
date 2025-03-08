@@ -1,6 +1,6 @@
 The sanitizer detected a heap buffer overflow vulnerability. The explanation of the vulnerability is: The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes. Here is the detail: 
 
-[1m[0m[1m[34mWRITE of size 200 at 0x503000008e44 thread T0[1m[0m
+WRITE of size 200 at 0x503000008e44 thread T0
     - __asan_memcpy /src/llvm-project/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cpp:63:3
     - H5D__scatter_mem /src/hdf5/src/H5Dscatgath.c:333:13
     - H5D__scatgath_read /src/hdf5/src/H5Dscatgath.c:597:21
@@ -21,8 +21,8 @@ The sanitizer detected a heap buffer overflow vulnerability. The explanation of 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-[1m[32m0x503000008e44 is located 0 bytes after 20-byte region [0x503000008e30,0x503000008e44)
-[1m[0m[1m[35mallocated by thread T0 here:[1m[0m
+0x503000008e44 is located 0 bytes after 20-byte region [0x503000008e30,0x503000008e44)
+allocated by thread T0 here:
     - malloc /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:68:3
     - Mat_VarRead73 /src/matio/src/mat73.c:2838:55
     - ReadData /src/matio/src/mat.c:112:16
