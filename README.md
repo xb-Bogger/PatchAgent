@@ -49,8 +49,8 @@ cp .env.template .env
 PatchAgent can be used to repair real-world bugs. Here's a simple example to repair an OSS-Fuzz issue:
 
 ```python
+from patchagent.agent.generator import agent_generator
 from patchagent.builder import OSSFuzzBuilder
-from patchagent.agent.generator import generic_agent_generator
 from patchagent.task import PatchTask
 
 # Initialize the task with a crash reproduction
@@ -65,7 +65,7 @@ patchtask = PatchTask(
 )
 
 # Run the repair process
-patchtask.repair(generic_agent_generator(patchtask))
+patchtask.repair(agent_generator(patchtask))
 ```
 
 ## 🛠️ Development Setup
