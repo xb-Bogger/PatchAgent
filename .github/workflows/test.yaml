@@ -1,4 +1,4 @@
-name: Test Parser
+name: Basic Test
 
 on:
   push:
@@ -21,5 +21,8 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run ASAN Parser Test
-        run: python -m patchagent.tests.test_parser
+      - name: Run Sanitizer Parser Test
+        run: python -m patchagent.tests.test_parser 
+      
+      - name: Run CWE Test
+        run: python -m patchagent.tests.test_cwe
