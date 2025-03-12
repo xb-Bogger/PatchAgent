@@ -1,0 +1,43 @@
+INFO:__main__:Running: docker run --privileged --shm-size=2g --platform linux/amd64 --rm -i -e HELPER=True -e ARCHITECTURE=x86_64 -v /mnt/data0/zf1025/AICC/oss-fuzz/build/out/libvpx:/out -v /mnt/data0/zf1025/AICC/oss-patch-build/libvpx/OSV-2022-533/poc.bin:/testcase -t gcr.io/oss-fuzz-base/base-runner reproduce vpx_dec_fuzzer_vp9 -runs=100.
++ FUZZER=vpx_dec_fuzzer_vp9
++ shift
++ '[' '!' -v TESTCASE ']'
++ TESTCASE=/testcase
++ '[' '!' -f /testcase ']'
++ export RUN_FUZZER_MODE=interactive
++ RUN_FUZZER_MODE=interactive
++ export FUZZING_ENGINE=libfuzzer
++ FUZZING_ENGINE=libfuzzer
++ export SKIP_SEED_CORPUS=1
++ SKIP_SEED_CORPUS=1
++ run_fuzzer vpx_dec_fuzzer_vp9 -runs=100 /testcase
+vm.mmap_rnd_bits = 28
+/out/vpx_dec_fuzzer_vp9 -rss_limit_mb=2560 -timeout=25 -runs=100 /testcase -dict=vpx_dec_fuzzer_vp9.dict < /dev/null
+Dictionary: 3 entries
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 1294975004
+INFO: Loaded 1 modules   (9024 inline 8-bit counters): 9024 [0x555af0c2e750, 0x555af0c30a90), 
+INFO: Loaded 1 PC tables (9024 PCs): 9024 [0x555af0c30a90,0x555af0c53e90), 
+/out/vpx_dec_fuzzer_vp9: Running 1 inputs 100 time(s) each.
+Running: /testcase
+MemorySanitizer: bad pointer 0x808080808080808
+MemorySanitizer: CHECK failed: sanitizer_allocator_secondary.h:177 "((IsAligned(reinterpret_cast<uptr>(p), page_size_))) != (0)" (0x0, 0x0) (tid=14)
+    #0 0x555af07ca409 in CheckUnwind() /src/llvm-project/compiler-rt/lib/msan/msan.cpp:431:3
+    #1 0x555af07b4d12 in __sanitizer::CheckFailed(char const*, int, char const*, unsigned long long, unsigned long long) /src/llvm-project/compiler-rt/lib/sanitizer_common/sanitizer_termination.cpp:86:5
+    #2 0x555af07cbb3f in GetMetaData /src/llvm-project/compiler-rt/lib/msan/../sanitizer_common/sanitizer_allocator_secondary.h
+    #3 0x555af07cbb3f in __sanitizer::CombinedAllocator<__sanitizer::SizeClassAllocator64<__msan::AP64>, __sanitizer::LargeMmapAllocatorPtrArrayDynamic>::GetMetaData(void const*) /src/llvm-project/compiler-rt/lib/msan/../sanitizer_common/sanitizer_allocator_combined.h:126:23
+    #4 0x555af07cb848 in __msan::MsanDeallocate(__sanitizer::BufferedStackTrace*, void*) /src/llvm-project/compiler-rt/lib/msan/msan_allocator.cpp:243:59
+    #5 0x555af07d0cbb in free /src/llvm-project/compiler-rt/lib/msan/msan_interceptors.cpp:219:3
+    #6 0x555af08cea5f in vp9_loop_filter_dealloc /src/libvpx/vp9/common/vp9_thread_common.c:384:3
+    #7 0x555af087e2e6 in vp9_decoder_remove /src/libvpx/vp9/decoder/vp9_decoder.c:233:5
+    #8 0x555af0839bbd in decoder_destroy /src/libvpx/vp9/vp9_dx_iface.c:61:5
+    #9 0x555af0838fe1 in vpx_codec_destroy /src/libvpx/vpx/src/vpx_codec.c:73:5
+    #10 0x555af0837699 in LLVMFuzzerTestOneInput /src/libvpx/examples/vpx_dec_fuzzer.cc:123:3
+    #11 0x555af072d170 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:614:13
+    #12 0x555af07183e5 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:327:6
+    #13 0x555af071de7f in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
+    #14 0x555af0749122 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
+    #15 0x7f37df4c4082 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x24082) (BuildId: 0323ab4806bee6f846d9ad4bccfc29afdca49a58)
+    #16 0x555af07105cd in _start (/out/vpx_dec_fuzzer_vp9+0x795cd)
+
+DEDUP_TOKEN: CheckUnwind()--__sanitizer::CheckFailed(char const*, int, char const*, unsigned long long, unsigned long long)--GetMetaData
