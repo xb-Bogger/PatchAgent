@@ -19,7 +19,7 @@ from patchagent.agent.clike.proxy.default import (
     create_validate_tool,
     create_viewcode_tool,
 )
-from patchagent.agent.utils import construct_chat_openai
+from patchagent.agent.utils import construct_chat_llm
 from patchagent.context import Context
 from patchagent.logger import log
 from patchagent.task import PatchTask
@@ -46,7 +46,7 @@ class CommonCLikeAgent(BaseAgent):
         self.max_iterations = max_iterations
         self.counterexamples = self.get_counterexamples()
 
-        self.llm = construct_chat_openai(
+        self.llm = construct_chat_llm(
             temperature=self.temperature,
             model=self.model,
         )

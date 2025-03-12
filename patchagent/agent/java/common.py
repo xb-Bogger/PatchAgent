@@ -18,7 +18,7 @@ from patchagent.agent.java.proxy.default import (
     create_validate_tool,
     create_viewcode_tool,
 )
-from patchagent.agent.utils import construct_chat_openai
+from patchagent.agent.utils import construct_chat_llm
 from patchagent.context import Context
 from patchagent.logger import log
 from patchagent.task import PatchTask
@@ -45,7 +45,7 @@ class CommonJavaAgent(BaseAgent):
         self.max_iterations = max_iterations
         self.counterexamples = self.get_counterexamples()
 
-        self.llm = construct_chat_openai(temperature=self.temperature, model=self.model)
+        self.llm = construct_chat_llm(temperature=self.temperature, model=self.model)
 
     def setup(self, context: Context):
         lc_tools = [
