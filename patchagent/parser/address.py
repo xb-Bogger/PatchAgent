@@ -14,6 +14,7 @@ ANSIEscape = re.compile(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])")
 cwe_pattern_map = {
     CWE.ILL: r"==[0-9]+==ERROR: AddressSanitizer: (ILL|illegal-instruction) on unknown address (0x[0-9a-f]+)*",
     CWE.ABORT: r"==[0-9]+==ERROR: AddressSanitizer: ABRT on unknown address (0x[0-9a-f]+)*",
+    CWE.FPE: r"==[0-9]+==ERROR: AddressSanitizer: FPE on unknown address (0x[0-9a-f]+)*",
     CWE.Null_dereference: r"==[0-9]+==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000[0-9a-f]+",
     CWE.Segv_on_unknown_address: r"==[0-9]+==ERROR: AddressSanitizer: SEGV on unknown address (0x[0-9a-f]+)*",
     CWE.Heap_buffer_overflow: r"==[0-9]+==ERROR: AddressSanitizer: heap-buffer-overflow on address (0x[0-9a-f]+)*",
@@ -95,6 +96,17 @@ class AddressSanitizerReport(SanitizerReport):
                         if (match := re.search(StackTracePattern, line)) is not None:
                             function_name = match.group(3)
                             entries = match.group(4).split(":")
+
+                            # NOTE: Here is an example of the entries list length may be greater than 3
+                            # - /usr/src/zlib-1:1.3.dfsg-3.1ubuntu2/inflate.c:429:9
+                            # - /usr/src/zlib-1:1.3.dfsg-3.1ubuntu2/inflate.c:1279:13
+                            while len(entries) > 3 or (len(entries) > 1 and any(not c.isdigit() for c in entries[1:])):
+                                entries[0] = entries[0] + ":" + entries[1]
+                                entries.pop(1)
+
+                            if len(entries) == 0:
+                                continue
+
                             while len(entries) < 3:
                                 entries.append("0")
                             filepath, line_number, column_number = entries

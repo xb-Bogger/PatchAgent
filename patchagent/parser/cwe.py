@@ -6,6 +6,7 @@ class CWE(StrEnum):
 
     ILL = "ill"
     ABORT = "abort"
+    FPE = "floating point exception"
     Null_dereference = "null dereference"
     Segv_on_unknown_address = "segv on unknown address"
     Heap_buffer_overflow = "heap buffer overflow"
@@ -45,6 +46,7 @@ CWE_DESCRIPTIONS = {
     CWE.UNKNOWN: "The nature of the vulnerability is unknown or unspecified",
     CWE.ILL: "The program encountered an illegal instruction, indicating a hardware or software issue",
     CWE.ABORT: "The program was terminated due to an abort signal, indicating a critical error",
+    CWE.FPE: "The program encountered a floating-point exception, such as division by zero or invalid arithmetic operation",
     CWE.Null_dereference: "The program attempts to dereference a null pointer, causing a segmentation fault or crash",
     CWE.Segv_on_unknown_address: "The program attempted to access an invalid or unallocated memory address, leading to a segmentation fault",
     CWE.Heap_buffer_overflow: "The program tried to access a heap object outside of its allocated memory, causing potential memory corruption or crashes",
@@ -101,6 +103,14 @@ CWE_REPAIR_ADVICE = {
         (
             "1. Investigate the cause of the illegal instruction to identify the source of the error.\n"
             "2. Check for hardware or software issues that may be causing the illegal instruction.\n"
+        ),
+    ),
+    **dict.fromkeys(
+        [CWE.FPE],
+        (
+            "1. Implement input validation to prevent division by zero and other arithmetic exceptions.\n"
+            "2. Use exception handling mechanisms to gracefully handle floating-point exceptions.\n"
+            "3. Check for invalid arithmetic operations that may lead to floating-point exceptions."
         ),
     ),
     **dict.fromkeys(
