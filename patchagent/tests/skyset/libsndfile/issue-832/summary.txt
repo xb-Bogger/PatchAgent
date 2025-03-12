@@ -1,0 +1,3 @@
+The sanitizer detected an undefined behavior in the code.
+Its description is: index 100 out of bounds for type 'SF_CUE_POINT [100]'.
+The trigger point is located at src/wav.c:524:8.

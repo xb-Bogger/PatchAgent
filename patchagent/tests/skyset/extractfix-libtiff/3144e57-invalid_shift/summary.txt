@@ -1,0 +1,8 @@
+The sanitizer detected an undefined behavior in the code.
+Its description is: shift exponent 136 is too large for 64-bit type 'long'.
+The stacktrace is:
+  - JPEGSetupEncode at /root/libtiff/tif_jpeg.c:1646:19
+  - TIFFWriteEncodedStrip at /root/libtiff/tif_write.c:234:8
+  - cpDecodedStrips at /root/tools/tiffcp.c:997:8
+  - tiffcp at /root/tools/tiffcp.c:814:15
+  - main at /root/tools/tiffcp.c:303:9

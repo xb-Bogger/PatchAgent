@@ -1,0 +1,9 @@
+The sanitizer detected an undefined behavior in the code.
+Its description is: signed integer overflow: 210 * -2147483646 cannot be represented in type 'int'.
+The stacktrace is:
+  - jpc_dec_process_siz at /root/src/libjasper/jpc/jpc_dec.c:1234:33
+  - jpc_dec_decode at /root/src/libjasper/jpc/jpc_dec.c:391:10
+  - jpc_decode at /root/src/libjasper/jpc/jpc_dec.c:255:6
+  - jp2_decode at /root/src/libjasper/jp2/jp2_dec.c:215:21
+  - jas_image_decode at /root/src/libjasper/base/jas_image.c:395:16
+  - main at /root/src/appl/imginfo.c:203:16

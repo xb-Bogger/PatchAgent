@@ -24,6 +24,12 @@ class TestSanitizer(unittest.TestCase):
                     assert report.summary == summary_txt.read_text()
                     summary_txt.write_text(report.summary)
 
+                if "UndefinedBehaviorSanitizer" in raw_report:
+                    report = parse_sanitizer_report(raw_report, Sanitizer.UndefinedBehaviorSanitizer)
+                    assert report is not None
+                    assert report.summary == summary_txt.read_text()
+                    summary_txt.write_text(report.summary)
+
                 if "Java Exception" in raw_report:
                     report = parse_sanitizer_report(raw_report, Sanitizer.JazzerSanitizer)
                     assert report is not None
