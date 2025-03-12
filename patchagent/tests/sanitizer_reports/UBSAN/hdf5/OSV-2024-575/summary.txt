@@ -1,0 +1,39 @@
+The sanitizer detected an undefined behavior in the code.
+Its description is: SEGV on unknown address 0x005609709945 (pc 0x56096d9a4d49 bp 0x7fff9905f310 sp 0x7fff9905f290 T14).
+The stacktrace is:
+  - H5SL__insert_common at /src/hdf5/src/H5SL.c:747:24
+  - H5SL_insert at /src/hdf5/src/H5SL.c:1035:17
+  - H5FS__sect_link_size at /src/hdf5/src/H5FSsection.c:988:9
+  - H5FS__sect_link at /src/hdf5/src/H5FSsection.c:1074:9
+  - H5FS_sect_add at /src/hdf5/src/H5FSsection.c:1340:13
+  - H5MF__add_sect at /src/hdf5/src/H5MF.c:634:9
+  - H5MF__alloc_pagefs at /src/hdf5/src/H5MF.c:934:17
+  - H5MF_alloc at /src/hdf5/src/H5MF.c:803:45
+  - H5O__alloc_chunk at /src/hdf5/src/H5Oalloc.c:883:22
+  - H5O__alloc_new_chunk at /src/hdf5/src/H5Oalloc.c:1154:9
+  - H5O__alloc at /src/hdf5/src/H5Oalloc.c:1291:17
+  - H5O__msg_alloc at /src/hdf5/src/H5Omessage.c:1729:9
+  - H5O__msg_append_real at /src/hdf5/src/H5Omessage.c:191:9
+  - H5O_msg_append_oh at /src/hdf5/src/H5Omessage.c:156:9
+  - H5O_msg_create at /src/hdf5/src/H5Omessage.c:113:9
+  - H5F__super_ext_write_msg at /src/hdf5/src/H5Fsuper.c:1728:13
+  - H5MF_settle_raw_data_fsm at /src/hdf5/src/H5MF.c:2772:17
+  - H5C_flush_cache at /src/hdf5/src/H5C.c:686:33
+  - H5AC_flush at /src/hdf5/src/H5AC.c:619:9
+  - H5F__flush_phase2 at /src/hdf5/src/H5Fint.c:2303:9
+  - H5F__dest at /src/hdf5/src/H5Fint.c:1419:17
+  - H5F_try_close at /src/hdf5/src/H5Fint.c:2642:9
+  - H5F__close at /src/hdf5/src/H5Fint.c:2444:9
+  - H5VL__native_file_close at /src/hdf5/src/H5VLnative_file.c:782:13
+  - H5VL__file_close at /src/hdf5/src/H5VLcallback.c:4259:9
+  - H5VL_file_close at /src/hdf5/src/H5VLcallback.c:4290:9
+  - H5F__close_cb at /src/hdf5/src/H5Fint.c:217:9
+  - H5I__dec_ref at /src/hdf5/src/H5Iint.c:973:43
+  - H5I__dec_app_ref at /src/hdf5/src/H5Iint.c:1044:22
+  - H5I_dec_app_ref at /src/hdf5/src/H5Iint.c:1089:22
+  - H5Fclose at /src/hdf5/src/H5F.c:1046:9
+  - LLVMFuzzerTestOneInput at /src/h5_extended_fuzzer.c:39:7
+  - fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) at /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:614:13
+  - fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) at /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:327:6
+  - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) at /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
+  - main at /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10

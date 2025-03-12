@@ -6,8 +6,12 @@ from patchagent.parser.cwe import CWE
 from patchagent.parser.sanitizer import Sanitizer, SanitizerReport
 from patchagent.parser.utils import guess_relpath
 
-UndefinedBehaviorSanitizerPattern = r"(runtime error: .+?SUMMARY: [^\n]+)"
-UndefinedBehaviorDescriptionPattern = r"runtime error: ([^\n]+)"
+UndefinedBehaviorSanitizerClassicPattern = r"(runtime error: .+?SUMMARY: [^\n]+)"
+UndefinedBehaviorDescriptionClassicPattern = r"runtime error: ([^\n]+)"
+
+UndefinedBehaviorSanitizerGenericPattern = r"(==\d+==ERROR: UndefinedBehaviorSanitizer: .*)"
+UndefinedBehaviorDescriptionGenericPattern = r"==\d+==ERROR: UndefinedBehaviorSanitizer: ([^\n]+)"
+
 UndefinedBehaviorTriggerPointPattern = r"SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ([^\n]+) in"
 
 StackTracePattern = r"^\s*#(\d+)\s+(0x[\w\d]+)\s+in\s+(.+)\s+(/.*)\s*"
@@ -33,12 +37,12 @@ class UndefinedBehaviorSanitizerReport(SanitizerReport):
     @staticmethod
     def parse(raw_content: str, source_path: Optional[Path] = None, work_path: Optional[Path] = None) -> Optional["UndefinedBehaviorSanitizerReport"]:
         raw_content = ANSIEscape.sub("", raw_content)
-        match = re.search(UndefinedBehaviorSanitizerPattern, raw_content, re.DOTALL)
+        match = re.search(UndefinedBehaviorSanitizerClassicPattern, raw_content, re.DOTALL) or re.search(UndefinedBehaviorSanitizerGenericPattern, raw_content, re.DOTALL)
         if match is None:
             return None
 
         content = match.group(0)
-        desc_match = re.search(UndefinedBehaviorDescriptionPattern, content)
+        desc_match = re.search(UndefinedBehaviorDescriptionClassicPattern, content) or re.search(UndefinedBehaviorDescriptionGenericPattern, content)
         if desc_match is None:
             return UndefinedBehaviorSanitizerReport(content, CWE.UNKNOWN, [], content)
 

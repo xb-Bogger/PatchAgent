@@ -1,0 +1,11 @@
+The sanitizer detected an undefined behavior in the code.
+Its description is: SEGV on unknown address 0xfffffffffffffff7 (pc 0x557086e7f764 bp 0x7fff42a341f0 sp 0x7fff42a341b0 T14).
+The stacktrace is:
+  - v_FindFunction at /src/wasm3/source/m3_env.c:646:27
+  - ForEachModule at /src/wasm3/source/m3_env.c:206:13
+  - m3_FindFunction at /src/wasm3/source/m3_env.c:672:30
+  - LLVMFuzzerTestOneInput at /src/wasm3/platforms/app_fuzz/fuzzer.c:33:30
+  - fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) at /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:614:13
+  - fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) at /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:327:6
+  - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) at /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
+  - main at /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10

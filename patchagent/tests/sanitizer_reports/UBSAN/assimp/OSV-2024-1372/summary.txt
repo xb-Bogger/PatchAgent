@@ -1,0 +1,15 @@
+The sanitizer detected an undefined behavior in the code.
+Its description is: member call on address 0x560d4a0d5010 which does not point to an object of type 'Assimp::LogStream'.
+The stacktrace is:
+  - CallbackToLogRedirector(char const*, char*) at /src/assimp/code/Common/Assimp.cpp:359:8
+  - Assimp::DefaultLogger::WriteToStreams(char const*, Assimp::Logger::ErrorSeverity) at /src/assimp/code/Common/DefaultLogger.cpp:412:31
+  - Assimp::DefaultLogger::OnInfo(char const*) at /src/assimp/code/Common/DefaultLogger.cpp:292:5
+  - void Assimp::Logger::info<char const (&) [6], std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&>(char const (&) [6], std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&) at /src/assimp/include/assimp/Logger.hpp:126:9
+  - WriteLogOpening(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&) at /src/assimp/code/Common/Importer.cpp:528:5
+  - Assimp::Importer::ReadFile(char const*, unsigned int) at /src/assimp/code/Common/Importer.cpp:599:5
+  - Assimp::Importer::ReadFileFromMemory(void const*, unsigned long, unsigned int, char const*) at /src/assimp/code/Common/Importer.cpp:507:9
+  - LLVMFuzzerTestOneInput at /src/assimp/fuzz/assimp_fuzzer.cc:54:34
+  - fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) at /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:614:13
+  - fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) at /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:327:6
+  - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) at /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
+  - main at /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10

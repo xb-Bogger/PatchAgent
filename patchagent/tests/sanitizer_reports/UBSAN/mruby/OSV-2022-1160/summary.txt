@@ -1,0 +1,15 @@
+The sanitizer detected an undefined behavior in the code.
+Its description is: SEGV on unknown address 0x55e6f710b2c6 (pc 0x55e72f3bd6b4 bp 0x7fff9af93af0 sp 0x7fff9af93ad0 T18).
+The stacktrace is:
+  - str_init_embed at /src/mruby/src/string.c:73:26
+  - str_new at /src/mruby/src/string.c:140:12
+  - unpack_hex at /src/mruby/mrbgems/mruby-pack/src/pack.c:821:9
+  - pack_unpack at /src/mruby/mrbgems/mruby-pack/src/pack.c:1521:17
+  - mrb_vm_exec at /src/mruby/src/vm.c:0:0
+  - mrb_vm_run at /src/mruby/src/vm.c:1279:12
+  - mrb_load_exec at /src/mruby/mrbgems/mruby-compiler/core/parse.y:6918:7
+  - LLVMFuzzerTestOneInput at /src/mruby/oss-fuzz/mruby_fuzzer.c:14:5
+  - fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) at /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:614:13
+  - fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) at /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:327:6
+  - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) at /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
+  - main at /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
