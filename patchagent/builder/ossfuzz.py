@@ -179,6 +179,7 @@ class OSSFuzzBuilder(Builder):
 
         compile_commands = clangd_source / "compile_commands.json"
         if not compile_commands.is_file():
+            log.info("[🔋] Generating compile_commands.json")
             if (
                 subprocess.run(
                     ["infra/helper.py", "build_image", "--pull", self.project],
@@ -193,7 +194,6 @@ class OSSFuzzBuilder(Builder):
             shutil.copy2(bear_path() / "helper.py", clangd_fuzz_tooling / "infra/helper.py")
             shutil.copytree(bear_path(), clangd_source / ".bear", symlinks=True)
 
-            log.info("[🔋] Generating compile_commands.json")
             subprocess.run(
                 ["infra/helper.py", "bear", self.project, clangd_source],
                 cwd=clangd_fuzz_tooling,

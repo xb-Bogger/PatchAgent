@@ -8,6 +8,7 @@ from typing import Optional
 from git import Repo
 
 from patchagent.lang import Lang
+from patchagent.logger import log
 from patchagent.lsp.language import LanguageServer
 from patchagent.parser import SanitizerReport
 from patchagent.utils import subprocess_none_pipe
@@ -60,6 +61,8 @@ class Builder:
         raise NotImplementedError("language_server not implemented")
 
     def format_patch(self, patch: str) -> str:
+        log.info("[🩹] Formatting patch")
+
         self.source_repo.git.reset("--hard", "HEAD")
         subprocess.run(
             ["patch", "-p1"],
