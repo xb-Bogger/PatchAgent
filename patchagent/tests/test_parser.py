@@ -15,6 +15,14 @@ class TestSanitizer(unittest.TestCase):
             raw_report = report_txt.read_text(encoding="utf-8", errors="ignore")
             summary_txt = case_dir / "summary.txt"
 
+            if "LeakSanitizer" in raw_report:
+                report = parse_sanitizer_report(raw_report, Sanitizer.LeakAddressSanitizer)
+                assert report is not None
+                assert report.cwe is not CWE.UNKNOWN
+                cover_error_type.add(report.cwe)
+                assert report.summary == summary_txt.read_text()
+                summary_txt.write_text(report.summary)
+
             if "ERROR: AddressSanitizer" in raw_report:
                 report = parse_sanitizer_report(raw_report, Sanitizer.AddressSanitizer)
                 assert report is not None

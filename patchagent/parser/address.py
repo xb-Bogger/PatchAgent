@@ -8,6 +8,7 @@ from patchagent.parser.sanitizer import Sanitizer, SanitizerReport
 from patchagent.parser.utils import guess_relpath
 
 AddressSanitizerPattern = r"(==[0-9]+==ERROR: AddressSanitizer: .*)"
+LeakAddressSanitizerPattern = r"(==[0-9]+==ERROR: LeakSanitizer: detected memory leaks.*)"
 StackTracePattern = r"^\s*#(\d+)\s+(0x[\w\d]+)\s+in\s+(.+)\s+(/.*)\s*"
 ANSIEscape = re.compile(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])")
 
@@ -40,6 +41,8 @@ cwe_pattern_map = {
     CWE.Bad_cast: r"==[0-9]+==ERROR: AddressSanitizer: bad-cast on address (0x[0-9a-f]+)*",
 }
 
+LeakAddressSanitizerPattern = r"(==[0-9]+==ERROR: LeakSanitizer: detected memory leaks.*)"
+
 
 class AddressSanitizerReport(SanitizerReport):
     def __init__(
@@ -60,9 +63,9 @@ class AddressSanitizerReport(SanitizerReport):
         return [self.stacktrace] + self.other_stacktraces
 
     @staticmethod
-    def parse(raw_content: str, source_path: Optional[Path] = None, work_path: Optional[Path] = None) -> Optional["AddressSanitizerReport"]:
+    def parse(raw_content: str, source_path: Optional[Path] = None, work_path: Optional[Path] = None, detect_leak: bool = False) -> Optional["AddressSanitizerReport"]:
         raw_content = ANSIEscape.sub("", raw_content)
-        match = re.search(AddressSanitizerPattern, raw_content, re.DOTALL)
+        match = re.search(AddressSanitizerPattern, raw_content, re.DOTALL) or (re.search(LeakAddressSanitizerPattern, raw_content, re.DOTALL) if detect_leak else None)
         if match is None:
             return None
 
@@ -78,7 +81,12 @@ class AddressSanitizerReport(SanitizerReport):
             return True
 
         body = filter(is_interesting, body)
-        for cwe, pattern in cwe_pattern_map.items():
+
+        search_patterns = cwe_pattern_map.copy()
+        if detect_leak:
+            search_patterns[CWE.Memory_Leak] = LeakAddressSanitizerPattern
+
+        for cwe, pattern in search_patterns.items():
             match = re.search(pattern, header)
             if match is not None:
                 old_body, body = body, []
