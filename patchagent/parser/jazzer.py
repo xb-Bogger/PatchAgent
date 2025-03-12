@@ -10,16 +10,23 @@ JazzerSanitizerPattern = r"(== Java Exception: com\.code_intelligence\.jazzer.ap
 cwe_pattern_map = {
     CWE.Stack_overflow: r"== Java Exception: com\.code_intelligence\.jazzer\.api\.FuzzerSecurityIssueLow: Stack overflow.*",
     CWE.Out_of_memory: r"== Java Exception: com\.code_intelligence\.jazzer\.api\.FuzzerSecurityIssueLow: Out of memory.*",
-    # CWE.File_path_traversal: r"== Java Exception: com\.code_intelligence\.jazzer\.api\.FuzzerSecurityIssueCritical: File path traversal.*",
-    # CWE.LDAP_injection: r"== Java Exception: com\.code_intelligence\.jazzer\.api\.FuzzerSecurityIssueCritical: LDAP Injection.*",
-    # CWE.Naming_context_lookup: r"== Java Exception: com\.code_intelligence\.jazzer\.api\.FuzzerSecurityIssueCritical: Remote JNDI Lookup.*",
-    # CWE.OS_command_injection: r"== Java Exception: com\.code_intelligence\.jazzer\.api\.FuzzerSecurityIssueCritical: OS Command Injection.*",
-    # CWE.Reflective_call: r"== Java Exception: com\.code_intelligence\.jazzer\.api\.FuzzerSecurityIssueHigh: load arbitrary library.*",
+    # NOTE: File_path_traversal have no test case
+    CWE.File_path_traversal: r"== Java Exception: com\.code_intelligence\.jazzer\.api\.FuzzerSecurityIssueCritical: File path traversal.*",
+    # NOTE: LDAP_injection have no test case
+    CWE.LDAP_injection: r"== Java Exception: com\.code_intelligence\.jazzer\.api\.FuzzerSecurityIssueCritical: LDAP Injection.*",
+    # NOTE: Naming_context_lookup have no test case
+    CWE.Naming_context_lookup: r"== Java Exception: com\.code_intelligence\.jazzer\.api\.FuzzerSecurityIssueCritical: Remote JNDI Lookup.*",
+    # NOTE: OS_command_injection have no test case
+    CWE.OS_command_injection: r"== Java Exception: com\.code_intelligence\.jazzer\.api\.FuzzerSecurityIssueCritical: OS Command Injection.*",
+    # NOTE: Path_traversal have no test case
+    CWE.Reflective_call: r"== Java Exception: com\.code_intelligence\.jazzer\.api\.FuzzerSecurityIssueHigh: load arbitrary library.*",
     CWE.Remote_code_execution: r"== Java Exception: com\.code_intelligence\.jazzer\.api\.FuzzerSecurityIssueHigh: Remote Code Execution.*",
     CWE.Regular_expression_injection: r"== Java Exception: com\.code_intelligence\.jazzer\.api\.FuzzerSecurityIssueLow: Regular Expression Injection.*",
-    # CWE.Script_engine_injection: r"== Java Exception: com\.code_intelligence\.jazzer\.api\.FuzzerSecurityIssueCritical: Script Engine Injection.*",
+    # NOTE: Script_engine_injection have no test case
+    CWE.Script_engine_injection: r"== Java Exception: com\.code_intelligence\.jazzer\.api\.FuzzerSecurityIssueCritical: Script Engine Injection.*",
     CWE.Server_side_request_forgery: r"== Java Exception: com\.code_intelligence\.jazzer\.api\.FuzzerSecurityIssueMedium: Server Side Request Forgery \(SSRF\).*",
-    # CWE.SQL_injection: r"== Java Exception: com\.code_intelligence\.jazzer\.api\.FuzzerSecurityIssueHigh: SQL Injection.*",
+    # NOTE: SQL_injection have no test case
+    CWE.SQL_injection: r"== Java Exception: com\.code_intelligence\.jazzer\.api\.FuzzerSecurityIssueHigh: SQL Injection.*",
     CWE.XPath_injection: r"== Java Exception: com\.code_intelligence\.jazzer\.api\.FuzzerSecurityIssueHigh: XPath Injection.*",
 }
 

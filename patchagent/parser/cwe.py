@@ -4,7 +4,7 @@ from enum import StrEnum
 class CWE(StrEnum):
     UNKNOWN = "unknown"
     Undefined_behavior = "undefined behavior"
-    Uninitialized_variable = "uninitialized variable"
+    Uninitialized_memory = "uninitialized memory"
 
     ILL = "ill"
     ABORT = "abort"

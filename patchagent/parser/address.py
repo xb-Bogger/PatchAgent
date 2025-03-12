@@ -25,15 +25,19 @@ cwe_pattern_map = {
     CWE.Container_overflow: r"==[0-9]+==ERROR: AddressSanitizer: container-overflow on address (0x[0-9a-f]+)*",
     CWE.Negative_size_param: r"==[0-9]+==ERROR: AddressSanitizer: negative-size-param: \(size=[-0-9]+\)*",
     CWE.Memcpy_param_overlap: r"==[0-9]+==ERROR: AddressSanitizer: memcpy-param-overlap: .+",
-    # CWE.Index_out_of_bounds: r"==[0-9]+==ERROR: AddressSanitizer: index-out-of-bounds on address (0x[0-9a-f]+)*",
+    # NOTE: Index_out_of_bounds have no test case
+    CWE.Index_out_of_bounds: r"==[0-9]+==ERROR: AddressSanitizer: index-out-of-bounds on address (0x[0-9a-f]+)*",
     CWE.Stack_overflow: r"==[0-9]+==ERROR: AddressSanitizer: stack-overflow on address (0x[0-9a-f]+)*",
     CWE.Stack_use_after_return: r"==[0-9]+==ERROR: AddressSanitizer: stack-use-after-return on address (0x[0-9a-f]+)*",
-    # CWE.Stack_use_after_scope: r"==[0-9]+==ERROR: AddressSanitizer: stack-use-after-scope on address (0x[0-9a-f]+)*",
+    # NOTE: Stack_use_after_scope have no test case
+    CWE.Stack_use_after_scope: r"==[0-9]+==ERROR: AddressSanitizer: stack-use-after-scope on address (0x[0-9a-f]+)*",
     CWE.Heap_double_free: r"==[0-9]+==ERROR: AddressSanitizer: attempting double-free on (0x[0-9a-f]+)*",
     CWE.Heap_use_after_free: r"==[0-9]+==ERROR: AddressSanitizer: heap-use-after-free on address (0x[0-9a-f]+)*",
     CWE.Invalid_free: r"==[0-9]+==ERROR: AddressSanitizer: attempting free on address which was not malloc\(\)-ed: (0x[0-9a-f]+)*",
-    # CWE.Bad_free: r"==[0-9]+==ERROR: AddressSanitizer: (bad-free|wild-free) on address (0x[0-9a-f]+)*",
-    # CWE.Bad_cast: r"==[0-9]+==ERROR: AddressSanitizer: bad-cast on address (0x[0-9a-f]+)*",
+    # NOTE: Bad_free have no test case
+    CWE.Bad_free: r"==[0-9]+==ERROR: AddressSanitizer: (bad-free|wild-free) on address (0x[0-9a-f]+)*",
+    # NOTE: Bad_cast have no test case
+    CWE.Bad_cast: r"==[0-9]+==ERROR: AddressSanitizer: bad-cast on address (0x[0-9a-f]+)*",
 }
 
 
