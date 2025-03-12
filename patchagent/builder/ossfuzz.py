@@ -24,6 +24,19 @@ class DockerUnavailableError(Exception):
 
 
 class OSSFuzzBuilder(Builder):
+    SANITIZER_MAP = {
+        Sanitizer.AddressSanitizer: "address",
+        Sanitizer.UndefinedBehaviorSanitizer: "undefined",
+        Sanitizer.MemorySanitizer: "memory",
+        Sanitizer.ThreadSanitizer: "thread",
+        # OSS-Fuzz maps Jazzer to AddressSanitizer for JVM projects
+        # Reference:
+        #   - https://github.com/google/oss-fuzz/blob/master/projects/hamcrest/project.yaml
+        #   - https://github.com/google/oss-fuzz/blob/master/projects/apache-commons-bcel/project.yaml
+        #   - https://github.com/google/oss-fuzz/blob/master/projects/threetenbp/project.yaml
+        Sanitizer.JazzerSanitizer: "address",
+    }
+
     def __init__(
         self,
         project: str,
@@ -95,7 +108,7 @@ class OSSFuzzBuilder(Builder):
             raise DockerUnavailableError()
 
         subprocess.check_call(
-            ["infra/helper.py", "build_fuzzers", "--clean", self.project, source_path],
+            ["infra/helper.py", "build_fuzzers", "--sanitizer", self.SANITIZER_MAP[self.sanitizer], "--clean", self.project, source_path],
             cwd=fuzz_tooling_path,
             stdout=subprocess_none_pipe(),
             stderr=subprocess_none_pipe(),

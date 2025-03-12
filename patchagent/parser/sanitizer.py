@@ -8,6 +8,9 @@ from patchagent.parser.cwe import CWE
 class Sanitizer(StrEnum):
     AddressSanitizer = "AddressSanitizer"
     LeakAddressSanitizer = "LeakAddressSanitizer"
+    UndefinedBehaviorSanitizer = "UndefinedBehaviorSanitizer"
+    MemorySanitizer = "MemorySanitizer"
+    ThreadSanitizer = "ThreadSanitizer"
     JazzerSanitizer = "JazzerSanitizer"
 
 
