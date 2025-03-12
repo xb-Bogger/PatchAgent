@@ -39,6 +39,16 @@ class TestSanitizer(unittest.TestCase):
                 assert report.summary == summary_txt.read_text()
                 summary_txt.write_text(report.summary)
 
+            if "MemorySanitizer" in raw_report:
+                report = parse_sanitizer_report(raw_report, Sanitizer.MemorySanitizer)
+                if report is None:
+                    print(raw_report)
+                assert report is not None
+                assert report.cwe is not CWE.UNKNOWN
+                cover_error_type.add(report.cwe)
+                assert report.summary == summary_txt.read_text()
+                summary_txt.write_text(report.summary)
+
             if "Java Exception" in raw_report:
                 report = parse_sanitizer_report(raw_report, Sanitizer.JazzerSanitizer)
                 assert report is not None

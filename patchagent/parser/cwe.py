@@ -4,7 +4,7 @@ from enum import StrEnum
 class CWE(StrEnum):
     UNKNOWN = "unknown"
     Undefined_behavior = "undefined behavior"
-    Uninitialized_memory = "uninitialized memory"
+    Use_of_uninitialized_memory = "use of uninitialized memory"
 
     ILL = "ill"
     ABORT = "abort"
@@ -46,6 +46,7 @@ class CWE(StrEnum):
 
 CWE_DESCRIPTIONS = {
     CWE.UNKNOWN: "The nature of the vulnerability is unknown or unspecified",
+    CWE.Use_of_uninitialized_memory: "The program reads uninitialized memory, leading to undefined behavior or crashes",
     CWE.ILL: "The program encountered an illegal instruction, indicating a hardware or software issue",
     CWE.ABORT: "The program was terminated due to an abort signal, indicating a critical error",
     CWE.FPE: "The program encountered a floating-point exception, such as division by zero or invalid arithmetic operation",
@@ -91,6 +92,13 @@ CWE_REPAIR_ADVICE = {
             "1. Review the code logic and memory operations to identify potential corruption.\n"
             "2. Check for uninitialized variables or unintended pointer accesses.\n"
             "3. Implement defensive programming techniques to validate all memory accesses."
+        ),
+    ),
+    **dict.fromkeys(
+        [CWE.Use_of_uninitialized_memory],
+        (
+            "1. Initialize all variables before using them to prevent uninitialized memory access.\n"
+            "2. Check for uninitialized pointers or memory buffers that may lead to undefined behavior.\n"
         ),
     ),
     **dict.fromkeys(
