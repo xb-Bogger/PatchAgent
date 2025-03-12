@@ -4,7 +4,7 @@ from pathlib import Path
 
 from patchagent.agent.java.proxy.utils import revise_patch
 from patchagent.logger import log
-from patchagent.task import PatchTask
+from patchagent.task import PatchTask, ValidationResult
 
 MAX_VIEWCODE_LINES = 40
 MAX_VALIDATION_TRIES = 3
@@ -57,7 +57,7 @@ def validate(task: PatchTask, patch: str, auto_hint=False) -> tuple[dict, str]:
     patch, _ = revise_patch(patch, task.builder.source_path)
     ret, real_patch, report = task.validate(patch)
 
-    if ret:
+    if ret == ValidationResult.Success:
         task.current_context.patch = real_patch
         return {"patch": real_patch}, "Congratulations! The patch is correct."
     else:

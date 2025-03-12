@@ -27,6 +27,7 @@ class OSSFuzzBuilder(Builder):
     SANITIZER_MAP = {
         Sanitizer.AddressSanitizer: "address",
         Sanitizer.UndefinedBehaviorSanitizer: "undefined",
+        Sanitizer.LeakAddressSanitizer: "address",
         Sanitizer.MemorySanitizer: "memory",
         Sanitizer.ThreadSanitizer: "thread",
         # OSS-Fuzz maps Jazzer to AddressSanitizer for JVM projects
@@ -53,7 +54,7 @@ class OSSFuzzBuilder(Builder):
 
         match sanitizer, self.language:
             case None, Lang.CLIKE:
-                self.sanitizer = Sanitizer.AddressSanitizer
+                self.sanitizer = Sanitizer.LeakAddressSanitizer
             case None, Lang.JVM:
                 self.sanitizer = Sanitizer.JazzerSanitizer
             case _:

@@ -8,7 +8,7 @@ from clang.cindex import Config
 from patchagent.agent.clike.proxy.utils import extract_cpp_function_name, revise_patch
 from patchagent.logger import log
 from patchagent.parser.utils import guess_relpath
-from patchagent.task import PatchTask
+from patchagent.task import PatchTask, ValidationResult
 
 Config.set_library_file("/usr/lib/llvm-16/lib/libclang.so.1")
 
@@ -147,7 +147,7 @@ def validate(task: PatchTask, patch: str, auto_hint=False) -> tuple[dict, str]:
     patch, _ = revise_patch(patch, task.builder.source_path)
     ret, real_patch, report = task.validate(patch)
 
-    if ret:
+    if ret == ValidationResult.Success:
         task.current_context.patch = real_patch
         return {"patch": real_patch}, "Congratulations! The patch is correct."
     else:

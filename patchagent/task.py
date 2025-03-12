@@ -1,12 +1,24 @@
 import subprocess
+from enum import Enum
 from functools import cached_property
 from pathlib import Path
-from typing import Callable, Generator, List, Optional
+from typing import Callable, Generator, List, Optional, Tuple
 
 from patchagent.agent.base import BaseAgent
 from patchagent.builder import Builder
 from patchagent.context import Context
 from patchagent.parser import SanitizerReport
+
+
+class ValidationResult(Enum):
+    Success = "Success"
+    InvalidPatchFormat = "Invalid patch format"
+    BuildFailed = "Build failed"
+    BuildTimeout = "Build timeout"
+    ReplayFailed = "Replay failed"
+    ReplayTimeout = "Replay timeout"
+    FunctionTestFailed = "Function test failed"
+    FunctionTestTimeout = "Function test timeout"
 
 
 class PatchTask:
@@ -45,38 +57,39 @@ class PatchTask:
         self.contexts.append(context)
         return context
 
-    def validate(self, patch: str = "") -> tuple[bool, str, str]:
+    def validate(self, patch: str = "", function_test: bool = True) -> Tuple[ValidationResult, str, str]:
         try:
             patch = self.builder.format_patch(patch)
         except subprocess.CalledProcessError:
-            return False, patch, "Invalid patch format"
+            return ValidationResult.InvalidPatchFormat, patch, ValidationResult.InvalidPatchFormat.value
 
         try:
             self.builder.build(patch)
         except subprocess.CalledProcessError:
-            return False, patch, "Build failed"
+            return ValidationResult.BuildFailed, patch, ValidationResult.BuildFailed.value
         except subprocess.TimeoutExpired:
-            return False, patch, "Build timeout"
+            return ValidationResult.BuildTimeout, patch, ValidationResult.BuildTimeout.value
 
         try:
             for poc_path in self.poc_paths:
                 report = self.builder.replay(self.harness_name, poc_path, patch)
                 if report is not None:
-                    return False, patch, report.summary
+                    return ValidationResult.Success, patch, report.summary
         except subprocess.CalledProcessError:
-            return False, patch, "Replay failed"
+            return ValidationResult.ReplayFailed, patch, ValidationResult.ReplayFailed.value
         except subprocess.TimeoutExpired:
-            return False, patch, "Replay timeout"
+            return ValidationResult.ReplayTimeout, patch, ValidationResult.ReplayTimeout.value
 
-        try:
-            if self.builder.function_test(patch) is False:
-                return False, patch, "Do not pass function test"
-        except subprocess.CalledProcessError:
-            return False, patch, "Function test failed"
-        except subprocess.TimeoutExpired:
-            return False, patch, "Function test timeout"
+        if function_test:
+            try:
+                if self.builder.function_test(patch) is False:
+                    return ValidationResult.FunctionTestFailed, patch, ValidationResult.FunctionTestFailed.value
+            except subprocess.CalledProcessError:
+                return ValidationResult.FunctionTestFailed, patch, ValidationResult.FunctionTestFailed.value
+            except subprocess.TimeoutExpired:
+                return ValidationResult.FunctionTestTimeout, patch, ValidationResult.FunctionTestTimeout.value
 
-        return True, patch, ""
+        return ValidationResult.Success, patch, ValidationResult.Success.value
 
     def repair(self, agent_generator: Generator[BaseAgent, None, None], stop_indicator: Optional[Callable[[], bool]] = None) -> Optional[str]:
         for agent in agent_generator:
