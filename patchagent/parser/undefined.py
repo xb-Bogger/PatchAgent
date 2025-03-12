@@ -47,8 +47,8 @@ class UndefinedBehaviorSanitizerReport(SanitizerReport):
 
         body = content.splitlines()[1:-1]
 
-        stacktrace: List[Tuple[str, Path, int, int]] = []
-        raw_stacktrace: List[Tuple[str, Path, int, int]] = []
+        valid_stacktrace: List[Tuple[str, Path, int, int]] = []
+        origin_stacktrace: List[Tuple[str, Path, int, int]] = []
 
         current_count = -1
         for line in body:
@@ -79,13 +79,13 @@ class UndefinedBehaviorSanitizerReport(SanitizerReport):
 
                     normpath = Path(filepath).resolve()
 
-                    raw_stacktrace.append((function_name, normpath, int(line_number), int(column_number)))
+                    origin_stacktrace.append((function_name, normpath, int(line_number), int(column_number)))
                     if work_path is not None and normpath.is_relative_to(work_path):
-                        stacktrace.append((function_name, normpath.relative_to(work_path), int(line_number), int(column_number)))
+                        valid_stacktrace.append((function_name, normpath.relative_to(work_path), int(line_number), int(column_number)))
                     elif (relpath := guess_relpath(source_path, normpath)) is not None:
-                        stacktrace.append((function_name, relpath, int(line_number), int(column_number)))
+                        valid_stacktrace.append((function_name, relpath, int(line_number), int(column_number)))
 
-        if len(raw_stacktrace) == 0:
+        if len(origin_stacktrace) == 0:
             trigger_point_match = re.search(UndefinedBehaviorTriggerPointPattern, content)
             if trigger_point_match is not None:
                 trigger_point = Path(trigger_point_match.group(1))
@@ -97,10 +97,10 @@ class UndefinedBehaviorSanitizerReport(SanitizerReport):
 
                 purified_content += f"The trigger point is located at {trigger_point}."
         else:
-            stacktrace_desc = "\n".join(f"  - {fname} at {path}:{linum}:{column}" for fname, path, linum, column in raw_stacktrace)
+            stacktrace_desc = "\n".join(f"  - {fname} at {path}:{linum}:{column}" for fname, path, linum, column in origin_stacktrace)
             purified_content += f"The stacktrace is:\n{stacktrace_desc}"
 
-        return UndefinedBehaviorSanitizerReport(content, CWE.UNKNOWN, stacktrace, purified_content)
+        return UndefinedBehaviorSanitizerReport(content, CWE.Undefined_behavior, valid_stacktrace, purified_content)
 
     @property
     def summary(self) -> str:

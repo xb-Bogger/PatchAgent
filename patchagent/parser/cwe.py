@@ -3,6 +3,8 @@ from enum import StrEnum
 
 class CWE(StrEnum):
     UNKNOWN = "unknown"
+    Undefined_behavior = "undefined behavior"
+    Uninitialized_variable = "uninitialized variable"
 
     ILL = "ill"
     ABORT = "abort"
