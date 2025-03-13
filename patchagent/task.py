@@ -15,6 +15,7 @@ class ValidationResult(Enum):
     InvalidPatchFormat = "Invalid patch format"
     BuildFailed = "Build failed"
     BuildTimeout = "Build timeout"
+    DetectedBug = "Detected bug"
     ReplayFailed = "Replay failed"
     ReplayTimeout = "Replay timeout"
     FunctionTestFailed = "Function test failed"
@@ -74,7 +75,7 @@ class PatchTask:
             for poc_path in self.poc_paths:
                 report = self.builder.replay(self.harness_name, poc_path, patch)
                 if report is not None:
-                    return ValidationResult.Success, patch, report.summary
+                    return ValidationResult.DetectedBug, patch, report.summary
         except subprocess.CalledProcessError:
             return ValidationResult.ReplayFailed, patch, ValidationResult.ReplayFailed.value
         except subprocess.TimeoutExpired:
