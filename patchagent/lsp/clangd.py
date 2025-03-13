@@ -45,6 +45,7 @@ class ClangdServer(LanguageServer):
             }
         )
         packet = self.add_header(message)
+
         self.stdin.write(packet)
         self.stdin.flush()
 
@@ -60,7 +61,11 @@ class ClangdServer(LanguageServer):
                 content += self.stdout.read(1)
 
             num_bytes = int(content.strip())
-            data = json.loads(self.stdout.read(num_bytes))
+            raw = b""
+            while len(raw) < num_bytes:
+                raw += self.stdout.read(num_bytes - len(raw))
+
+            data = json.loads(raw)
             if data.get("id") == self.current_id:
                 return data
 
