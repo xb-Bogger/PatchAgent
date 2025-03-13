@@ -79,6 +79,18 @@ For development, we recommend using the VS Code devcontainer:
 
 This will set up a fully configured development environment with all the necessary tools.
 
+## 🔧 Supported Languages and Sanitizers
+
+### Languages
+- C/C++
+- Java
+
+### Sanitizers
+- [AddressSanitizer (ASan)](https://github.com/google/sanitizers/wiki/AddressSanitizer)
+- [MemorySanitizer (MSan)](https://github.com/google/sanitizers/wiki/MemorySanitizer)
+- [UndefinedBehaviorSanitizer (UBSan)](https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html)
+- [Jazzer (Java fuzzing)](https://github.com/CodeIntelligenceTesting/jazzer)
+
 ## 🏆 Fixed Vulnerabilities
 
 Below is a sample of the vulnerabilities fixed by PatchAgent. More will be disclosed as responsible disclosure periods end.
