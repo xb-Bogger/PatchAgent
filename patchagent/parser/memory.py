@@ -29,7 +29,7 @@ class MemorySanitizerReport(SanitizerReport):
         return [self.stacktrace] + self.other_stacktraces
 
     @staticmethod
-    def parse(raw_content: str, source_path: Optional[Path] = None, work_path: Optional[Path] = None) -> Optional["MemorySanitizerReport"]:
+    def parse(raw_content: str, source_path: Optional[Path] = None, work_path: Optional[Path] = None, *args, **kwargs) -> Optional["MemorySanitizerReport"]:
         fake_asan_content = raw_content.replace("MemorySanitizer", "AddressSanitizer")
         asan_report = AddressSanitizerReport.parse(fake_asan_content, source_path, work_path)
         if asan_report is not None:

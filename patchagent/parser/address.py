@@ -61,7 +61,14 @@ class AddressSanitizerReport(SanitizerReport):
         return [self.stacktrace] + self.other_stacktraces
 
     @staticmethod
-    def parse(raw_content: str, source_path: Optional[Path] = None, work_path: Optional[Path] = None, detect_leak: bool = False) -> Optional["AddressSanitizerReport"]:
+    def parse(
+        raw_content: str,
+        source_path: Optional[Path] = None,
+        work_path: Optional[Path] = None,
+        detect_leak: bool = False,
+        *args,
+        **kwargs,
+    ) -> Optional["AddressSanitizerReport"]:
         raw_content = remove_ansi_escape(raw_content)
         match = re.search(AddressSanitizerPattern, raw_content, re.DOTALL) or (re.search(LeakAddressSanitizerPattern, raw_content, re.DOTALL) if detect_leak else None)
         if match is None:

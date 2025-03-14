@@ -29,7 +29,7 @@ class UndefinedBehaviorSanitizerReport(SanitizerReport):
         return [self.stacktrace] + self.other_stacktraces
 
     @staticmethod
-    def parse(raw_content: str, source_path: Optional[Path] = None, work_path: Optional[Path] = None) -> Optional["UndefinedBehaviorSanitizerReport"]:
+    def parse(raw_content: str, source_path: Optional[Path] = None, work_path: Optional[Path] = None, *args, **kwargs) -> Optional["UndefinedBehaviorSanitizerReport"]:
         fake_asan_content = raw_content.replace("UndefinedBehaviorSanitizer", "AddressSanitizer")
         asan_report = AddressSanitizerReport.parse(fake_asan_content, source_path, work_path)
         if asan_report is not None:
