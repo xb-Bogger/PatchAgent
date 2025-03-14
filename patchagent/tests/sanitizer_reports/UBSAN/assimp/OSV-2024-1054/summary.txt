@@ -18,7 +18,6 @@ runtime error: member call on address 0x56105a4a5050 which does not point to an 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
-DEDUP_TOKEN: CallbackToLogRedirector(char const*, char*)--Assimp::DefaultLogger::WriteToStreams(char const*, Assimp::Logger::ErrorSeverity)--Assimp::DefaultLogger::OnInfo(char const*)
 
 To fix this issue, follow the advice below:
 
