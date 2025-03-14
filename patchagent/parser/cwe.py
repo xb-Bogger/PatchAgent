@@ -46,6 +46,7 @@ class CWE(StrEnum):
 
 CWE_DESCRIPTIONS = {
     CWE.UNKNOWN: "The nature of the vulnerability is unknown or unspecified",
+    CWE.Undefined_behavior: "The program exhibits undefined behavior, leading to unpredictable results or crashes",
     CWE.Use_of_uninitialized_memory: "The program reads uninitialized memory, leading to undefined behavior or crashes",
     CWE.ILL: "The program encountered an illegal instruction, indicating a hardware or software issue",
     CWE.ABORT: "The program was terminated due to an abort signal, indicating a critical error",
@@ -92,6 +93,13 @@ CWE_REPAIR_ADVICE = {
             "1. Review the code logic and memory operations to identify potential corruption.\n"
             "2. Check for uninitialized variables or unintended pointer accesses.\n"
             "3. Implement defensive programming techniques to validate all memory accesses."
+        ),
+    ),
+    **dict.fromkeys(
+        [CWE.Undefined_behavior],
+        (
+            "1. Review the code for undefined behavior patterns and correct them.\n"
+            "2. Check for type mismatches, signed integer overflows, and other undefined behavior triggers.\n"
         ),
     ),
     **dict.fromkeys(
