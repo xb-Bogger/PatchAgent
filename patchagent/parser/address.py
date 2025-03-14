@@ -5,11 +5,10 @@ from typing import List, Optional, Tuple
 from patchagent.logger import log
 from patchagent.parser.cwe import CWE, CWE_DESCRIPTIONS, CWE_REPAIR_ADVICE
 from patchagent.parser.sanitizer import Sanitizer, SanitizerReport
-from patchagent.parser.utils import simplify_and_extract_stacktraces
+from patchagent.parser.utils import remove_ansi_escape, simplify_and_extract_stacktraces
 
 AddressSanitizerPattern = r"(==[0-9]+==ERROR: AddressSanitizer: .*)"
 LeakAddressSanitizerPattern = r"(==[0-9]+==ERROR: LeakSanitizer: detected memory leaks.*)"
-ANSIEscape = re.compile(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])")
 
 cwe_pattern_map = {
     CWE.ILL: r"==[0-9]+==ERROR: AddressSanitizer: (ILL|illegal-instruction) on unknown address (0x[0-9a-f]+)*",
@@ -63,7 +62,7 @@ class AddressSanitizerReport(SanitizerReport):
 
     @staticmethod
     def parse(raw_content: str, source_path: Optional[Path] = None, work_path: Optional[Path] = None, detect_leak: bool = False) -> Optional["AddressSanitizerReport"]:
-        raw_content = ANSIEscape.sub("", raw_content)
+        raw_content = remove_ansi_escape(raw_content)
         match = re.search(AddressSanitizerPattern, raw_content, re.DOTALL) or (re.search(LeakAddressSanitizerPattern, raw_content, re.DOTALL) if detect_leak else None)
         if match is None:
             return None

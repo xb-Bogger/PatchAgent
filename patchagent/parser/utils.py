@@ -35,6 +35,10 @@ def guess_relpath(source_path: Optional[Path], original_path: Path) -> Optional[
     return relpath
 
 
+def remove_ansi_escape(content: str) -> str:
+    return re.sub(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])", "", content)
+
+
 def simplify_and_extract_stacktraces(
     lines: List[str],
     source_path: Optional[Path] = None,

@@ -5,10 +5,9 @@ from typing import List, Optional, Tuple
 from patchagent.parser.address import AddressSanitizerReport
 from patchagent.parser.cwe import CWE, CWE_DESCRIPTIONS, CWE_REPAIR_ADVICE
 from patchagent.parser.sanitizer import Sanitizer, SanitizerReport
-from patchagent.parser.utils import simplify_and_extract_stacktraces
+from patchagent.parser.utils import remove_ansi_escape, simplify_and_extract_stacktraces
 
 UndefinedBehaviorPattern = r"(runtime error: .+)"
-ANSIEscape = re.compile(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])")
 
 
 class UndefinedBehaviorSanitizerReport(SanitizerReport):
@@ -43,7 +42,7 @@ class UndefinedBehaviorSanitizerReport(SanitizerReport):
                 asan_report.other_stacktraces,
             )
 
-        raw_content = ANSIEscape.sub("", raw_content)
+        raw_content = remove_ansi_escape(raw_content)
         match = re.search(UndefinedBehaviorPattern, raw_content, re.DOTALL)
         if match is None:
             return None
