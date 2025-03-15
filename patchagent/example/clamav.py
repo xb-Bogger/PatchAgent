@@ -57,7 +57,7 @@ if __name__ == "__main__":
             ),
         )
 
-        print(f"Patch: {patchtask.repair(agent_generator(patchtask))}")
+        print(f"Patch: {patchtask.repair(agent_generator())}")
 
 # set -a; source .env; set +a;
 # python -m patchagent.example.clamav

@@ -92,10 +92,8 @@ class PatchTask:
 
         return ValidationResult.Success, patch, ValidationResult.Success.value
 
-    def repair(self, agent_generator: Generator[BaseAgent, None, None], stop_indicator: Optional[Callable[[], bool]] = None) -> Optional[str]:
-        for agent in agent_generator:
+    def repair(self, agent_generator: Callable[["PatchTask"], Generator[BaseAgent, None, None]]) -> Optional[str]:
+        for agent in agent_generator(self):
             agent.apply()
             if self.patch is not None:
                 return self.patch
-            if stop_indicator is not None and stop_indicator():
-                return None
