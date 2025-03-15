@@ -45,4 +45,4 @@ COPY pyproject.toml /patchagent-package/
 RUN cd /patchagent-package && \
     pip install --no-cache-dir . && \
     rm -rf /patchagent-package && \
-    python3 -c "import patchagent; print(f'Patchagent installed successfully at: {patchagent.__file__}')"
+    python -m patchagent --version
