@@ -39,7 +39,8 @@ RUN DEBIAN_FRONTEND=noninteractive && \
 
 ENV PATH "/opt/venv/bin:$PATH"
 
+WORKDIR /source
 COPY patchagent /source/patchagent
 COPY pyproject.toml /source/pyproject.toml
 
-RUN cd /source && pip install --no-cache-dir .
+RUN pip install --no-cache-dir -e "."
