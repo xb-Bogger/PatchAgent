@@ -43,4 +43,4 @@ WORKDIR /source
 COPY patchagent /source/patchagent
 COPY pyproject.toml /source/pyproject.toml
 
-RUN pip install --no-cache-dir -e "."
+RUN pip install --no-cache-dir -e ".[dev]"
