@@ -1,7 +1,6 @@
 # PatchAgent
 
-[![Build Status](https://github.com/cla7aye15I4nd/PatchAgent/actions/workflows/push-to-ghcr.yaml/badge.svg)](https://github.com/cla7aye15I4nd/PatchAgent/actions/workflows/push-to-ghcr.yml)
-[![Build Status](https://github.com/cla7aye15I4nd/PatchAgent/actions/workflows/test.yaml/badge.svg)](https://github.com/cla7aye15I4nd/PatchAgent/actions/workflows/test.yml)
+[![Build Status](https://github.com/cla7aye15I4nd/PatchAgent/actions/workflows/ci.yaml/badge.svg)](https://github.com/cla7aye15I4nd/PatchAgent/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 ![Python](https://img.shields.io/badge/python-3.12+-blue.svg)
 ![Platform](https://img.shields.io/badge/platform-linux-lightgrey.svg)
