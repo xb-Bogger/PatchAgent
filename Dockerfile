@@ -39,10 +39,7 @@ RUN DEBIAN_FRONTEND=noninteractive && \
 
 ENV PATH "/opt/venv/bin:$PATH"
 
-COPY patchagent /patchagent-package/patchagent
-COPY pyproject.toml /patchagent-package/
+COPY patchagent /source/patchagent
+COPY pyproject.toml /source/pyproject.toml
 
-RUN cd /patchagent-package && \
-    pip install --no-cache-dir . && \
-    rm -rf /patchagent-package && \
-    python -m patchagent --version
+RUN cd /source && pip install --no-cache-dir .
