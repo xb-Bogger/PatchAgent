@@ -39,10 +39,10 @@ RUN DEBIAN_FRONTEND=noninteractive && \
 
 ENV PATH "/opt/venv/bin:$PATH"
 
-WORKDIR /patchagent-package
 COPY patchagent /patchagent-package/patchagent
 COPY pyproject.toml /patchagent-package/
 
-RUN pip install --no-cache-dir . && \
+RUN cd /patchagent-package && \
+    pip install --no-cache-dir . && \
     rm -rf /patchagent-package && \
     python3 -c "import patchagent; print(f'Patchagent installed successfully at: {patchagent.__file__}')"
