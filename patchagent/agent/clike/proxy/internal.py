@@ -5,6 +5,7 @@ from pathlib import Path
 import clang.cindex
 from clang.cindex import Config
 
+from patchagent.agent.base import AgentStopException, PatchFoundException
 from patchagent.agent.clike.proxy.utils import extract_cpp_function_name, revise_patch
 from patchagent.logger import log
 from patchagent.parser.utils import guess_relpath
@@ -141,17 +142,16 @@ def validate(task: PatchTask, patch: str, auto_hint=False) -> tuple[dict, str]:
             break
         num_tries += 1
     if num_tries >= MAX_VALIDATION_TRIES:
-        log.error(f"The model has tried {num_tries} times continuously to validate the patch without viewing the code.")
-        return {"patch": patch}, f"You have tried {num_tries} times to validate the patch continuously without viewing the code. Please check the code and try again."
+        raise AgentStopException("The number of validation tries has reached the maximum limit.")
 
     patch, _ = revise_patch(patch, task.builder.source_path)
     ret, real_patch, report = task.validate(patch)
 
     if ret == ValidationResult.Success:
         task.current_context.patch = real_patch
-        return {"patch": real_patch}, "Congratulations! The patch is correct."
-    else:
-        header = "Sorry, the patch is incorrect. Here is the applied patch, which may have been revised and differ from the original:"
-        desc = f"Here is the validation report:\n{report}"
-        result = f"{header}\n{real_patch}\n{desc}"
-        return {"patch": real_patch}, result
+        raise PatchFoundException(real_patch)
+
+    header = "Sorry, the patch is incorrect. Here is the applied patch, which may have been revised and differ from the original:"
+    desc = f"Here is the validation report:\n{report}"
+    result = f"{header}\n{real_patch}\n{desc}"
+    return {"patch": real_patch}, result

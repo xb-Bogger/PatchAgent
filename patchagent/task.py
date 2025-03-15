@@ -94,6 +94,6 @@ class PatchTask:
 
     def repair(self, agent_generator: Callable[["PatchTask"], Generator[BaseAgent, None, None]]) -> Optional[str]:
         for agent in agent_generator(self):
-            agent.apply()
-            if self.patch is not None:
-                return self.patch
+            if (patch := agent()) is not None:
+                assert patch == self.patch, "The patch returned by the agent is not the current patch."
+                return patch
