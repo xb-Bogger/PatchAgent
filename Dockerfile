@@ -17,6 +17,7 @@ RUN DEBIAN_FRONTEND=noninteractive && \
     python3 \
     python3-pip \
     python3.12-venv \
+    ssh \
     sudo \
     tmux \
     universal-ctags \
