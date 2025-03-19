@@ -1,7 +1,7 @@
 import unittest
 from pathlib import Path
 
-from patchagent.logger import log
+from patchagent.logger import logger
 from patchagent.parser import Sanitizer, parse_sanitizer_report
 from patchagent.parser.cwe import CWE
 
@@ -59,7 +59,7 @@ class TestSanitizer(unittest.TestCase):
 
         for error_type in CWE:
             if error_type not in cover_error_type and error_type is not CWE.UNKNOWN:
-                log.warning(f"Missing test case for {error_type}")
+                logger.warning(f"Missing test case for {error_type}")
 
 
 if __name__ == "__main__":

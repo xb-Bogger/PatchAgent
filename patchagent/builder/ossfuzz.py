@@ -10,7 +10,7 @@ import yaml
 
 from patchagent.builder import Builder
 from patchagent.lang import Lang
-from patchagent.logger import log
+from patchagent.logger import logger
 from patchagent.lsp.hybridc import HybridCServer
 from patchagent.lsp.java import JavaLanguageServer
 from patchagent.lsp.language import LanguageServer
@@ -18,9 +18,7 @@ from patchagent.parser import Sanitizer, SanitizerReport, parse_sanitizer_report
 from patchagent.utils import bear_path, subprocess_none_pipe
 
 
-class DockerUnavailableError(Exception):
-    def __init__(self):
-        super().__init__("Docker is not available")
+class DockerUnavailableError(Exception): ...
 
 
 class OSSFuzzBuilder(Builder):
@@ -80,7 +78,7 @@ class OSSFuzzBuilder(Builder):
         if self.build_finish_indicator(patch).is_file():
             return
 
-        log.info(f"[🧱] Building {self.project} with patch {self.hash_patch(patch)}")
+        logger.info(f"[🧱] Building {self.project} with patch {self.hash_patch(patch)}")
         workspace = self.workspace / self.hash_patch(patch)
         source_path = workspace / self.org_source_path.name
         fuzz_tooling_path = workspace / self.org_fuzz_tooling_path.name
@@ -97,16 +95,16 @@ class OSSFuzzBuilder(Builder):
             stderr=subprocess_none_pipe(),
             check=True,
         )
-        if (
-            subprocess.run(
-                ["infra/helper.py", "build_image", "--pull", self.project],
-                cwd=fuzz_tooling_path,
-                stdout=subprocess_none_pipe(),
-                stderr=subprocess_none_pipe(),
-            ).returncode
-            != 0
-        ):
-            raise DockerUnavailableError()
+
+        _build_image = subprocess.Popen(
+            ["infra/helper.py", "build_image", "--pull", self.project],
+            cwd=fuzz_tooling_path,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+        _, stderr = _build_image.communicate()
+        if _build_image.returncode != 0:
+            raise DockerUnavailableError(stderr.decode(errors="ignore"))
 
         subprocess.check_call(
             ["infra/helper.py", "build_fuzzers", "--sanitizer", self.SANITIZER_MAP[self.sanitizer], "--clean", self.project, source_path],
@@ -130,7 +128,7 @@ class OSSFuzzBuilder(Builder):
         assert poc_path.is_file(), "PoC file does not exist"
         assert self.build_finish_indicator(patch).is_file(), "Build failed"
 
-        log.info(f"[🔄] Replaying {self.project}/{harness_name} with PoC {poc_path} and patch {self.hash_patch(patch)}")
+        logger.info(f"[🔄] Replaying {self.project}/{harness_name} with PoC {poc_path} and patch {self.hash_patch(patch)}")
         process = subprocess.Popen(
             [
                 "infra/helper.py",
@@ -180,7 +178,7 @@ class OSSFuzzBuilder(Builder):
 
         compile_commands = clangd_source / "compile_commands.json"
         if not compile_commands.is_file():
-            log.info("[🔋] Generating compile_commands.json")
+            logger.info("[🔋] Generating compile_commands.json")
             if (
                 subprocess.run(
                     ["infra/helper.py", "build_image", "--pull", self.project],

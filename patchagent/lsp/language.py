@@ -15,7 +15,7 @@ class LanguageServer:
 
         return None
 
-    def locate_symbol(self, symbol: str) -> List:
+    def locate_symbol(self, symbol: str) -> List[str]:
         raise NotImplementedError
 
     def find_definition(self, path: Path, line: int, column: int) -> List[str]:

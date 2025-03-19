@@ -1,14 +1,14 @@
 import re
 import string
 from pathlib import Path
-from typing import Union
+from typing import List, Tuple, Union
 
-from patchagent.logger import log
+from patchagent.logger import logger
 from patchagent.parser.utils import guess_relpath
 
 
-def revise_patch(patch: str, source_path: Path) -> tuple[str, bool]:
-    def revise_hunk(lines: list[str], file_content: list[str]) -> tuple[str, bool]:
+def revise_patch(patch: str, source_path: Path) -> Tuple[str, bool]:
+    def revise_hunk(lines: List[str], file_content: List[str]) -> Tuple[str, bool]:
         orignal_line_number = sum(1 for line in lines[1:] if not line.startswith("+"))
         patched_line_number = sum(1 for line in lines[1:] if not line.startswith("-"))
 
@@ -57,7 +57,7 @@ def revise_patch(patch: str, source_path: Path) -> tuple[str, bool]:
 
         return header + hunk, fixed
 
-    def revise_block(lines: list[str]) -> tuple[list[str], bool]:
+    def revise_block(lines: List[str]) -> Tuple[List[str], bool]:
         file_path_a = re.findall(r"--- a/(.*)", lines[0])[0]
         file_path_b = re.findall(r"\+\+\+ b/(.*)", lines[1])[0]
 
@@ -112,7 +112,7 @@ def revise_patch(patch: str, source_path: Path) -> tuple[str, bool]:
 
         return "".join(fixed_lines), fixed
     except Exception:
-        log.warning("Failed to revise patch")
+        logger.warning("Failed to revise patch")
         return patch, False
 
 
@@ -146,6 +146,6 @@ def extract_cpp_function_name(function_name: str) -> Union[str, None]:
         return None
 
     if any(c not in ident_chars for c in result) or len(result) == 0:
-        log.warning(f"Failed to extract function name from '{function_name}' (result: '{result})'")
+        logger.warning(f"Failed to extract function name from '{function_name}' (result: '{result})'")
 
     return result

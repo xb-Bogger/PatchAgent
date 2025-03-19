@@ -2,7 +2,7 @@ import re
 from pathlib import Path
 from typing import List, Optional, Tuple
 
-from patchagent.logger import log
+from patchagent.logger import logger
 from patchagent.parser.cwe import CWE, CWE_DESCRIPTIONS, CWE_REPAIR_ADVICE
 from patchagent.parser.sanitizer import Sanitizer, SanitizerReport
 from patchagent.parser.utils import remove_ansi_escape, simplify_and_extract_stacktraces
@@ -98,7 +98,7 @@ class AddressSanitizerReport(SanitizerReport):
                 asan_report = AddressSanitizerReport(content, cwe, stacktraces[0], simplified, stacktraces[1:])
                 return asan_report
 
-        log.warning(f"Unknown AddressSanitizer report: {content}")
+        logger.warning(f"Unknown AddressSanitizer report: {content}")
         return AddressSanitizerReport(content, CWE.UNKNOWN, [], content)
 
     @property

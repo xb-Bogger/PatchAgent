@@ -3,7 +3,7 @@ from functools import cached_property
 from pathlib import Path
 from typing import Dict, List
 
-from patchagent.logger import log
+from patchagent.logger import logger
 from patchagent.lsp.language import LanguageServer
 from patchagent.utils import subprocess_none_pipe
 
@@ -38,9 +38,9 @@ class CtagsServer(LanguageServer):
                             symbol_map[symbol] = []
                         symbol_map[symbol].append(f"{path}:{line_info}")
                 except ValueError:
-                    log.warning(f"Failed to decode line {line}")
+                    logger.warning(f"Failed to decode line {line}")
 
         return symbol_map
 
-    def locate_symbol(self, symbol: str) -> List:
+    def locate_symbol(self, symbol: str) -> List[str]:
         return self.symbol_map.get(symbol, [])

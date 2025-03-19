@@ -2,9 +2,9 @@ import atexit
 import json
 import subprocess
 from pathlib import Path
-from typing import IO, List
+from typing import IO, Dict, List
 
-from patchagent.logger import log
+from patchagent.logger import logger
 from patchagent.lsp.language import LanguageServer
 
 
@@ -22,7 +22,7 @@ class ClangdServer(LanguageServer):
     def add_header(self, message: str) -> bytes:
         return f"Content-Length: {len(message.encode())}\r\n\r\n{message}".encode()
 
-    def notify(self, method: str, params: dict):
+    def notify(self, method: str, params: Dict):
         message = json.dumps(
             {
                 "jsonrpc": "2.0",
@@ -34,7 +34,7 @@ class ClangdServer(LanguageServer):
         self.stdin.write(packet)
         self.stdin.flush()
 
-    def call(self, method: str, params: dict) -> dict:
+    def call(self, method: str, params: Dict) -> Dict:
         self.current_id += 1
         message = json.dumps(
             {
@@ -51,7 +51,7 @@ class ClangdServer(LanguageServer):
 
         return self.recv()
 
-    def recv(self) -> dict:
+    def recv(self) -> Dict:
         while True:
             header = b"Content-Length: "
             assert self.stdout.read(len(header)) == header
@@ -195,13 +195,13 @@ class ClangdServer(LanguageServer):
     def find_definition(self, path: Path, line: int, column: int) -> List[str]:
         assert not path.is_absolute()
         filepath, linum, colnum = self.source_path / path, line - 1, column - 1
-        log.info(f"[🚧] find_definition for {filepath}:{linum}:{colnum}")
+        logger.info(f"[🚧] find_definition for {filepath}:{linum}:{colnum}")
 
         return self.find_definition_internal(filepath, linum, colnum)
 
     def hover(self, path: Path, line: int, column: int) -> str:
         assert not path.is_absolute()
         filepath, linum, colnum = self.source_path / path, line - 1, column - 1
-        log.info(f"[🚧] hover for {filepath}:{linum}:{colnum}")
+        logger.info(f"[🚧] hover for {filepath}:{linum}:{colnum}")
 
         return self.hover_internal(filepath, linum, colnum)

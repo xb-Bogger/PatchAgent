@@ -1,10 +1,10 @@
 import re
 from pathlib import Path
-from typing import List, Optional, Tuple
+from typing import Dict, List, Optional, Set, Tuple
 
-from patchagent.logger import log
+from patchagent.logger import logger
 
-_pathset_cache: dict[Path, set[Path]] = {}
+_pathset_cache: Dict[Path, Set[Path]] = {}
 StackTracePattern = r"^\s*#(\d+)\s+(0x[\w\d]+)\s+in\s+(.+)\s+(/.*)\s*"
 
 
@@ -31,7 +31,7 @@ def guess_relpath(source_path: Optional[Path], original_path: Path) -> Optional[
             max_length = length
             relpath = p
 
-    log.info(f"[🔍] Guessed relpath {original_path} -> {relpath}")
+    logger.info(f"[🔍] Guessed relpath {original_path} -> {relpath}")
     return relpath
 
 
@@ -80,7 +80,7 @@ def simplify_and_extract_stacktraces(
                 normpath = Path(filepath).resolve()
                 desc = f"{normpath}:{line_number}:{column_number}"
                 if f"{filepath}:{line_number}:{column_number}" != match.group(4):
-                    log.warning(f"Incomplete file path: {desc} vs {match.group(4)}")
+                    logger.warning(f"Incomplete file path: {desc} vs {match.group(4)}")
 
                 # NOTE:
                 # We handle stacktraces and description messages differently based on the presence of a work_path.

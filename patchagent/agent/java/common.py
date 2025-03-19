@@ -15,12 +15,13 @@ from patchagent.agent.java.prompt import (
     JAVA_USER_PROMPT_TEMPLATE,
 )
 from patchagent.agent.java.proxy.default import (
+    create_locate_tool,
     create_validate_tool,
     create_viewcode_tool,
 )
 from patchagent.agent.utils import construct_chat_llm
 from patchagent.context import Context
-from patchagent.logger import log
+from patchagent.logger import logger
 from patchagent.task import PatchTask
 from patchagent.utils import debug_mode
 
@@ -51,8 +52,7 @@ class CommonJavaAgent(BaseAgent):
         lc_tools = [
             create_viewcode_tool(self.task, auto_hint=self.auto_hint),
             create_validate_tool(self.task, auto_hint=self.auto_hint),
-            # TODO: remove the comment to enable locate tool
-            # create_locate_tool(self.task, auto_hint=self.auto_hint),
+            create_locate_tool(self.task, auto_hint=self.auto_hint),
         ]
         oai_tools = [convert_to_openai_tool(tool) for tool in lc_tools]
 
@@ -80,13 +80,13 @@ class CommonJavaAgent(BaseAgent):
                 context.add_llm_response(output.log)
             else:
                 if not isinstance(output, list):
-                    log.error(f"Invalid output: {output}")
+                    logger.error(f"Invalid output: {output}")
                 else:
                     for action in output:
                         if isinstance(action, AgentAction):
                             context.add_llm_response(action.log)
                         else:
-                            log.error(f"Invalid action: {action}")
+                            logger.error(f"Invalid action: {action}")
 
             return output
 
@@ -126,7 +126,7 @@ class CommonJavaAgent(BaseAgent):
         return message
 
     def apply(self):
-        log.info(f"[🤖] Applying {self.__class__.__name__} (model: {self.model}, temp: {self.temperature}, ah: {self.auto_hint}, #ce: {self.counterexample_num})")
+        logger.info(f"[🤖] Applying {self.__class__.__name__} (model: {self.model}, temp: {self.temperature}, ah: {self.auto_hint}, #ce: {self.counterexample_num})")
 
         with self.task.new_context() as context:
             self.setup(context)

@@ -1,13 +1,14 @@
 import math
 import os
 from pathlib import Path
+from typing import Dict, List, Tuple
 
 import clang.cindex
 from clang.cindex import Config
 
 from patchagent.agent.base import AgentStopException, PatchFoundException
 from patchagent.agent.clike.proxy.utils import extract_cpp_function_name, revise_patch
-from patchagent.logger import log
+from patchagent.logger import logger
 from patchagent.parser.utils import guess_relpath
 from patchagent.task import PatchTask, ValidationResult
 
@@ -17,7 +18,7 @@ MAX_VIEWCODE_LINES = 40
 MAX_VALIDATION_TRIES = 3
 
 
-def viewcode(task: PatchTask, _path: str, _start_line: int, _end_line: int, auto_hint=False) -> tuple[dict, str]:
+def viewcode(task: PatchTask, _path: str, _start_line: int, _end_line: int, auto_hint=False) -> Tuple[Dict, str]:
     total_lines = _end_line - _start_line + 1
     adjusted_lines = max(MAX_VIEWCODE_LINES, total_lines) - total_lines
 
@@ -61,13 +62,13 @@ def viewcode(task: PatchTask, _path: str, _start_line: int, _end_line: int, auto
                         for i, hint in enumerate(hints):
                             result += f"{i + 1}. {hint}\n"
                     else:
-                        log.error(f"Failed to get hint for {path}:{line}")
+                        logger.error(f"Failed to get hint for {path}:{line}")
 
     return {"path": path.as_posix(), "start_line": start_line, "end_line": end_line}, result
 
 
-def locate(task: PatchTask, symbol: str, auto_hint=False) -> tuple[dict, str]:
-    def helper(task: PatchTask, symbol: str) -> list[str]:
+def locate(task: PatchTask, symbol: str, auto_hint=False) -> Tuple[Dict, str]:
+    def helper(task: PatchTask, symbol: str) -> List[str]:
         fast_path_locations = task.builder.language_server.locate_symbol(symbol)
 
         if len(fast_path_locations) != 1:
@@ -90,7 +91,7 @@ def locate(task: PatchTask, symbol: str, auto_hint=False) -> tuple[dict, str]:
                         if len(location_set) > 0:
                             return list(location_set)
                     except clang.cindex.TranslationUnitLoadError as e:
-                        log.warning(f"Failed to locate the symbol {symbol} in {realpath}: {e}")
+                        logger.warning(f"Failed to locate the symbol {symbol} in {realpath}: {e}")
                         break
 
             for stack in task.report.stacktraces:  # type: ignore
@@ -123,9 +124,9 @@ def locate(task: PatchTask, symbol: str, auto_hint=False) -> tuple[dict, str]:
     locations = helper(task, symbol)
 
     if len(locations) > 1:
-        log.warning(f"{symbol} has multiple definitions.")
+        logger.warning(f"{symbol} has multiple definitions.")
     elif len(locations) == 0:
-        log.error(f"Failed to find the definition of {symbol}.")
+        logger.error(f"Failed to find the definition of {symbol}.")
 
     if len(locations) == 0:
         result = f"Sorry, we cannot locate the symbol {symbol}, please consider use some alias names."
@@ -135,7 +136,7 @@ def locate(task: PatchTask, symbol: str, auto_hint=False) -> tuple[dict, str]:
     return {"symbol": symbol}, result
 
 
-def validate(task: PatchTask, patch: str, auto_hint=False) -> tuple[dict, str]:
+def validate(task: PatchTask, patch: str, auto_hint=False) -> Tuple[Dict, str]:
     num_tries = 0
     for tool_call in reversed(task.current_context.tool_calls):
         if tool_call["name"] != "validate":

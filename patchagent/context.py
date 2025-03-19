@@ -1,8 +1,11 @@
 import time
+from typing import Dict
+
+from patchagent.logger import logger
 
 
 class Context:
-    def __init__(self, data: dict = {}) -> None:
+    def __init__(self, data: Dict = {}) -> None:
         self.patch = data.get("patch", None)
         self.messages = data.get("messages", [])
         self.elapsed_time = data.get("elapsed_time", None)
@@ -18,44 +21,44 @@ class Context:
     def tool_calls(self):
         return [message["message"] for message in self.messages if message["role"] == "tool"]
 
-    def add_tool_call(self, name: str, args: dict, result: str):
-        self.messages.append(
-            {
-                "role": "tool",
-                "message": {
-                    "name": name,
-                    "args": args,
-                    "result": result,
-                },
-            }
-        )
+    def add_tool_call(self, name: str, args: Dict, result: str):
+        data = {
+            "role": "tool",
+            "message": {
+                "name": name,
+                "args": args,
+                "result": result,
+            },
+        }
+        self.messages.append(data)
+        logger.debug(f"Tool call: {data}")
 
     def add_llm_response(self, response: str):
         if len(response) > 0:
-            self.messages.append(
-                {
-                    "role": "ai",
-                    "message": response,
-                }
-            )
+            data = {
+                "role": "llm",
+                "message": response,
+            }
+            self.messages.append(data)
+            logger.debug(f"LLM response: {data}")
 
     def add_system_message(self, message: str):
         if len(message) > 0:
-            self.messages.append(
-                {
-                    "role": "system",
-                    "message": message,
-                }
-            )
+            data = {
+                "role": "system",
+                "message": message,
+            }
+            self.messages.append(data)
+            logger.debug(f"System message: {data}")
 
     def add_user_message(self, message: str):
         if len(message) > 0:
-            self.messages.append(
-                {
-                    "role": "user",
-                    "message": message,
-                }
-            )
+            data = {
+                "role": "user",
+                "message": message,
+            }
+            self.messages.append(data)
+            logger.debug(f"User message: {data}")
 
     def dump(self):
         return {

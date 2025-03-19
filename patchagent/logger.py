@@ -32,4 +32,4 @@ def setup_logger(level=logging.DEBUG if debug_mode() else logging.INFO):
     return logger
 
 
-log = setup_logger()
+logger = setup_logger()

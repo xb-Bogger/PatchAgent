@@ -1,14 +1,12 @@
 from typing import Optional
 
-from patchagent.logger import log
+from patchagent.logger import logger
 
 
-class AgentStopException(Exception):
-    pass
+class AgentStopException(Exception): ...
 
 
-class PatchFoundException(Exception):
-    pass
+class PatchFoundException(Exception): ...
 
 
 class BaseAgent:
@@ -16,9 +14,9 @@ class BaseAgent:
         try:
             return self.apply()
         except AgentStopException as e:
-            log.info(f"[🛑] Agent stopped because {e}")
+            logger.info(f"[🛑] Agent stopped because {e}")
         except PatchFoundException as e:
-            log.info("[🎉] Patch is found")
+            logger.info("[🎉] Patch is found")
             return str(e)
 
     def apply(self):

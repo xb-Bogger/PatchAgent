@@ -3,8 +3,7 @@ from typing import List
 from langchain_openai import AzureChatOpenAI, ChatOpenAI
 
 
-class LLMConstructException(Exception):
-    pass
+class LLMConstructException(Exception): ...
 
 
 def construct_chat_llm(*args, **kwargs):

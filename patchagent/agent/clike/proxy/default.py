@@ -1,7 +1,7 @@
 from langchain.tools import StructuredTool
 
 from patchagent.agent.clike.proxy import internal
-from patchagent.logger import log
+from patchagent.logger import logger
 from patchagent.task import PatchTask
 
 
@@ -15,7 +15,7 @@ def create_viewcode_tool(task: PatchTask, auto_hint: bool = False) -> Structured
         :param end_line: The end line of the code snippet.
         """
 
-        log.info(f"[📞] viewcode(path={path}, start_line={start_line}, end_line={end_line})")
+        logger.info(f"[📞] viewcode(path={path}, start_line={start_line}, end_line={end_line})")
         args, result = internal.viewcode(task, path, start_line, end_line, auto_hint=auto_hint)
         task.current_context.add_tool_call("viewcode", args, result)
         return result
@@ -31,7 +31,7 @@ def create_locate_tool(task: PatchTask, auto_hint: bool = False) -> StructuredTo
         :param symbol: The symbol to be located.
         """
 
-        log.info(f"[📞] locate(symbol={symbol})")
+        logger.info(f"[📞] locate(symbol={symbol})")
         args, result = internal.locate(task, symbol, auto_hint=auto_hint)
         task.current_context.add_tool_call("locate", args, result)
         return result
@@ -60,7 +60,7 @@ def create_validate_tool(task: PatchTask, auto_hint: bool = False) -> Structured
         :param patch: The patch to be validated.
         """
 
-        log.info(f"[📞] validate(patch={patch})")
+        logger.info(f"[📞] validate(patch={patch})")
         args, result = internal.validate(task, patch, auto_hint=auto_hint)
         task.current_context.add_tool_call("validate", args, result)
         return result

@@ -13,7 +13,7 @@ class HybridCServer(LanguageServer):
         self.ctags = CtagsServer(ctags_source_path)
         self.clangd = ClangdServer(clangd_source_path)
 
-    def locate_symbol(self, symbol: str) -> List:
+    def locate_symbol(self, symbol: str) -> List[str]:
         return self.ctags.locate_symbol(symbol)
 
     def find_definition(self, path: Path, line: int, column: int) -> List[str]:
