@@ -1,6 +1,6 @@
 import re
 from pathlib import Path
-from typing import List, Optional, Tuple
+from typing import Any, List, Optional, Tuple
 
 from patchagent.parser.address import AddressSanitizerReport
 from patchagent.parser.cwe import CWE, CWE_DESCRIPTIONS, CWE_REPAIR_ADVICE
@@ -29,7 +29,7 @@ class MemorySanitizerReport(SanitizerReport):
         return [self.stacktrace] + self.other_stacktraces
 
     @staticmethod
-    def parse(raw_content: str, source_path: Optional[Path] = None, work_path: Optional[Path] = None, *args, **kwargs) -> Optional["MemorySanitizerReport"]:
+    def parse(raw_content: str, source_path: Optional[Path] = None, work_path: Optional[Path] = None, *args: Any, **kwargs: Any) -> Optional["MemorySanitizerReport"]:
         fake_asan_content = raw_content.replace("MemorySanitizer", "AddressSanitizer")
         asan_report = AddressSanitizerReport.parse(fake_asan_content, source_path, work_path)
         if asan_report is not None:

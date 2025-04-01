@@ -15,13 +15,13 @@ LEVEL_COLORS = {
 
 
 class ColoredFormatter(logging.Formatter):
-    def format(self, record):
+    def format(self, record: logging.LogRecord) -> str:
         level_color = LEVEL_COLORS.get(record.levelno, Style.RESET_ALL)
         message = super().format(record)
         return f"{level_color}{message}{Style.RESET_ALL}"
 
 
-def setup_logger(level=logging.DEBUG if debug_mode() else logging.INFO):
+def setup_logger(level: int = logging.DEBUG if debug_mode() else logging.INFO) -> logging.Logger:
     logger = logging.getLogger(__name__)
     logger.setLevel(level)
 

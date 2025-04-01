@@ -16,9 +16,9 @@ class BaseAgent:
     def __init__(self, retry: int = 3):
         self.retry = retry
 
-    def _run_once(self):
+    def _run_once(self) -> Optional[str]:
         try:
-            return self.apply()
+            self.apply()
         except ValidationError as e:
             logger.info(f"[🛑] Validation error: {e}")
         except AgentStopException as e:
@@ -26,6 +26,8 @@ class BaseAgent:
         except PatchFoundException as e:
             logger.info("[🎉] Patch is found")
             return str(e)
+
+        return None
 
     def __call__(self) -> Optional[str]:
         for _ in range(self.retry):
@@ -36,5 +38,5 @@ class BaseAgent:
 
         return self._run_once()
 
-    def apply(self):
+    def apply(self) -> None:
         raise NotImplementedError

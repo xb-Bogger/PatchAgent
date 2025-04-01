@@ -1,4 +1,4 @@
-from typing import List
+from typing import Any, List, Union
 
 from langchain_openai import AzureChatOpenAI, ChatOpenAI
 
@@ -6,7 +6,7 @@ from langchain_openai import AzureChatOpenAI, ChatOpenAI
 class LLMConstructException(Exception): ...
 
 
-def construct_chat_llm(*args, **kwargs):
+def construct_chat_llm(*args: Any, **kwargs: Any) -> Union[ChatOpenAI, AzureChatOpenAI]:
     _openai_class_ = [ChatOpenAI, AzureChatOpenAI]
 
     errors: List[str] = []

@@ -1,6 +1,6 @@
 import re
 from pathlib import Path
-from typing import List, Optional, Tuple
+from typing import Any, List, Optional, Tuple
 
 from patchagent.parser.cwe import CWE, CWE_DESCRIPTIONS, CWE_REPAIR_ADVICE
 from patchagent.parser.sanitizer import Sanitizer, SanitizerReport
@@ -46,7 +46,7 @@ class JazzerReport(SanitizerReport):
         self.purified_content = purified_content
 
     @staticmethod
-    def parse(raw_content: str, source_path: Optional[Path] = None, *args, **kwargs) -> Optional["JazzerReport"]:
+    def parse(raw_content: str, source_path: Optional[Path] = None, *args: Any, **kwargs: Any) -> Optional["JazzerReport"]:
         match = re.search(JazzerSanitizerPattern, raw_content, re.DOTALL)
         if match is None:
             return None

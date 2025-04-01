@@ -9,7 +9,7 @@ class UnknownSanitizerReport(SanitizerReport):
         self.stderr = stderr
 
     @property
-    def summary(self):
+    def summary(self) -> str:
         return (
             "The sanitizer detected an unknown vulnerability. \n"
             "Here is the stdout: \n\n"

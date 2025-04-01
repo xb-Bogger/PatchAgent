@@ -1,6 +1,6 @@
 import re
 from pathlib import Path
-from typing import List, Optional, Tuple
+from typing import Any, List, Optional, Tuple
 
 from patchagent.logger import logger
 from patchagent.parser.cwe import CWE, CWE_DESCRIPTIONS, CWE_REPAIR_ADVICE
@@ -66,8 +66,8 @@ class AddressSanitizerReport(SanitizerReport):
         source_path: Optional[Path] = None,
         work_path: Optional[Path] = None,
         detect_leak: bool = False,
-        *args,
-        **kwargs,
+        *args: Any,
+        **kwargs: Any,
     ) -> Optional["AddressSanitizerReport"]:
         raw_content = remove_ansi_escape(raw_content)
         match = re.search(AddressSanitizerPattern, raw_content, re.DOTALL) or (re.search(LeakAddressSanitizerPattern, raw_content, re.DOTALL) if detect_leak else None)

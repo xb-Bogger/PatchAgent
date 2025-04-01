@@ -1,22 +1,22 @@
 import re
 import string
 from pathlib import Path
-from typing import List, Tuple, Union
+from typing import List, Union
 
+from patchagent.builder import Builder
 from patchagent.logger import logger
 from patchagent.parser.utils import guess_relpath
 
 
-def revise_patch(patch: str, source_path: Path) -> Tuple[str, bool]:
-    def revise_hunk(lines: List[str], file_content: List[str]) -> Tuple[str, bool]:
+def revise_clike_patch(patch: str, builder: Builder) -> str:
+    def _revise_hunk(lines: List[str], file_content: List[str]) -> str:
         orignal_line_number = sum(1 for line in lines[1:] if not line.startswith("+"))
         patched_line_number = sum(1 for line in lines[1:] if not line.startswith("-"))
 
         # @@ -3357,10 +3357,16 @@
         # extract the line number and the number of lines
+        assert re.match(r"@@ -\d+,\d+ \+\d+,\d+ @@", lines[0]) is not None
         numbers = re.findall(r"@@ -(\d+),(\d+) \+(\d+),(\d+) @@", lines[0])[0]
-        if numbers[0] != numbers[2]:
-            fixed = True
 
         hunk = ""
         modified_line_number = None
@@ -47,73 +47,67 @@ def revise_patch(patch: str, source_path: Path) -> Tuple[str, bool]:
                 hunk = temp_hunk
 
         header = f"@@ -{corrected_line_number},{orignal_line_number} +{corrected_line_number},{patched_line_number} @@\n"
-        fixed = (
-            modified_line_number != 0
-            or corrected_line_number != int(numbers[0])
-            or orignal_line_number != int(numbers[1])
-            or corrected_line_number != int(numbers[2])
-            or patched_line_number != int(numbers[3])
-        )
 
-        return header + hunk, fixed
+        return header + hunk
 
-    def revise_block(lines: List[str]) -> Tuple[List[str], bool]:
+    def _revise_block(lines: List[str], source_path: Path) -> List[str]:
+        assert re.match(r"--- a/.*", lines[0]) is not None
+        assert re.match(r"\+\+\+ b/.*", lines[1]) is not None
+
         file_path_a = re.findall(r"--- a/(.*)", lines[0])[0]
-        file_path_b = re.findall(r"\+\+\+ b/(.*)", lines[1])[0]
-
         guess_file_path_a = guess_relpath(source_path, Path(file_path_a))
-        guess_file_path_b = guess_relpath(source_path, Path(file_path_b))
-        assert guess_file_path_a is not None and guess_file_path_b is not None
 
-        fixed_file_path_a = guess_file_path_a.as_posix()
-        fixed_file_path_b = guess_file_path_b.as_posix()
-        block_fixed = file_path_a != fixed_file_path_a or file_path_b != fixed_file_path_b or fixed_file_path_a != fixed_file_path_b
+        assert guess_file_path_a is not None
 
-        fixed_lines = [
-            f"--- a/{fixed_file_path_a}\n",
-            f"+++ b/{fixed_file_path_a}\n",
+        revised_file_path_a = guess_file_path_a.as_posix()
+
+        revised_lines = [
+            f"--- a/{revised_file_path_a}\n",
+            f"+++ b/{revised_file_path_a}\n",
         ]
 
-        with (source_path / fixed_file_path_a).open("r") as f:
+        with (source_path / revised_file_path_a).open("r") as f:
             file_content = f.readlines()
 
         last_line = -1
         for line_no in range(2, len(lines)):
             if lines[line_no].startswith("@@"):
                 if last_line != -1:
-                    hunk_lines, hunk_fixed = revise_hunk(lines[last_line:line_no], file_content)
-                    fixed_lines.append(hunk_lines)
-                    block_fixed = block_fixed or hunk_fixed
+                    hunk_lines = _revise_hunk(lines[last_line:line_no], file_content)
+                    revised_lines.append(hunk_lines)
                 last_line = line_no
         if last_line != -1:
-            hunk_lines, hunk_fixed = revise_hunk(lines[last_line:], file_content)
-            fixed_lines.append(hunk_lines)
-            block_fixed = block_fixed or hunk_fixed
+            hunk_lines = _revise_hunk(lines[last_line:], file_content)
+            revised_lines.append(hunk_lines)
 
-        return fixed_lines, block_fixed
+        return revised_lines
 
-    try:
+    def _revise_patch(patch: str, source_path: Path) -> str:
         lines = patch.splitlines()
-        fixed_lines = []
+        revised_lines = []
 
         last_line = -1
-        fixed = False
         for line_no in range(len(lines)):
             if lines[line_no].startswith("--- a/"):
                 if last_line != -1:
-                    block_lines, block_fixed = revise_block(lines[last_line:line_no])
-                    fixed_lines += block_lines
-                    fixed = fixed or block_fixed
+                    block_lines = _revise_block(lines[last_line:line_no], source_path)
+                    revised_lines += block_lines
                 last_line = line_no
         if last_line != -1:
-            block_lines, block_fixed = revise_block(lines[last_line:])
-            fixed_lines += block_lines
-            fixed = fixed or block_fixed
+            block_lines = _revise_block(lines[last_line:], source_path)
+            revised_lines += block_lines
 
-        return "".join(fixed_lines), fixed
-    except Exception:
-        logger.warning("Failed to revise patch")
-        return patch, False
+        return "".join(revised_lines)
+
+    try:
+        formatted_patch = builder.format_patch(patch)
+        if formatted_patch is not None:
+            return formatted_patch
+
+        revised_patch = _revise_patch(patch, builder.source_path)
+        return builder.format_patch(revised_patch) or revised_patch
+    except AssertionError:
+        return patch
 
 
 def extract_cpp_function_name(function_name: str) -> Union[str, None]:

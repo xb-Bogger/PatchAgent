@@ -7,7 +7,7 @@ from patchagent.parser.cwe import CWE
 
 
 class TestSanitizer(unittest.TestCase):
-    def test_parse_sanitizer_report(self):
+    def test_parse_sanitizer_report(self) -> None:
         cover_error_type = set()
         sanitizer_report_dir = Path(__file__).parent / "sanitizer_reports"
         for report_txt in sanitizer_report_dir.glob("**/report.txt"):

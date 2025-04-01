@@ -12,7 +12,7 @@ MAX_VIEWCODE_LINES = 40
 MAX_VALIDATION_TRIES = 3
 
 
-def viewcode(task: PatchTask, _path: str, _start_line: int, _end_line: int, auto_hint=False) -> Tuple[Dict, str]:
+def viewcode(task: PatchTask, _path: str, _start_line: int, _end_line: int, auto_hint: bool = False) -> Tuple[Dict, str]:
     total_lines = _end_line - _start_line + 1
     adjusted_lines = max(MAX_VIEWCODE_LINES, total_lines) - total_lines
 
@@ -34,7 +34,7 @@ def viewcode(task: PatchTask, _path: str, _start_line: int, _end_line: int, auto
     return {"path": path.as_posix(), "start_line": start_line, "end_line": end_line}, result
 
 
-def locate(task: PatchTask, symbol: str, auto_hint=False) -> Tuple[Dict, str]:
+def locate(task: PatchTask, symbol: str, auto_hint: bool = False) -> Tuple[Dict, str]:
     locations = task.builder.language_server.locate_symbol(symbol)
 
     if len(locations) > 1:
@@ -50,7 +50,7 @@ def locate(task: PatchTask, symbol: str, auto_hint=False) -> Tuple[Dict, str]:
     return {"symbol": symbol}, result
 
 
-def validate(task: PatchTask, patch: str, auto_hint=False) -> Tuple[Dict, str]:
+def validate(task: PatchTask, patch: str, auto_hint: bool = False) -> Tuple[Dict, str]:
     num_tries = 0
     for tool_call in reversed(task.current_context.tool_calls):
         if tool_call["name"] != "validate":

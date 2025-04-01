@@ -1,6 +1,6 @@
 import random
 from functools import partial
-from typing import Callable, Generator
+from typing import Any, Callable, Dict, Generator
 
 from patchagent.agent.base import BaseAgent
 from patchagent.agent.clike.common import CommonCLikeAgent
@@ -15,13 +15,15 @@ def _create_agent_generator(
     fast: bool = False,
     stop_indicator: Callable[[], bool] = lambda: False,
 ) -> Generator["BaseAgent", None, None]:
+
+    agent_class: type[CommonCLikeAgent | CommonJavaAgent]
     match patchtask.builder.language:
         case Lang.CLIKE:
             agent_class = CommonCLikeAgent
         case Lang.JVM:
             agent_class = CommonJavaAgent
 
-    kwargs = {}
+    kwargs: Dict[str, Any] = {}
     if fast:
         kwargs["auto_hint"] = random.choice([True, False])
         kwargs["counterexample_num"] = 0

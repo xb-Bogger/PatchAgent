@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Any, Dict, Optional
 
 from patchagent.parser.address import AddressSanitizerReport
 from patchagent.parser.jazzer import JazzerReport
@@ -8,13 +8,15 @@ from patchagent.parser.sanitizer import Sanitizer, SanitizerReport
 from patchagent.parser.undefined import UndefinedBehaviorSanitizerReport
 
 
-def parse_sanitizer_report(content: str, sanitizer: Sanitizer, *args, **kwargs) -> Optional[SanitizerReport]:
-    __sanitizer_report_classes_map__ = {
+def parse_sanitizer_report(content: str, sanitizer: Sanitizer, *args: Any, **kwargs: Any) -> Optional[SanitizerReport]:
+    __sanitizer_report_classes_map__: Dict[Sanitizer, type[SanitizerReport]] = {
         Sanitizer.AddressSanitizer: AddressSanitizerReport,
         Sanitizer.LeakAddressSanitizer: LeakAddressSanitizerReport,
         Sanitizer.UndefinedBehaviorSanitizer: UndefinedBehaviorSanitizerReport,
         Sanitizer.MemorySanitizer: MemorySanitizerReport,
         Sanitizer.JazzerSanitizer: JazzerReport,
     }
-    if sanitizer in __sanitizer_report_classes_map__:
-        return __sanitizer_report_classes_map__[sanitizer].parse(content, *args, **kwargs)
+    if sanitizer not in __sanitizer_report_classes_map__:
+        return None
+
+    return __sanitizer_report_classes_map__[sanitizer].parse(content, *args, **kwargs)

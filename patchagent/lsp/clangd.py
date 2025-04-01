@@ -22,7 +22,7 @@ class ClangdServer(LanguageServer):
     def add_header(self, message: str) -> bytes:
         return f"Content-Length: {len(message.encode())}\r\n\r\n{message}".encode()
 
-    def notify(self, method: str, params: Dict):
+    def notify(self, method: str, params: Dict) -> None:
         message = json.dumps(
             {
                 "jsonrpc": "2.0",
@@ -69,7 +69,7 @@ class ClangdServer(LanguageServer):
             if data.get("id") == self.current_id:
                 return data
 
-    def initialize(self):
+    def initialize(self) -> None:
         self.call(
             "initialize",
             {
@@ -83,7 +83,7 @@ class ClangdServer(LanguageServer):
         )
         self.notify("initialized", {})
 
-    def start(self):
+    def start(self) -> None:
         compile_command_json = self.source_path / "compile_commands.json"
         assert compile_command_json.is_file(), "compile_commands.json not found"
 
@@ -111,7 +111,7 @@ class ClangdServer(LanguageServer):
         self.initialize()
         atexit.register(self.stop)
 
-    def stop(self):
+    def stop(self) -> None:
         self.notify("shutdown", {})
         self.notify("exit", {})
 

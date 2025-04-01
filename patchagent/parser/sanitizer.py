@@ -1,6 +1,6 @@
 from enum import StrEnum
 from pathlib import Path
-from typing import List, Tuple, Union
+from typing import Any, List, Tuple, Union
 
 from patchagent.parser.cwe import CWE
 
@@ -38,5 +38,5 @@ class SanitizerReport:
         return [self.stacktrace]
 
     @staticmethod
-    def parse(raw_content: str, *args, **kwargs) -> Union[None, "SanitizerReport"]:
+    def parse(raw_content: str, *args: Any, **kwargs: Any) -> Union[None, "SanitizerReport"]:
         raise NotImplementedError("parse method must be implemented in child class")

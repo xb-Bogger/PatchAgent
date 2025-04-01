@@ -7,7 +7,10 @@ import clang.cindex
 from clang.cindex import Config
 
 from patchagent.agent.base import AgentStopException, PatchFoundException
-from patchagent.agent.clike.proxy.utils import extract_cpp_function_name, revise_patch
+from patchagent.agent.clike.proxy.utils import (
+    extract_cpp_function_name,
+    revise_clike_patch,
+)
 from patchagent.logger import logger
 from patchagent.parser.utils import guess_relpath
 from patchagent.task import PatchTask, ValidationResult
@@ -18,7 +21,7 @@ MAX_VIEWCODE_LINES = 40
 MAX_VALIDATION_TRIES = 3
 
 
-def viewcode(task: PatchTask, _path: str, _start_line: int, _end_line: int, auto_hint=False) -> Tuple[Dict, str]:
+def viewcode(task: PatchTask, _path: str, _start_line: int, _end_line: int, auto_hint: bool = False) -> Tuple[Dict, str]:
     total_lines = _end_line - _start_line + 1
     adjusted_lines = max(MAX_VIEWCODE_LINES, total_lines) - total_lines
 
@@ -38,7 +41,7 @@ def viewcode(task: PatchTask, _path: str, _start_line: int, _end_line: int, auto
         result = desc + code
 
         if auto_hint:
-            for stack in task.report.stacktraces:  # type: ignore
+            for stack in task.report.stacktraces:
                 key_line = []
                 for _, filepath, line, column in stack:
                     assert not filepath.is_absolute()
@@ -67,7 +70,7 @@ def viewcode(task: PatchTask, _path: str, _start_line: int, _end_line: int, auto
     return {"path": path.as_posix(), "start_line": start_line, "end_line": end_line}, result
 
 
-def locate(task: PatchTask, symbol: str, auto_hint=False) -> Tuple[Dict, str]:
+def locate(task: PatchTask, symbol: str, auto_hint: bool = False) -> Tuple[Dict, str]:
     def helper(task: PatchTask, symbol: str) -> List[str]:
         fast_path_locations = task.builder.language_server.locate_symbol(symbol)
 
@@ -94,7 +97,7 @@ def locate(task: PatchTask, symbol: str, auto_hint=False) -> Tuple[Dict, str]:
                         logger.warning(f"Failed to locate the symbol {symbol} in {realpath}: {e}")
                         break
 
-            for stack in task.report.stacktraces:  # type: ignore
+            for stack in task.report.stacktraces:
                 for idx, frame in enumerate(stack):
                     name, filepath, line, column = frame
                     assert not filepath.is_absolute()
@@ -136,7 +139,7 @@ def locate(task: PatchTask, symbol: str, auto_hint=False) -> Tuple[Dict, str]:
     return {"symbol": symbol}, result
 
 
-def validate(task: PatchTask, patch: str, auto_hint=False) -> Tuple[Dict, str]:
+def validate(task: PatchTask, patch: str, auto_hint: bool = False) -> Tuple[Dict, str]:
     num_tries = 0
     for tool_call in reversed(task.current_context.tool_calls):
         if tool_call["name"] != "validate":
@@ -145,9 +148,7 @@ def validate(task: PatchTask, patch: str, auto_hint=False) -> Tuple[Dict, str]:
     if num_tries >= MAX_VALIDATION_TRIES:
         raise AgentStopException("The number of validation tries has reached the maximum limit.")
 
-    patch, _ = revise_patch(patch, task.builder.source_path)
-    patch = task.builder.format_patch(patch) or patch
-
+    patch = revise_clike_patch(patch, task.builder)
     ret, report = task.validate(patch)
 
     if ret == ValidationResult.BugFree:

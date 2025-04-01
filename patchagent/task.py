@@ -66,8 +66,7 @@ class PatchTask:
 
     @property
     def patch(self) -> Optional[str]:
-        if len(self.contexts) > 0:
-            return self.contexts[-1].patch
+        return self.contexts[-1].patch if self.contexts else None
 
     @property
     def current_context(self) -> Context:
@@ -114,3 +113,5 @@ class PatchTask:
         for agent in agent_generator(self):
             if (patch := agent()) is not None:
                 return patch
+
+        return None

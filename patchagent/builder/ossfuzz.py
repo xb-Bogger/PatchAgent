@@ -53,13 +53,14 @@ class OSSFuzzBuilder(Builder):
         self.project = project
         self.org_fuzz_tooling_path = fuzz_tooling_path
 
-        match sanitizer, self.language:
-            case None, Lang.CLIKE:
-                self.sanitizer = Sanitizer.LeakAddressSanitizer
-            case None, Lang.JVM:
-                self.sanitizer = Sanitizer.JazzerSanitizer
-            case _:
-                self.sanitizer = sanitizer
+        if sanitizer is not None:
+            self.sanitizer = sanitizer
+        else:
+            match self.language:
+                case Lang.CLIKE:
+                    self.sanitizer = Sanitizer.LeakAddressSanitizer
+                case Lang.JVM:
+                    self.sanitizer = Sanitizer.JazzerSanitizer
 
         self.replay_poc_timeout = replay_poc_timeout
 
@@ -155,16 +156,18 @@ class OSSFuzzBuilder(Builder):
                 self.workspace / self.hash_patch(patch) / self.fuzz_tooling_path.name,
                 timeout=self.replay_poc_timeout,
             )
+
+            return None
         except BuilderProcessError as e:
             for report in [e.stdout, e.stderr]:
                 if (
-                    report := parse_sanitizer_report(
+                    san_report := parse_sanitizer_report(
                         report,
                         self.sanitizer,
                         source_path=self.source_path,
                     )
                 ) is not None:
-                    return report
+                    return san_report
 
             return UnknownSanitizerReport(e.stdout, e.stderr)
 

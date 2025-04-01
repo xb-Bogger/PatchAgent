@@ -48,5 +48,4 @@ def revise_patch(patch: str) -> str:
     revised_block = file_header + revise_block_header(all_lines[block_start_index[-1] + 2 :])
     revised_patch += revised_block
 
-    revised_patch = "\n".join(revised_patch)
-    return revised_patch.strip()
+    return "\n".join(revised_patch).strip()

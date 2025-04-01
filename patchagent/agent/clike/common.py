@@ -1,4 +1,5 @@
 import random
+from typing import Any
 
 from langchain.agents import AgentExecutor
 from langchain.agents.format_scratchpad.openai_tools import (
@@ -51,7 +52,7 @@ class CommonCLikeAgent(BaseAgent):
             model=self.model,
         )
 
-    def setup(self, context: Context):
+    def setup(self, context: Context) -> None:
         lc_tools = [
             create_viewcode_tool(self.task, auto_hint=self.auto_hint),
             create_validate_tool(self.task, auto_hint=self.auto_hint),
@@ -71,14 +72,14 @@ class CommonCLikeAgent(BaseAgent):
         context.add_user_message(
             CLIKE_USER_PROMPT_TEMPLATE.format(
                 project=self.task.project,
-                report=self.task.report.summary,  # type: ignore
+                report=self.task.report.summary,
                 counterexamples=self.counterexamples,
             )
         )
 
         self.llm_with_tool = self.llm.bind_tools(tools=oai_tools)
 
-        def save_agent_output(output):
+        def save_agent_output(output: Any) -> Any:
             if isinstance(output, AgentFinish):
                 context.add_llm_response(output.log)
             else:
@@ -96,7 +97,7 @@ class CommonCLikeAgent(BaseAgent):
         self.agent = (
             {
                 "project": lambda input: self.task.project,
-                "report": lambda input: self.task.report.summary,  # type: ignore
+                "report": lambda input: self.task.report.summary,
                 "counterexamples": lambda input: self.counterexamples,
                 "agent_scratchpad": lambda input: format_to_openai_tool_messages(input["intermediate_steps"]),
             }
@@ -107,13 +108,13 @@ class CommonCLikeAgent(BaseAgent):
         )
 
         self.agent_executor = AgentExecutor(
-            agent=self.agent,  # type: ignore
+            agent=self.agent,
             tools=lc_tools,
             verbose=debug_mode(),
             max_iterations=self.max_iterations,
         )
 
-    def get_counterexamples(self):
+    def get_counterexamples(self) -> str:
         counterexamples = []
         for context in self.task.contexts:
             for tool_call in context.tool_calls:
@@ -128,7 +129,7 @@ class CommonCLikeAgent(BaseAgent):
         message += "\n".join(counterexamples)
         return message
 
-    def apply(self):
+    def apply(self) -> None:
         logger.info(f"[🤖] Applying {self.__class__.__name__} (model: {self.model}, temp: {self.temperature}, ah: {self.auto_hint}, #ce: {self.counterexample_num})")
 
         with self.task.new_context() as context:

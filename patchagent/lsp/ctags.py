@@ -26,7 +26,7 @@ class CtagsServer(LanguageServer):
 
         assert tagfile.is_file(), "Failed to generate ctags"
 
-        symbol_map = {}
+        symbol_map: Dict[str, List[str]] = {}
         with open(tagfile, "rb") as f:
             for line in f.readlines():
                 try:
@@ -38,7 +38,7 @@ class CtagsServer(LanguageServer):
                             symbol_map[symbol] = []
                         symbol_map[symbol].append(f"{path}:{line_info}")
                 except ValueError:
-                    logger.warning(f"Failed to decode line {line}")
+                    logger.warning(f"Failed to decode line {line!r} in ctags file")
 
         return symbol_map
 
