@@ -99,9 +99,9 @@ class JavaLanguageServer(LanguageServer):
             if len(parts) < 3:
                 continue
 
-            file_path, lineno, content = parts
+            _file_path, _lineno, content = parts
             # filter the other files (.md, .txt, etc)
-            file_type = file_path.split(".")[-1]
+            file_type = _file_path.split(".")[-1]
 
             filter_header = ["java"]
 
@@ -111,7 +111,7 @@ class JavaLanguageServer(LanguageServer):
             # find character position
             char_pos = content.find(symbol)
             # the line number is 1-based, we need to convert it to 0-based
-            filtered_lines.append((Path(file_path), int(lineno) - 1, char_pos))
+            filtered_lines.append((Path(_file_path), int(_lineno) - 1, char_pos))
 
         # print("num of total file: ", len(filtered_lines))
         # shuffle the list to get random files

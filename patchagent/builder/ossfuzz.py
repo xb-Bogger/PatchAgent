@@ -47,7 +47,7 @@ class OSSFuzzBuilder(Builder):
         sanitizer: Optional[Sanitizer] = None,
         workspace: Optional[Path] = None,
         clean_up: bool = True,
-        replay_poc_timeout: int = 60,
+        replay_poc_timeout: int = 360,
     ):
         super().__init__(project, source_path, workspace, clean_up)
         self.project = project
@@ -168,6 +168,11 @@ class OSSFuzzBuilder(Builder):
                     )
                 ) is not None:
                     return san_report
+
+            # HACK: Check for Docker-related errors in the output
+            for output_stream in [e.stdout, e.stderr]:
+                if "docker: Error response from daemon:" in output_stream:
+                    raise DockerUnavailableError(output_stream)
 
             return UnknownSanitizerReport(e.stdout, e.stderr)
 
