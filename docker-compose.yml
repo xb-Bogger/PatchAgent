@@ -5,4 +5,4 @@ services:
       dockerfile: Dockerfile
       labels:
         - "org.opencontainers.image.source=https://github.com/cla7aye15I4nd/patchagent"
-    image: ghcr.io/cla7aye15i4nd/patchagent/patchagent:latest
+    image: ghcr.io/cla7aye15i4nd/patchagent:latest
