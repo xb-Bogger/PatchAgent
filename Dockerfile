@@ -1,4 +1,4 @@
-FROM cruizba/ubuntu-dind:noble-latest
+FROM cruizba/ubuntu-dind:noble-latest@sha256:ef92362b4dbd3b0bd67119cded51247da91dc236103605787e2d50c1d6f1d7ff
 
 RUN DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
@@ -38,7 +38,7 @@ RUN DEBIAN_FRONTEND=noninteractive && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-ENV PATH "/opt/venv/bin:$PATH"
+ENV PATH="/opt/venv/bin:$PATH"
 
 WORKDIR /source
 COPY patchagent /source/patchagent
