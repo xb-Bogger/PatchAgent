@@ -5,7 +5,10 @@ from typing import Any, List, Optional, Tuple
 from patchagent.parser.address import AddressSanitizerReport
 from patchagent.parser.cwe import CWE, CWE_DESCRIPTIONS, CWE_REPAIR_ADVICE
 from patchagent.parser.sanitizer import Sanitizer, SanitizerReport
-from patchagent.parser.utils import remove_ansi_escape, simplify_and_extract_stacktraces
+from patchagent.parser.utils import (
+    classic_simplify_and_extract_stacktraces,
+    remove_ansi_escape,
+)
 
 UndefinedBehaviorPattern = r"(runtime error: .+)"
 
@@ -15,18 +18,12 @@ class UndefinedBehaviorSanitizerReport(SanitizerReport):
         self,
         content: str,
         cwe: CWE,
-        stacktrace: List[Tuple[str, Path, int, int]],
+        stacktraces: List[List[Tuple[str, Path, int, int]]],
         purified_content: str,
-        other_stacktraces: List[List[Tuple[str, Path, int, int]]] = [],
     ):
 
-        super().__init__(Sanitizer.AddressSanitizer, content, cwe, stacktrace)
+        super().__init__(Sanitizer.UndefinedBehaviorSanitizer, content, cwe, stacktraces)
         self.purified_content = purified_content
-        self.other_stacktraces = other_stacktraces
-
-    @property
-    def stacktraces(self) -> List[List[Tuple[str, Path, int, int]]]:
-        return [self.stacktrace] + self.other_stacktraces
 
     @staticmethod
     def parse(raw_content: str, source_path: Optional[Path] = None, work_path: Optional[Path] = None, *args: Any, **kwargs: Any) -> Optional["UndefinedBehaviorSanitizerReport"]:
@@ -37,9 +34,8 @@ class UndefinedBehaviorSanitizerReport(SanitizerReport):
             return UndefinedBehaviorSanitizerReport(
                 ubsan_content,
                 asan_report.cwe,
-                asan_report.stacktrace,
+                asan_report.stacktraces,
                 asan_report.purified_content,
-                asan_report.other_stacktraces,
             )
 
         raw_content = remove_ansi_escape(raw_content)
@@ -52,12 +48,10 @@ class UndefinedBehaviorSanitizerReport(SanitizerReport):
         for line in content.splitlines():
             if line.startswith("SCARINESS") or line.startswith("DEDUP_TOKEN"):
                 continue
-            if line.startswith("SUMMARY:"):
-                break
             body.append(line)
 
-        simplified, stacktraces = simplify_and_extract_stacktraces(body, source_path, work_path)
-        return UndefinedBehaviorSanitizerReport(content, CWE.Undefined_behavior, stacktraces[0], simplified, stacktraces[1:])
+        simplified, stacktraces = classic_simplify_and_extract_stacktraces(body, source_path, work_path)
+        return UndefinedBehaviorSanitizerReport(content, CWE.Undefined_behavior, stacktraces, simplified)
 
     @property
     def summary(self) -> str:

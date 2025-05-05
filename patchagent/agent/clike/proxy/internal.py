@@ -65,7 +65,7 @@ def viewcode(task: PatchTask, _path: str, _start_line: int, _end_line: int, auto
                         for i, hint in enumerate(hints):
                             result += f"{i + 1}. {hint}\n"
                     else:
-                        logger.error(f"Failed to get hint for {path}:{line}")
+                        logger.warning(f"[🚧] Failed to get hint for {path}:{line}")
 
     return {"path": path.as_posix(), "start_line": start_line, "end_line": end_line}, result
 
@@ -94,7 +94,7 @@ def locate(task: PatchTask, symbol: str, auto_hint: bool = False) -> Tuple[Dict,
                         if len(location_set) > 0:
                             return list(location_set)
                     except clang.cindex.TranslationUnitLoadError as e:
-                        logger.warning(f"Failed to locate the symbol {symbol} in {realpath}: {e}")
+                        logger.warning(f"[🚧] Failed to locate the symbol {symbol} in {realpath}: {e}")
                         break
 
             for stack in task.report.stacktraces:
@@ -127,9 +127,9 @@ def locate(task: PatchTask, symbol: str, auto_hint: bool = False) -> Tuple[Dict,
     locations = helper(task, symbol)
 
     if len(locations) > 1:
-        logger.warning(f"{symbol} has multiple definitions.")
+        logger.warning(f"[🚧] {symbol} has multiple definitions.")
     elif len(locations) == 0:
-        logger.error(f"Failed to find the definition of {symbol}.")
+        logger.warning(f"[🚧] Failed to find the definition of {symbol}.")
 
     if len(locations) == 0:
         result = f"Sorry, we cannot locate the symbol {symbol}, please consider use some alias names."

@@ -1,4 +1,4 @@
-from .builder import Builder
-from .ossfuzz import OSSFuzzBuilder
+from .builder import Builder, PoC
+from .ossfuzz import OSSFuzzBuilder, OSSFuzzPoC
 
-__all__ = ["Builder", "OSSFuzzBuilder"]
+__all__ = ["Builder", "PoC", "OSSFuzzBuilder", "OSSFuzzPoC"]

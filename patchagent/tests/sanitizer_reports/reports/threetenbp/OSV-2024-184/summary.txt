@@ -1,6 +1,8 @@
 The sanitizer detected a stack overflow vulnerability.The explanation of the vulnerability is: Excessive function calls lead to stack exhaustion, causing the program to crash or behave unpredictably.Here is the detail: 
 
+== Java Exception: com.code_intelligence.jazzer.api.FuzzerSecurityIssueLow: Stack overflow (use '-Xss921k' to reproduce)
 - org.threeten.bp.format.DateTimeFormatterBuilder$CompositePrinterParser.parse (org/threeten/bp/format/DateTimeFormatterBuilder$CompositePrinterParser/parse:2014)
+Caused by: java.lang.StackOverflowError
 - java.base/java.lang.StringUTF16.compress (java/base/java/lang/StringUTF16.java:169)
 - java.base/java.lang.StringUTF16.newString (java/base/java/lang/StringUTF16.java:1019)
 - java.base/java.lang.String.substring (java/base/java/lang/String.java:1880)
@@ -8,8 +10,7 @@ The sanitizer detected a stack overflow vulnerability.The explanation of the vul
 - org.threeten.bp.format.DateTimeFormatterBuilder$PadPrinterParserDecorator.parse (org/threeten/bp/format/DateTimeFormatterBuilder$PadPrinterParserDecorator/parse:2111)
 - org.threeten.bp.format.DateTimeFormatterBuilder$CompositePrinterParser.parse (org/threeten/bp/format/DateTimeFormatterBuilder$CompositePrinterParser/parse:2014)
 - org.threeten.bp.format.DateTimeFormatterBuilder$CompositePrinterParser.parse (org/threeten/bp/format/DateTimeFormatterBuilder$CompositePrinterParser/parse:2014)
-  ... more stack frames
-
+	... 1 more
 
 To fix this issue, follow the advice below:
 

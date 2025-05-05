@@ -1,10 +1,10 @@
+import random
 from enum import Enum
 from functools import cached_property
-from pathlib import Path
-from typing import Callable, Generator, List, Optional, Tuple
+from typing import Callable, Generator, List, Optional, Tuple, TypeVar
 
 from patchagent.agent.base import BaseAgent
-from patchagent.builder import Builder
+from patchagent.builder import Builder, PoC
 from patchagent.builder.utils import BuilderProcessError, BuilderTimeoutError
 from patchagent.context import Context
 from patchagent.parser import SanitizerReport
@@ -23,15 +23,18 @@ class ValidationResult(Enum):
     FunctionTestTimeout = "Function test timeout"
 
 
+PoC_T = TypeVar("PoC_T", bound=PoC)
+
+
 class PatchTask:
     def __init__(
         self,
-        poc_paths: List[Path],
-        harness_name: str,
+        pocs: List[PoC_T],
         builder: Builder,
     ):
-        self.poc_paths: List[Path] = poc_paths
-        self.harness_name: str = harness_name
+        self.pocs = pocs
+        random.shuffle(self.pocs)
+
         self.builder: Builder = builder
         self.project: str = self.builder.project
         self.contexts: List[Context] = []
@@ -47,8 +50,8 @@ class PatchTask:
             return ValidationResult.BuildTimeout, str(e)
 
         try:
-            for poc_path in self.poc_paths:
-                report = self.builder.replay(self.harness_name, poc_path)
+            for poc in self.pocs:
+                report = self.builder.replay(poc)
                 if report is not None:
                     self._report = report
                     return ValidationResult.BugDetected, report.summary
@@ -91,8 +94,8 @@ class PatchTask:
             return ValidationResult.BuildTimeout, str(e)
 
         try:
-            for poc_path in self.poc_paths:
-                report = self.builder.replay(self.harness_name, poc_path, patch)
+            for poc in self.pocs:
+                report = self.builder.replay(poc, patch)
                 if report is not None:
                     return ValidationResult.BugDetected, report.summary
         except BuilderProcessError as e:

@@ -118,8 +118,7 @@ class ClangdServer(LanguageServer):
         self.process.terminate()
 
     def find_definition_internal(self, path: Path, line: int, chr: int) -> List[str]:
-        with open(path, "r") as f:
-            content = f.read()
+        content = path.read_text(errors="ignore")
 
         self.notify(
             "textDocument/didOpen",
@@ -164,8 +163,7 @@ class ClangdServer(LanguageServer):
         return locations
 
     def hover_internal(self, path: Path, line: int, chr: int) -> str:
-        with open(path, "r") as f:
-            content = f.read()
+        content = path.read_text(errors="ignore")
 
         self.notify(
             "textDocument/didOpen",

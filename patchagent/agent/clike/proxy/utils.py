@@ -66,7 +66,7 @@ def revise_clike_patch(patch: str, builder: Builder) -> str:
             f"+++ b/{revised_file_path_a}\n",
         ]
 
-        with (source_path / revised_file_path_a).open("r") as f:
+        with (source_path / revised_file_path_a).open("r", errors="ignore") as f:
             file_content = f.readlines()
 
         last_line = -1
@@ -140,6 +140,6 @@ def extract_cpp_function_name(function_name: str) -> Union[str, None]:
         return None
 
     if any(c not in ident_chars for c in result) or len(result) == 0:
-        logger.warning(f"Failed to extract function name from '{function_name}' (result: '{result})'")
+        logger.warning(f"[🚧] Failed to extract function name from '{function_name}' (result: '{result})'")
 
     return result

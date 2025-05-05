@@ -1,5 +1,8 @@
 The sanitizer detected a remote code execution vulnerability.The explanation of the vulnerability is: An attacker can execute arbitrary code on a remote system, leading to full compromise.Here is the detail: 
 
+== Java Exception: com.code_intelligence.jazzer.api.FuzzerSecurityIssueHigh: Remote Code Execution
+Unrestricted class/object creation based on externally controlled data may allow
+remote code execution depending on available classes on the classpath.
 - jaz.Zer.reportFinding (jaz/Zer.java:110)
 - jaz.Zer.reportFindingIfEnabled (jaz/Zer.java:105)
 - jaz.Zer.<init> (jaz/Zer.java:78)
@@ -11,7 +14,6 @@ The sanitizer detected a remote code execution vulnerability.The explanation of 
 - java.base/java.lang.Class.newInstance (java/base/java/lang/Class.java:645)
 - org.xmlpull.v1.XmlPullParserFactory.newInstance (org/xmlpull/v1/XmlPullParserFactory.java:319)
 - PullParserFactoryFuzzer.fuzzerTestOneInput (PullParserFactoryFuzzer.java:14)
-
 
 To fix this issue, follow the advice below:
 

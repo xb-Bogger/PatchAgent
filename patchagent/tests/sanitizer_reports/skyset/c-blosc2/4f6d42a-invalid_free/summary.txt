@@ -1,4 +1,4 @@
-The sanitizer detected a invalid free vulnerability. The explanation of the vulnerability is: A program attempts to free a memory block that was not dynamically allocated, causing undefined behavior or crashes. Here is the detail: 
+The sanitizer detected a bad free vulnerability. The explanation of the vulnerability is: A program attempts to free a memory block that was not dynamically allocated, causing undefined behavior or crashes. Here is the detail: 
 
     - frame_get_lazychunk /root/blosc/frame.c:2036:7
     - frame_decompress_chunk /root/blosc/frame.c:2761:8

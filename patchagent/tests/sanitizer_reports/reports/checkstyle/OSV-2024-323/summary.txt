@@ -1,5 +1,6 @@
 The sanitizer detected a stack overflow vulnerability.The explanation of the vulnerability is: Excessive function calls lead to stack exhaustion, causing the program to crash or behave unpredictably.Here is the detail: 
 
+== Java Exception: com.code_intelligence.jazzer.api.FuzzerSecurityIssueLow: Stack overflow (use '-Xss921k' to reproduce)
 - com.puppycrawl.tools.checkstyle.JavaAstVisitor.getInnerBopAst (com/puppycrawl/tools/checkstyle/JavaAstVisitor.java:1631)
 - java.base/java.util.stream.ReferencePipeline$3$1.accept (java/base/java/util/stream/ReferencePipeline$3$1/accept:197)
 - java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining (java/base/java/util/ArrayList$ArrayListSpliterator/forEachRemaining:1625)
@@ -20,6 +21,7 @@ The sanitizer detected a stack overflow vulnerability.The explanation of the vul
 - com.puppycrawl.tools.checkstyle.JavaAstVisitor.visit (com/puppycrawl/tools/checkstyle/JavaAstVisitor.java:2387)
 - com.puppycrawl.tools.checkstyle.JavaAstVisitor.buildExpressionNode (com/puppycrawl/tools/checkstyle/JavaAstVisitor.java:2400)
 - com.puppycrawl.tools.checkstyle.JavaAstVisitor.visitExpression (com/puppycrawl/tools/checkstyle/JavaAstVisitor.java:1324)
+Caused by: java.lang.StackOverflowError
 - java.base/java.lang.StringUTF16.compress (java/base/java/lang/StringUTF16.java:162)
 - java.base/java.lang.String.<init> (java/base/java/lang/String.java:4496)
 - java.base/java.lang.String.<init> (java/base/java/lang/String.java:300)
@@ -199,8 +201,7 @@ The sanitizer detected a stack overflow vulnerability.The explanation of the vul
 - com.puppycrawl.tools.checkstyle.JavaAstVisitor.visitExpressionList (com/puppycrawl/tools/checkstyle/JavaAstVisitor.java:96)
 - com.puppycrawl.tools.checkstyle.grammar.java.JavaLanguageParser$ExpressionListContext.accept (com/puppycrawl/tools/checkstyle/grammar/java/JavaLanguageParser$ExpressionListContext/accept:8802)
 - com.puppycrawl.tools.checkstyle.JavaAstVisitor.visit (com/puppycrawl/tools/checkstyle/JavaAstVisitor.java:2387)
-  ... more stack frames
-
+	... 20 more
 
 To fix this issue, follow the advice below:
 

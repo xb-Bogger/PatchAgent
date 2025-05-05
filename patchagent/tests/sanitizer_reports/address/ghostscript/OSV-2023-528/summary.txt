@@ -1,4 +1,4 @@
-The sanitizer detected a memcpy param overlap vulnerability. The explanation of the vulnerability is: The source and destination buffers of a memory copy operation overlap, causing data corruption. Here is the detail: 
+The sanitizer detected a function param overlap vulnerability. The explanation of the vulnerability is: The source and destination buffers of a memory copy operation overlap, causing data corruption. Here is the detail: 
 
     - memcpy /src/llvm-project/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_memintrinsics.inc:115:5
     - pdfi_copy_truetype_font /src/ghostpdl/pdf/pdf_fontTT.c:726:9

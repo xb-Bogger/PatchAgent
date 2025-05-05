@@ -1,6 +1,8 @@
 The sanitizer detected a stack overflow vulnerability.The explanation of the vulnerability is: Excessive function calls lead to stack exhaustion, causing the program to crash or behave unpredictably.Here is the detail: 
 
+== Java Exception: com.code_intelligence.jazzer.api.FuzzerSecurityIssueLow: Stack overflow (use '-Xss921k' to reproduce)
 - com.puppycrawl.tools.checkstyle.grammar.java.JavaLanguageParser.expr (com/puppycrawl/tools/checkstyle/grammar/java/JavaLanguageParser.java:9297)
+Caused by: java.lang.StackOverflowError
 - com.puppycrawl.tools.checkstyle.grammar.CrAwareLexerSimulator.consume (com/puppycrawl/tools/checkstyle/grammar/CrAwareLexerSimulator.java:60)
 - org.antlr.v4.runtime.atn.LexerATNSimulator.execATN (org/antlr/v4/runtime/atn/LexerATNSimulator.java:216)
 - org.antlr.v4.runtime.atn.LexerATNSimulator.match (org/antlr/v4/runtime/atn/LexerATNSimulator.java:114)
@@ -12,8 +14,7 @@ The sanitizer detected a stack overflow vulnerability.The explanation of the vul
 - com.puppycrawl.tools.checkstyle.grammar.java.JavaLanguageParser.expr (com/puppycrawl/tools/checkstyle/grammar/java/JavaLanguageParser.java:9294)
 - com.puppycrawl.tools.checkstyle.grammar.java.JavaLanguageParser.expr (com/puppycrawl/tools/checkstyle/grammar/java/JavaLanguageParser.java:9297)
 - com.puppycrawl.tools.checkstyle.grammar.java.JavaLanguageParser.expr (com/puppycrawl/tools/checkstyle/grammar/java/JavaLanguageParser.java:9297)
-  ... more stack frames
-
+	... 1 more
 
 To fix this issue, follow the advice below:
 

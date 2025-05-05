@@ -5,7 +5,8 @@ from pathlib import Path
 import git
 
 from patchagent.agent.generator import agent_generator
-from patchagent.builder import OSSFuzzBuilder
+from patchagent.builder import OSSFuzzBuilder, OSSFuzzPoC
+from patchagent.parser.sanitizer import Sanitizer
 from patchagent.task import PatchTask
 
 oss_fuzz_url = "https://github.com/google/oss-fuzz.git"
@@ -48,12 +49,12 @@ if __name__ == "__main__":
         source_repo.git.checkout(clamav_commit)
 
         patchtask = PatchTask(
-            [poc_path],
-            "clamav_dbload_YARA_fuzzer",
+            [OSSFuzzPoC(poc_path, "clamav_dbload_YARA_fuzzer")],
             OSSFuzzBuilder(
                 "clamav",
                 source_path,
                 oss_fuzz_path,
+                [Sanitizer.LeakAddressSanitizer],
             ),
         )
 

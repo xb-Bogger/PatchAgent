@@ -13,6 +13,10 @@ from patchagent.lsp.language import LanguageServer
 from patchagent.parser import SanitizerReport
 
 
+class PoC:
+    def __init__(self) -> None: ...
+
+
 class Builder:
     def __init__(
         self,
@@ -47,7 +51,10 @@ class Builder:
             shutil.rmtree(target_path / ".git")
 
         repo = Repo.init(target_path)
-        repo.index.add(repo.untracked_files)
+
+        # This is a workaround to prevent repo.index.add from altering file permissions
+        # when files are added to the Git index
+        repo.git.add(repo.untracked_files)
         repo.index.commit("Initial commit")
         return repo
 
@@ -91,7 +98,7 @@ class Builder:
     def build(self, patch: str = "") -> None:
         raise NotImplementedError("build not implemented")
 
-    def replay(self, harness_name: str, poc_path: Path, patch: str = "") -> Optional[SanitizerReport]:
+    def replay(self, poc: PoC, patch: str = "") -> Optional[SanitizerReport]:
         raise NotImplementedError("replay not implemented")
 
     def function_test(self, patch: str = "") -> None: ...

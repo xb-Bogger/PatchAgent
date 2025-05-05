@@ -1,5 +1,7 @@
 The sanitizer detected a out of memory vulnerability.The explanation of the vulnerability is: The program runs out of memory, causing allocation failures and potential crashes.Here is the detail: 
 
+== Java Exception: com.code_intelligence.jazzer.api.FuzzerSecurityIssueLow: Out of memory (use '-Xmx1710m' to reproduce)
+Caused by: java.lang.OutOfMemoryError: Java heap space
 - java.base/java.lang.AbstractStringBuilder.<init> (java/base/java/lang/AbstractStringBuilder.java:146)
 - java.base/java.lang.StringBuilder.<init> (java/base/java/lang/StringBuilder.java:143)
 - org.apache.commons.codec.language.bm.Rule$Phoneme.<init> (org/apache/commons/codec/language/bm/Rule$Phoneme/<init>:113)
@@ -9,7 +11,6 @@ The sanitizer detected a out of memory vulnerability.The explanation of the vuln
 - org.apache.commons.codec.language.bm.PhoneticEngine.encode (org/apache/commons/codec/language/bm/PhoneticEngine.java:446)
 - org.apache.commons.codec.language.bm.PhoneticEngine.encode (org/apache/commons/codec/language/bm/PhoneticEngine.java:363)
 - PhoneticEngineFuzzer.fuzzerTestOneInput (PhoneticEngineFuzzer.java:32)
-
 
 To fix this issue, follow the advice below:
 

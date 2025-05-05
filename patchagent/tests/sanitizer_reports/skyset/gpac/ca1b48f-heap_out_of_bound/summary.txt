@@ -1,4 +1,4 @@
-The sanitizer detected a memcpy param overlap vulnerability. The explanation of the vulnerability is: The source and destination buffers of a memory copy operation overlap, causing data corruption. Here is the detail: 
+The sanitizer detected a function param overlap vulnerability. The explanation of the vulnerability is: The source and destination buffers of a memory copy operation overlap, causing data corruption. Here is the detail: 
 
     - mpgviddmx_process /root/src/filters/reframe_mpgvid.c:959:7
     - gf_filter_process_task /root/src/filter_core/filter.c:2971:7

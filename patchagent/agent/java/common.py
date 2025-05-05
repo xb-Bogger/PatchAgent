@@ -81,13 +81,13 @@ class CommonJavaAgent(BaseAgent):
                 context.add_llm_response(output.log)
             else:
                 if not isinstance(output, list):
-                    logger.error(f"Invalid output: {output}")
+                    logger.error(f"[❌] Invalid output: {output}")
                 else:
                     for action in output:
                         if isinstance(action, AgentAction):
                             context.add_llm_response(action.log)
                         else:
-                            logger.error(f"Invalid action: {action}")
+                            logger.error(f"[❌] Invalid action: {action}")
 
             return output
 

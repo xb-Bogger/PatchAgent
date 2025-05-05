@@ -38,9 +38,9 @@ def locate(task: PatchTask, symbol: str, auto_hint: bool = False) -> Tuple[Dict,
     locations = task.builder.language_server.locate_symbol(symbol)
 
     if len(locations) > 1:
-        logger.warning(f"{symbol} has multiple definitions.")
+        logger.warning(f"[🚧] {symbol} has multiple definitions.")
     elif len(locations) == 0:
-        logger.error(f"Failed to find the definition of {symbol}.")
+        logger.warning(f"[🚧] Failed to find the definition of {symbol}.")
 
     if len(locations) == 0:
         result = f"Sorry, we cannot locate the symbol {symbol}, please consider use some alias names."

@@ -5,7 +5,8 @@ from typing import Dict, List, Optional, Set, Tuple
 from patchagent.logger import logger
 
 _pathset_cache: Dict[Path, Set[Path]] = {}
-StackTracePattern = r"^\s*#(\d+)\s+(0x[\w\d]+)\s+in\s+(.+)\s+(/.*)\s*"
+ClassictackTracePattern = r"^\s*#(\d+)\s+(0x[\w\d]+)\s+in\s+(.+)\s+(/.*)\s*"
+JVMStackTracePattern = r"at (.*)\((.*)\)"
 
 
 def guess_relpath(source_path: Optional[Path], original_path: Path) -> Optional[Path]:
@@ -39,7 +40,11 @@ def remove_ansi_escape(content: str) -> str:
     return re.sub(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])", "", content)
 
 
-def simplify_and_extract_stacktraces(
+def remove_empty_stacktrace(stacktraces: List[List[Tuple[str, Path, int, int]]]) -> List[List[Tuple[str, Path, int, int]]]:
+    return [stacktrace for stacktrace in stacktraces if len(stacktrace) > 0]
+
+
+def classic_simplify_and_extract_stacktraces(
     lines: List[str],
     source_path: Optional[Path] = None,
     work_path: Optional[Path] = None,
@@ -58,7 +63,7 @@ def simplify_and_extract_stacktraces(
                 current_count = 0
                 assert count == 0
 
-            if (match := re.search(StackTracePattern, line)) is not None:
+            if (match := re.search(ClassictackTracePattern, line)) is not None:
                 function_name = match.group(3)
                 entries = match.group(4).split(":")
 
@@ -80,7 +85,7 @@ def simplify_and_extract_stacktraces(
                 normpath = Path(filepath).resolve()
                 desc = f"{normpath}:{line_number}:{column_number}"
                 if f"{filepath}:{line_number}:{column_number}" != match.group(4):
-                    logger.warning(f"Incomplete file path: {desc} vs {match.group(4)}")
+                    logger.warning(f"[🚧] Incomplete file path: {desc} vs {match.group(4)}")
 
                 # NOTE:
                 # We handle stacktraces and description messages differently based on the presence of a work_path.
@@ -97,10 +102,14 @@ def simplify_and_extract_stacktraces(
                 # - When work_path is provided and the source path is within work_path,
                 #   we output the relative path with appended line and column numbers.
 
-                if work_path is not None and normpath.is_relative_to(work_path):
-                    stacktraces[-1].append((function_name, normpath.relative_to(work_path), int(line_number), int(column_number)))
-                elif (relpath := guess_relpath(source_path, normpath)) is not None:
-                    stacktraces[-1].append((function_name, relpath, int(line_number), int(column_number)))
+                if work_path is not None:
+                    if normpath.is_relative_to(work_path):
+                        stacktraces[-1].append((function_name, normpath.relative_to(work_path), int(line_number), int(column_number)))
+                elif source_path is not None:
+                    if (relpath := guess_relpath(source_path, normpath)) is not None:
+                        stacktraces[-1].append((function_name, relpath, int(line_number), int(column_number)))
+                else:
+                    stacktraces[-1].append((function_name, normpath, int(line_number), int(column_number)))
 
                 if work_path is None:
                     body.append(f"    - {function_name} {desc}")
@@ -109,4 +118,78 @@ def simplify_and_extract_stacktraces(
         else:
             body.append(re.sub(r"==[0-9]+==", "", line))
 
-    return "\n".join(body), stacktraces
+    return "\n".join(body), remove_empty_stacktrace(stacktraces)
+
+
+def jvm_simplify_and_extract_stacktraces(
+    lines: List[str],
+    source_path: Optional[Path] = None,
+    work_path: Optional[Path] = None,  # TODO: This is not used in the current implementation
+    handle_cyclic: bool = False,
+) -> Tuple[str, List[List[Tuple[str, Path, int, int]]]]:
+
+    fake_body: List[str | List[Tuple[str, Path, int, int]]] = []
+
+    for line in lines:
+        match = re.search(JVMStackTracePattern, line)
+        if match:
+            name = match.group(1)
+            classpath = name.split(".")
+
+            location = match.group(2)
+            if (match_ := re.search(r"^(.*):(\d+)$", location)) is not None:
+                filename = Path(match_.group(1))
+                linum = int(match_.group(2))
+            else:
+                continue
+
+            filepath = Path("")
+            for part in classpath:
+                if part == filename.stem:
+                    filepath /= filename
+                    relpath = guess_relpath(source_path, filepath)
+                    filepath = relpath or filepath
+                    break
+
+                filepath /= part
+
+            if filepath is not None:
+                if len(fake_body) == 0 or isinstance(fake_body[-1], str):
+                    fake_body.append([])
+
+                assert isinstance(fake_body[-1], list)
+                fake_body[-1].append((name, filepath, linum, 0))
+        else:
+            fake_body.append(line)
+
+    body: List[str] = []
+    stacktraces: List[List[Tuple[str, Path, int, int]]] = []
+    for elem in fake_body:
+        if isinstance(elem, str):
+            body.append(elem)
+        else:
+            stacktraces.append(elem)
+
+            if not handle_cyclic:
+                for i, (name, filepath, linum, _) in enumerate(elem):
+                    body.append(f"- {name} ({filepath}:{linum})")
+            else:
+                repeat_times = 3
+                for i, (name, filepath, linum, _) in enumerate(elem):
+                    desc = f"- {name} ({filepath}:{linum})"
+                    has_cyclic = False
+                    for cycle_len in range(1, i // repeat_times):
+                        always_repeat = True
+                        for j in range(cycle_len):
+                            for k in range(repeat_times):
+                                always_repeat = always_repeat and (elem[i - j] == elem[i - j - cycle_len * k])
+                        if always_repeat:
+                            has_cyclic = True
+                            break
+
+                    if has_cyclic:
+                        break
+
+                    body.append(desc)
+
+    return "\n".join(body), remove_empty_stacktrace(stacktraces)

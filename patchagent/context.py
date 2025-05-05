@@ -31,7 +31,7 @@ class Context:
             },
         }
         self.messages.append(data)
-        logger.debug(f"Tool call: {data}")
+        logger.debug(f"[📞] Tool call: {data}")
 
     def add_llm_response(self, response: str) -> None:
         if len(response) > 0:
@@ -40,7 +40,7 @@ class Context:
                 "message": response,
             }
             self.messages.append(data)
-            logger.debug(f"LLM response: {data}")
+            logger.debug(f"[🤖] LLM response: {data}")
 
     def add_system_message(self, message: str) -> None:
         if len(message) > 0:
@@ -49,7 +49,7 @@ class Context:
                 "message": message,
             }
             self.messages.append(data)
-            logger.debug(f"System message: {data}")
+            logger.debug(f"[🧑‍💻] System message: {data}")
 
     def add_user_message(self, message: str) -> None:
         if len(message) > 0:
@@ -58,7 +58,7 @@ class Context:
                 "message": message,
             }
             self.messages.append(data)
-            logger.debug(f"User message: {data}")
+            logger.debug(f"[👤] User message: {data}")
 
     def dump(self) -> Dict[str, Any]:
         return {

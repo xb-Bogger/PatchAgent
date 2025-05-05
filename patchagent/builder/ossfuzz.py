@@ -4,11 +4,12 @@ import subprocess
 from functools import cached_property
 from hashlib import md5
 from pathlib import Path
-from typing import Optional
+from typing import List, Optional
 
+import pexpect
 import yaml
 
-from patchagent.builder import Builder
+from patchagent.builder import Builder, PoC
 from patchagent.builder.utils import (
     BuilderProcessError,
     DockerUnavailableError,
@@ -21,7 +22,14 @@ from patchagent.lsp.java import JavaLanguageServer
 from patchagent.lsp.language import LanguageServer
 from patchagent.parser import Sanitizer, SanitizerReport, parse_sanitizer_report
 from patchagent.parser.unknown import UnknownSanitizerReport
-from patchagent.utils import bear_path, subprocess_none_pipe
+from patchagent.utils import bear_path
+
+
+class OSSFuzzPoC(PoC):
+    def __init__(self, path: Path, harness_name: str):
+        super().__init__()
+        self.path = path
+        self.harness_name = harness_name
 
 
 class OSSFuzzBuilder(Builder):
@@ -30,7 +38,6 @@ class OSSFuzzBuilder(Builder):
         Sanitizer.UndefinedBehaviorSanitizer: "undefined",
         Sanitizer.LeakAddressSanitizer: "address",
         Sanitizer.MemorySanitizer: "memory",
-        Sanitizer.ThreadSanitizer: "thread",
         # OSS-Fuzz maps Jazzer to AddressSanitizer for JVM projects
         # Reference:
         #   - https://github.com/google/oss-fuzz/blob/master/projects/hamcrest/project.yaml
@@ -44,7 +51,7 @@ class OSSFuzzBuilder(Builder):
         project: str,
         source_path: Path,
         fuzz_tooling_path: Path,
-        sanitizer: Optional[Sanitizer] = None,
+        sanitizers: List[Sanitizer],
         workspace: Optional[Path] = None,
         clean_up: bool = True,
         replay_poc_timeout: int = 360,
@@ -53,15 +60,7 @@ class OSSFuzzBuilder(Builder):
         self.project = project
         self.org_fuzz_tooling_path = fuzz_tooling_path
 
-        if sanitizer is not None:
-            self.sanitizer = sanitizer
-        else:
-            match self.language:
-                case Lang.CLIKE:
-                    self.sanitizer = Sanitizer.LeakAddressSanitizer
-                case Lang.JVM:
-                    self.sanitizer = Sanitizer.JazzerSanitizer
-
+        self.sanitizers = sanitizers
         self.replay_poc_timeout = replay_poc_timeout
 
     @cached_property
@@ -72,11 +71,11 @@ class OSSFuzzBuilder(Builder):
 
         return target_path
 
-    def hash_patch(self, patch: str) -> str:
-        return md5(patch.encode()).hexdigest()
+    def hash_patch(self, sanitizer: Sanitizer, patch: str) -> str:
+        return f"{md5(patch.encode()).hexdigest()}-{self.SANITIZER_MAP[sanitizer]}"
 
-    def build_finish_indicator(self, patch: str) -> Path:
-        return self.workspace / self.hash_patch(patch) / ".build"
+    def build_finish_indicator(self, sanitizer: Sanitizer, patch: str) -> Path:
+        return self.workspace / self.hash_patch(sanitizer, patch) / ".build"
 
     def _build_image(self, fuzz_tooling_path: Path, tries: int = 3) -> None:
         for _ in range(tries):
@@ -91,16 +90,14 @@ class OSSFuzzBuilder(Builder):
             if process.returncode == 0:
                 return
 
-            logger.warning(f"[🔥] Failed to build image for {self.project}: {stderr.decode(errors='ignore')}")
-
         raise DockerUnavailableError(stderr.decode(errors="ignore"))
 
-    def build(self, patch: str = "") -> None:
-        if self.build_finish_indicator(patch).is_file():
+    def _build(self, sanitizer: Sanitizer, patch: str = "") -> None:
+        if self.build_finish_indicator(sanitizer, patch).is_file():
             return
 
-        logger.info(f"[🧱] Building {self.project} with patch {self.hash_patch(patch)}")
-        workspace = self.workspace / self.hash_patch(patch)
+        logger.info(f"[🧱] Building {self.project} with patch {self.hash_patch(sanitizer, patch)}")
+        workspace = self.workspace / self.hash_patch(sanitizer, patch)
         source_path = workspace / self.org_source_path.name
         fuzz_tooling_path = workspace / self.org_fuzz_tooling_path.name
 
@@ -117,7 +114,7 @@ class OSSFuzzBuilder(Builder):
                 "infra/helper.py",
                 "build_fuzzers",
                 "--sanitizer",
-                self.SANITIZER_MAP[self.sanitizer],
+                self.SANITIZER_MAP[sanitizer],
                 "--clean",
                 self.project,
                 source_path,
@@ -129,20 +126,27 @@ class OSSFuzzBuilder(Builder):
             [
                 "infra/helper.py",
                 "check_build",
+                "--sanitizer",
+                self.SANITIZER_MAP[sanitizer],
                 self.project,
             ],
             fuzz_tooling_path,
         )
 
-        self.build_finish_indicator(patch).write_text(patch)
+        self.build_finish_indicator(sanitizer, patch).write_text(patch)
 
-    def replay(self, harness_name: str, poc_path: Path, patch: str = "") -> Optional[SanitizerReport]:
-        self.build(patch)
+    def build(self, patch: str = "") -> None:
+        for sanitizer in self.sanitizers:
+            self._build(sanitizer, patch)
 
-        assert poc_path.is_file(), "PoC file does not exist"
-        assert self.build_finish_indicator(patch).is_file(), "Build failed"
+    def _replay(self, poc: PoC, sanitizer: Sanitizer, patch: str = "") -> Optional[SanitizerReport]:
+        self._build(sanitizer, patch)
 
-        logger.info(f"[🔄] Replaying {self.project}/{harness_name} with PoC {poc_path} and patch {self.hash_patch(patch)}")
+        assert isinstance(poc, OSSFuzzPoC), f"Invalid PoC type: {type(poc)}"
+        assert poc.path.is_file(), "PoC file does not exist"
+        assert self.build_finish_indicator(sanitizer, patch).is_file(), "Build failed"
+
+        logger.info(f"[🔄] Replaying {self.project}/{poc.harness_name} with PoC {poc.path} and patch {self.hash_patch(sanitizer, patch)}")
 
         try:
             safe_subprocess_run(
@@ -150,24 +154,32 @@ class OSSFuzzBuilder(Builder):
                     "infra/helper.py",
                     "reproduce",
                     self.project,
-                    harness_name,
-                    poc_path,
+                    poc.harness_name,
+                    poc.path,
                 ],
-                self.workspace / self.hash_patch(patch) / self.fuzz_tooling_path.name,
+                self.workspace / self.hash_patch(sanitizer, patch) / self.fuzz_tooling_path.name,
                 timeout=self.replay_poc_timeout,
             )
 
             return None
         except BuilderProcessError as e:
+            sanitizers: List[Sanitizer]
+            match self.language:
+                case Lang.CLIKE:
+                    sanitizers = [sanitizer, Sanitizer.LibFuzzer]
+                case Lang.JVM:
+                    sanitizers = [sanitizer, Sanitizer.JavaNativeSanitizer, Sanitizer.LibFuzzer]
+
             for report in [e.stdout, e.stderr]:
-                if (
-                    san_report := parse_sanitizer_report(
-                        report,
-                        self.sanitizer,
-                        source_path=self.source_path,
-                    )
-                ) is not None:
-                    return san_report
+                for sanitizer in sanitizers:
+                    if (
+                        san_report := parse_sanitizer_report(
+                            report,
+                            sanitizer,
+                            source_path=self.source_path,
+                        )
+                    ) is not None:
+                        return san_report
 
             # HACK: Check for Docker-related errors in the output
             for output_stream in [e.stdout, e.stderr]:
@@ -176,12 +188,20 @@ class OSSFuzzBuilder(Builder):
 
             return UnknownSanitizerReport(e.stdout, e.stderr)
 
+    def replay(self, poc: PoC, patch: str = "") -> Optional[SanitizerReport]:
+        for sanitizer in self.sanitizers:
+            report = self._replay(poc, sanitizer, patch)
+            if report is not None:
+                return report
+
+        return None
+
     @cached_property
     def language(self) -> Lang:
         project_yaml = self.fuzz_tooling_path / "projects" / self.project / "project.yaml"
         assert project_yaml.is_file(), "project.yaml not found"
         yaml_data = yaml.safe_load(project_yaml.read_text())
-        return Lang.from_string(yaml_data.get("language", "c"))
+        return Lang.from_str(yaml_data.get("language", "c"))
 
     @cached_property
     def language_server(self) -> LanguageServer:
@@ -191,48 +211,67 @@ class OSSFuzzBuilder(Builder):
             case Lang.JVM:
                 return self.construct_java_language_server()
 
+    def _build_clangd_compile_commands(self) -> Path:
+        clangd_workdir = self.workspace / "clangd"
+        clangd_source = clangd_workdir / self.source_path.name
+        clangd_fuzz_tooling = clangd_workdir / self.fuzz_tooling_path.name
+        compile_commands = clangd_fuzz_tooling / "build" / "out" / self.project / "compile_commands.json"
+
+        if not compile_commands.is_file():
+            shutil.rmtree(clangd_workdir, ignore_errors=True)
+
+            os.makedirs(clangd_workdir, exist_ok=True)
+            shutil.copytree(self.source_path, clangd_source, symlinks=True)
+            shutil.copytree(self.fuzz_tooling_path, clangd_fuzz_tooling, symlinks=True)
+
+            logger.info("[🔋] Generating compile_commands.json")
+            self._build_image(clangd_fuzz_tooling)
+
+            shutil.copytree(bear_path(), clangd_source / ".bear", symlinks=True)
+
+            shell = pexpect.spawn(
+                "python",
+                [
+                    "infra/helper.py",
+                    "shell",
+                    self.project,
+                    clangd_source.as_posix(),
+                ],
+                cwd=clangd_fuzz_tooling,
+                timeout=None,
+                codec_errors="ignore",
+            )
+            shell.sendline("$(find /src -name .bear | head -n 1)/bear.sh")
+            shell.sendline("exit")
+            shell.expect(pexpect.EOF)
+
+            dotpwd = clangd_fuzz_tooling / "build" / "out" / self.project / ".pwd"
+            if dotpwd.is_file() and compile_commands.is_file():
+                workdir = dotpwd.read_text().strip()
+                compile_commands.write_text(
+                    compile_commands.read_text().replace(
+                        workdir,
+                        clangd_source.as_posix(),
+                    ),
+                )
+            else:
+                compile_commands.write_text("[]")
+
+        assert compile_commands.is_file(), "compile_commands.json not found"
+        if compile_commands.read_text(errors="ignore").strip() == "[]":
+            logger.error("[❌] compile_commands.json is empty")
+
+        target_compile_commands = clangd_source / "compile_commands.json"
+        shutil.copy(compile_commands, target_compile_commands)
+
+        return clangd_source
+
     def construct_c_language_server(self) -> HybridCServer:
         ctags_source = self.workspace / "ctags"
         if not ctags_source.is_dir():
             shutil.copytree(self.source_path, ctags_source, symlinks=True)
 
-        clangd_workdir = self.workspace / "clangd"
-        os.makedirs(clangd_workdir, exist_ok=True)
-
-        clangd_source = clangd_workdir / self.source_path.name
-        clangd_fuzz_tooling = clangd_workdir / self.fuzz_tooling_path.name
-        if not clangd_source.is_dir():
-            shutil.copytree(self.source_path, clangd_source, symlinks=True)
-        if not clangd_fuzz_tooling.is_dir():
-            shutil.copytree(self.fuzz_tooling_path, clangd_fuzz_tooling, symlinks=True)
-
-        compile_commands = clangd_source / "compile_commands.json"
-        if not compile_commands.is_file():
-            logger.info("[🔋] Generating compile_commands.json")
-            self._build_image(clangd_fuzz_tooling)
-
-            shutil.copy2(bear_path() / "helper.py", clangd_fuzz_tooling / "infra/helper.py")
-            shutil.copytree(bear_path(), clangd_source / ".bear", symlinks=True)
-
-            subprocess.run(
-                ["infra/helper.py", "bear", self.project, clangd_source],
-                cwd=clangd_fuzz_tooling,
-                stdout=subprocess_none_pipe(),
-                stderr=subprocess_none_pipe(),
-            )
-
-            dotpwd = clangd_source / ".pwd"
-            assert dotpwd.is_file(), ".pwd not found"
-            assert compile_commands.is_file(), "compile_commands.json not found"
-
-            workdir = dotpwd.read_text().strip()
-            compile_commands.write_text(
-                compile_commands.read_text().replace(
-                    workdir,
-                    clangd_source.as_posix(),
-                ),
-            )
-
+        clangd_source = self._build_clangd_compile_commands()
         return HybridCServer(ctags_source, clangd_source)
 
     def construct_java_language_server(self) -> JavaLanguageServer:

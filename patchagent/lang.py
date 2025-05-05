@@ -6,7 +6,7 @@ class Lang(Enum):
     JVM = auto()
 
     @classmethod
-    def from_string(cls, inp: str) -> "Lang":
+    def from_str(cls, inp: str) -> "Lang":
         _lang_map = {
             "c": Lang.CLIKE,
             "c++": Lang.CLIKE,

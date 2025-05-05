@@ -11,8 +11,9 @@ class Sanitizer(StrEnum):
     LeakAddressSanitizer = "LeakAddressSanitizer"
     UndefinedBehaviorSanitizer = "UndefinedBehaviorSanitizer"
     MemorySanitizer = "MemorySanitizer"
-    ThreadSanitizer = "ThreadSanitizer"
+    JavaNativeSanitizer = "JavaNativeSanitizer"
     JazzerSanitizer = "JazzerSanitizer"
+    LibFuzzer = "LibFuzzer"
 
 
 class SanitizerReport:
@@ -21,21 +22,17 @@ class SanitizerReport:
         sanitizer: Sanitizer,
         content: str,
         cwe: CWE,
-        stacktrace: List[Tuple[str, Path, int, int]],
+        stacktraces: List[List[Tuple[str, Path, int, int]]],
     ):
 
         self.sanitizer: Sanitizer = sanitizer
         self.content: str = content
         self.cwe: CWE = cwe
-        self.stacktrace: List[Tuple[str, Path, int, int]] = stacktrace
+        self.stacktraces: List[List[Tuple[str, Path, int, int]]] = stacktraces
 
     @property
     def summary(self) -> str:
         return self.content
-
-    @property
-    def stacktraces(self) -> List[List[Tuple[str, Path, int, int]]]:
-        return [self.stacktrace]
 
     @staticmethod
     def parse(raw_content: str, *args: Any, **kwargs: Any) -> Union[None, "SanitizerReport"]:

@@ -1,6 +1,8 @@
 The sanitizer detected a stack overflow vulnerability.The explanation of the vulnerability is: Excessive function calls lead to stack exhaustion, causing the program to crash or behave unpredictably.Here is the detail: 
 
+== Java Exception: com.code_intelligence.jazzer.api.FuzzerSecurityIssueLow: Stack overflow (use '-Xss921k' to reproduce)
 - org.springframework.expression.spel.ast.OpPlus.getValueInternal (org/springframework/expression/spel/ast/OpPlus.java:93)
+Caused by: java.lang.StackOverflowError
 - java.base/java.lang.Class.getGenericSuperclass (java/base/java/lang/Class.java:1016)
 - org.springframework.core.ResolvableType.getSuperType (org/springframework/core/ResolvableType.java:472)
 - org.springframework.core.ResolvableType.as (org/springframework/core/ResolvableType.java:457)
@@ -21,8 +23,7 @@ The sanitizer detected a stack overflow vulnerability.The explanation of the vul
 - org.springframework.expression.spel.ast.OpPlus.getValueInternal (org/springframework/expression/spel/ast/OpPlus.java:140)
 - org.springframework.expression.spel.ast.OpPlus.getValueInternal (org/springframework/expression/spel/ast/OpPlus.java:93)
 - org.springframework.expression.spel.ast.OpPlus.getValueInternal (org/springframework/expression/spel/ast/OpPlus.java:93)
-  ... more stack frames
-
+	... 1 more
 
 To fix this issue, follow the advice below:
 

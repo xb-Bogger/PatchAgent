@@ -16,9 +16,7 @@ class TreeSitterJavaParser:
         self.parser_language = Language(tree_sitter_java.language())
         self.parser = Parser(self.parser_language)
 
-        with open(file_path, "rb") as f:
-            self.source_code = f.read()
-
+        self.source_code = file_path.read_bytes()
         self.tree = self.parser.parse(self.source_code)
 
     def get_symbol_source(self, symbol_name: str, line: int) -> str:
@@ -132,7 +130,7 @@ class JavaLanguageServer(LanguageServer):
                     final_resp.append({"source_code": source_code, "file_path": file_path.relative_to(self.source_path), "line": lineno + 1})
                     all_source_code.append(source_code)
             except Exception as e:
-                logger.error(f"Error while parsing the file {file_path}: {e}")
+                logger.error(f"[❌] Error while parsing the file {file_path}: {e}")
                 return final_resp
 
         return final_resp

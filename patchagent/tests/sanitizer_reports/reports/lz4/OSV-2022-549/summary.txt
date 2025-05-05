@@ -1,4 +1,4 @@
-The sanitizer detected a invalid free vulnerability. The explanation of the vulnerability is: A program attempts to free a memory block that was not dynamically allocated, causing undefined behavior or crashes. Here is the detail: 
+The sanitizer detected a bad free vulnerability. The explanation of the vulnerability is: A program attempts to free a memory block that was not dynamically allocated, causing undefined behavior or crashes. Here is the detail: 
 
     - free /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:52:3
     - LLVMFuzzerTestOneInput /src/lz4/ossfuzz/round_trip_fuzzer.c:111:5

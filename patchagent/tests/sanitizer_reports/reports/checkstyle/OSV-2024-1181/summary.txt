@@ -1,6 +1,8 @@
 The sanitizer detected a stack overflow vulnerability.The explanation of the vulnerability is: Excessive function calls lead to stack exhaustion, causing the program to crash or behave unpredictably.Here is the detail: 
 
+== Java Exception: com.code_intelligence.jazzer.api.FuzzerSecurityIssueLow: Stack overflow (use '-Xss921k' to reproduce)
 - com.puppycrawl.tools.checkstyle.grammar.java.JavaLanguageParser.expr (com/puppycrawl/tools/checkstyle/grammar/java/JavaLanguageParser.java:9370)
+Caused by: java.lang.StackOverflowError
 - java.base/sun.nio.cs.StreamEncoder.implWrite (java/base/sun/nio/cs/StreamEncoder.java:281)
 - java.base/sun.nio.cs.StreamEncoder.write (java/base/sun/nio/cs/StreamEncoder.java:132)
 - java.base/java.io.OutputStreamWriter.write (java/base/java/io/OutputStreamWriter.java:205)
@@ -18,8 +20,7 @@ The sanitizer detected a stack overflow vulnerability.The explanation of the vul
 - com.puppycrawl.tools.checkstyle.grammar.java.JavaLanguageParser.expr (com/puppycrawl/tools/checkstyle/grammar/java/JavaLanguageParser.java:9367)
 - com.puppycrawl.tools.checkstyle.grammar.java.JavaLanguageParser.expr (com/puppycrawl/tools/checkstyle/grammar/java/JavaLanguageParser.java:9370)
 - com.puppycrawl.tools.checkstyle.grammar.java.JavaLanguageParser.expr (com/puppycrawl/tools/checkstyle/grammar/java/JavaLanguageParser.java:9370)
-  ... more stack frames
-
+	... 1 more
 
 To fix this issue, follow the advice below:
 

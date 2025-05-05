@@ -1,7 +1,7 @@
 import subprocess
 from functools import cached_property
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 from patchagent.logger import logger
 from patchagent.lsp.language import LanguageServer
@@ -27,20 +27,25 @@ class CtagsServer(LanguageServer):
         assert tagfile.is_file(), "Failed to generate ctags"
 
         symbol_map: Dict[str, List[str]] = {}
-        with open(tagfile, "rb") as f:
-            for line in f.readlines():
+        with tagfile.open("r", errors="ignore") as f:
+            for text in f.readlines():
                 try:
-                    if text := line.decode("utf-8", errors="ignore"):
-                        if text.startswith("!_TAG_"):
-                            continue
-                        symbol, path, line_info = text.split(';"')[0].split("\t")
-                        if symbol not in symbol_map:
-                            symbol_map[symbol] = []
-                        symbol_map[symbol].append(f"{path}:{line_info}")
-                except ValueError:
-                    logger.warning(f"Failed to decode line {line!r} in ctags file")
+                    if text.startswith("!_TAG_"):
+                        continue
+                    symbol, path, line_info = text.split(';"')[0].split("\t")
+                    if symbol not in symbol_map:
+                        symbol_map[symbol] = []
+                    symbol_map[symbol].append(f"{path}:{line_info}")
+                except ValueError as e:
+                    logger.warning(f"[🚧] ctag error: {e}, text: {text}")
 
         return symbol_map
 
     def locate_symbol(self, symbol: str) -> List[str]:
         return self.symbol_map.get(symbol, [])
+
+    def find_definition(self, path: Path, line: int, column: int) -> List[str]:
+        return []
+
+    def hover(self, path: Path, line: int, column: int) -> Optional[str]:
+        return None

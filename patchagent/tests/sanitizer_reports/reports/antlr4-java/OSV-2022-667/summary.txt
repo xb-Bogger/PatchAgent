@@ -1,10 +1,12 @@
 The sanitizer detected a stack overflow vulnerability.The explanation of the vulnerability is: Excessive function calls lead to stack exhaustion, causing the program to crash or behave unpredictably.Here is the detail: 
 
+== Java Exception: com.code_intelligence.jazzer.api.FuzzerSecurityIssueLow: Stack overflow (use '-Xss921k' to reproduce)
 - org.antlr.v4.parse.ANTLRParser.lexerAlt (org/antlr/v4/parse/ANTLRParser.java:3885)
 - org.antlr.v4.parse.ANTLRParser.lexerAltList (org/antlr/v4/parse/ANTLRParser.java:3778)
 - org.antlr.v4.parse.ANTLRParser.lexerBlock (org/antlr/v4/parse/ANTLRParser.java:4534)
 - org.antlr.v4.parse.ANTLRParser.lexerElement (org/antlr/v4/parse/ANTLRParser.java:4322)
 - org.antlr.v4.parse.ANTLRParser.lexerElements (org/antlr/v4/parse/ANTLRParser.java:4048)
+Caused by: java.lang.StackOverflowError
 - java.base/java.lang.invoke.MethodHandle.asSpreaderChecks (java/base/java/lang/invoke/MethodHandle.java:1038)
 - java.base/java.lang.invoke.MethodHandle.asSpreader (java/base/java/lang/invoke/MethodHandle.java:1025)
 - java.base/java.lang.invoke.MethodHandle.asSpreader (java/base/java/lang/invoke/MethodHandle.java:982)
@@ -37,8 +39,7 @@ The sanitizer detected a stack overflow vulnerability.The explanation of the vul
 - org.antlr.v4.parse.ANTLRParser.lexerAlt (org/antlr/v4/parse/ANTLRParser.java:3885)
 - org.antlr.v4.parse.ANTLRParser.lexerAltList (org/antlr/v4/parse/ANTLRParser.java:3778)
 - org.antlr.v4.parse.ANTLRParser.lexerBlock (org/antlr/v4/parse/ANTLRParser.java:4534)
-  ... more stack frames
-
+        ... 5 more
 
 To fix this issue, follow the advice below:
 

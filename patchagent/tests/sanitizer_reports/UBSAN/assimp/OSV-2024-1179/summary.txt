@@ -18,6 +18,7 @@ runtime error: member call on address 0x55789c3f6050 which does not point to an 
     - fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9
     - main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10
 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior /src/assimp/code/Common/Assimp.cpp:359:8 
 
 To fix this issue, follow the advice below:
 
