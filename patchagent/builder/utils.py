@@ -1,6 +1,6 @@
 import subprocess
 from pathlib import Path
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 
 
 class DockerUnavailableError(Exception): ...
@@ -48,6 +48,7 @@ def safe_subprocess_run(
     cwd: Path,
     input: Optional[bytes] = None,
     timeout: Optional[float] = None,
+    env: Optional[Dict[str, Any]] = None,
 ) -> bytes:
     try:
         process = subprocess.run(
@@ -58,6 +59,7 @@ def safe_subprocess_run(
             text=False,
             check=True,
             timeout=timeout,
+            env=env,
         )
 
         return process.stdout
