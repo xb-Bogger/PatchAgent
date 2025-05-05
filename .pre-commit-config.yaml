@@ -15,7 +15,11 @@ repos:
     hooks:
       - id: flake8
         args: ["--max-line-length", "179", "--select=F,E402"]
-exclude: |
-  (?x)(
-    patchagent/.bear/helper.py
-  )
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.15.0
+    hooks:
+      - id: mypy
+        args: ["--ignore-missing-imports", "--disallow-untyped-defs", "--disallow-incomplete-defs"]
+        additional_dependencies:
+          - types-PyYAML
+          - types-requests
