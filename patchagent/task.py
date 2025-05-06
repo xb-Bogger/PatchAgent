@@ -83,7 +83,7 @@ class PatchTask:
         return self.contexts[-1]
 
     def new_context(self) -> Context:
-        context = Context()
+        context = Context(log_file=self.log_file)
         self.contexts.append(context)
         return context
 
