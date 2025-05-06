@@ -1,8 +1,8 @@
-from pathlib import Path
+import json
 import time
+from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-import json
 from patchagent.logger import logger
 
 
@@ -12,7 +12,7 @@ class Context:
         self.messages = data.get("messages", [])
         self.elapsed_time = data.get("elapsed_time", None)
 
-        self.active = False
+        self.active = True
         self.log_file = log_file
 
     def __enter__(self) -> "Context":

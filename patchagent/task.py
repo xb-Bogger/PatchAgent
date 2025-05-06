@@ -1,7 +1,7 @@
-from pathlib import Path
 import random
 from enum import Enum
 from functools import cached_property
+from pathlib import Path
 from typing import Callable, Generator, List, Optional, Tuple, TypeVar
 
 from patchagent.agent.base import BaseAgent

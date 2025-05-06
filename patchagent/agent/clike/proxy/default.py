@@ -67,7 +67,7 @@ def create_validate_tool(task: PatchTask, auto_hint: bool = False) -> Structured
         except PatchFoundException as e:
             task.current_context.add_tool_call("validate", {"patch": str(e)}, "patch found")
             raise
-        except AgentStopException as e:
+        except AgentStopException:
             task.current_context.add_tool_call("validate", {"patch": patch}, "agent stop")
             raise
 
