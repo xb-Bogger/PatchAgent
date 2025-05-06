@@ -1,14 +1,19 @@
+from pathlib import Path
 import time
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
+import json
 from patchagent.logger import logger
 
 
 class Context:
-    def __init__(self, data: Dict = {}) -> None:
+    def __init__(self, data: Dict = {}, log_file: Optional[Path] = None) -> None:
         self.patch = data.get("patch", None)
         self.messages = data.get("messages", [])
         self.elapsed_time = data.get("elapsed_time", None)
+
+        self.active = False
+        self.log_file = log_file
 
     def __enter__(self) -> "Context":
         self.start_time = time.time()
@@ -16,6 +21,10 @@ class Context:
 
     def __exit__(self, exc_type: str, exc_value: Exception, traceback: Any) -> None:
         self.elapsed_time = time.time() - self.start_time
+        if self.active and self.log_file is not None:
+            original_data = json.loads(self.log_file.read_text())
+            original_data.append(self.dump())
+            self.log_file.write_text(json.dumps(original_data, indent=4))
 
     @property
     def tool_calls(self) -> List[Dict[str, Any]]:

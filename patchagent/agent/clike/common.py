@@ -10,7 +10,7 @@ from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.agents import AgentAction, AgentFinish
 from langchain_core.utils.function_calling import convert_to_openai_tool
 
-from patchagent.agent.base import BaseAgent
+from patchagent.agent.base import BaseAgent, PatchFoundException
 from patchagent.agent.clike.prompt import (
     CLIKE_SYSTEM_PROMPT_TEMPLATE,
     CLIKE_USER_PROMPT_TEMPLATE,
@@ -133,5 +133,11 @@ class CommonCLikeAgent(BaseAgent):
         logger.info(f"[🤖] Applying {self.__class__.__name__} (model: {self.model}, temp: {self.temperature}, ah: {self.auto_hint}, #ce: {self.counterexample_num})")
 
         with self.task.new_context() as context:
-            self.setup(context)
-            _ = self.agent_executor.invoke({})
+            try:
+                self.setup(context)
+                _ = self.agent_executor.invoke({})
+            except PatchFoundException:
+                raise
+            except:
+                context.active = False
+                raise

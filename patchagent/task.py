@@ -1,3 +1,4 @@
+from pathlib import Path
 import random
 from enum import Enum
 from functools import cached_property
@@ -31,6 +32,7 @@ class PatchTask:
         self,
         pocs: List[PoC_T],
         builder: Builder,
+        log_file: Optional[Path] = None,
     ):
         self.pocs = pocs
         random.shuffle(self.pocs)
@@ -38,10 +40,15 @@ class PatchTask:
         self.builder: Builder = builder
         self.project: str = self.builder.project
         self.contexts: List[Context] = []
+        self.log_file: Optional[Path] = log_file
 
         self._report: Optional[SanitizerReport] = None
 
     def initialize(self) -> Tuple[ValidationResult, str]:
+        if self.log_file is not None:
+            self.log_file.parent.mkdir(parents=True, exist_ok=True)
+            self.log_file.write_text("[]")
+
         try:
             self.builder.build()
         except BuilderProcessError as e:

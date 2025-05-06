@@ -1,5 +1,6 @@
 from langchain.tools import StructuredTool
 
+from patchagent.agent.base import AgentStopException, PatchFoundException
 from patchagent.agent.clike.proxy import internal
 from patchagent.logger import logger
 from patchagent.task import PatchTask
@@ -61,7 +62,15 @@ def create_validate_tool(task: PatchTask, auto_hint: bool = False) -> Structured
         """
 
         logger.info(f"[📞] validate(patch={patch})")
-        args, result = internal.validate(task, patch, auto_hint=auto_hint)
+        try:
+            args, result = internal.validate(task, patch, auto_hint=auto_hint)
+        except PatchFoundException as e:
+            task.current_context.add_tool_call("validate", {"patch": str(e)}, "patch found")
+            raise
+        except AgentStopException as e:
+            task.current_context.add_tool_call("validate", {"patch": patch}, "agent stop")
+            raise
+
         task.current_context.add_tool_call("validate", args, result)
         return result
 
