@@ -26,6 +26,9 @@ class Context:
             original_data.append(self.dump())
             self.log_file.write_text(json.dumps(original_data, indent=4))
 
+    def current_time(self) -> float:
+        return time.time() - self.start_time
+
     @property
     def tool_calls(self) -> List[Dict[str, Any]]:
         return [message["message"] for message in self.messages if message["role"] == "tool"]
@@ -33,6 +36,7 @@ class Context:
     def add_tool_call(self, name: str, args: Dict, result: str) -> None:
         data = {
             "role": "tool",
+            "timestamp": self.current_time(),
             "message": {
                 "name": name,
                 "args": args,
@@ -46,6 +50,7 @@ class Context:
         if len(response) > 0:
             data = {
                 "role": "llm",
+                "timestamp": self.current_time(),
                 "message": response,
             }
             self.messages.append(data)
@@ -55,6 +60,7 @@ class Context:
         if len(message) > 0:
             data = {
                 "role": "system",
+                "timestamp": self.current_time(),
                 "message": message,
             }
             self.messages.append(data)
@@ -64,6 +70,7 @@ class Context:
         if len(message) > 0:
             data = {
                 "role": "user",
+                "timestamp": self.current_time(),
                 "message": message,
             }
             self.messages.append(data)
