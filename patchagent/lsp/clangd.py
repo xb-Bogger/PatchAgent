@@ -2,7 +2,7 @@ import atexit
 import json
 import subprocess
 from pathlib import Path
-from typing import IO, Dict, List, Callable, TypeVar, Any
+from typing import IO, Any, Callable, Dict, List, TypeVar
 
 from patchagent.logger import logger
 from patchagent.lsp.language import LanguageServer
