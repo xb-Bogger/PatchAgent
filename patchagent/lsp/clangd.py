@@ -2,10 +2,12 @@ import atexit
 import json
 import subprocess
 from pathlib import Path
-from typing import IO, Dict, List
+from typing import IO, Dict, List, Callable, TypeVar, Any
 
 from patchagent.logger import logger
 from patchagent.lsp.language import LanguageServer
+
+T = TypeVar("T")
 
 
 class ClangdServer(LanguageServer):
@@ -117,6 +119,19 @@ class ClangdServer(LanguageServer):
 
         self.process.terminate()
 
+    def _retry_on_broken_pipe(self, func: Callable[..., T], *args: Any, **kwargs: Any) -> T:
+        """
+        Retry mechanism for handling BrokenPipeError.
+        Restarts the clangd server once and retries the operation.
+        """
+        try:
+            return func(*args, **kwargs)
+        except BrokenPipeError:
+            logger.warning("[⚠️] BrokenPipeError encountered, restarting clangd server and retrying...")
+            self.stop()
+            self.start()
+            return func(*args, **kwargs)
+
     def find_definition_internal(self, path: Path, line: int, chr: int) -> List[str]:
         content = path.read_text(errors="ignore")
 
@@ -195,11 +210,11 @@ class ClangdServer(LanguageServer):
         filepath, linum, colnum = self.source_path / path, line - 1, column - 1
         logger.info(f"[🚧] find_definition for {filepath}:{linum}:{colnum}")
 
-        return self.find_definition_internal(filepath, linum, colnum)
+        return self._retry_on_broken_pipe(self.find_definition_internal, filepath, linum, colnum)
 
     def hover(self, path: Path, line: int, column: int) -> str:
         assert not path.is_absolute()
         filepath, linum, colnum = self.source_path / path, line - 1, column - 1
         logger.info(f"[🚧] hover for {filepath}:{linum}:{colnum}")
 
-        return self.hover_internal(filepath, linum, colnum)
+        return self._retry_on_broken_pipe(self.hover_internal, filepath, linum, colnum)
