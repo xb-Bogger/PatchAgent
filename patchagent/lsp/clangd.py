@@ -56,7 +56,12 @@ class ClangdServer(LanguageServer):
     def recv(self) -> Dict:
         while True:
             header = b"Content-Length: "
-            assert self.stdout.read(len(header)) == header
+
+            read_header = b""
+            while len(read_header) < len(header):
+                read_header += self.stdout.read(len(header) - len(read_header))
+
+            assert read_header == header, f"Expected header {header!r}, got {read_header!r}"
 
             content = b""
             while not content.endswith(b"\r\n\r\n"):
