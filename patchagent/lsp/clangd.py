@@ -119,8 +119,11 @@ class ClangdServer(LanguageServer):
         atexit.register(self.stop)
 
     def stop(self) -> None:
-        self.notify("shutdown", {})
-        self.notify("exit", {})
+        try:
+            self.notify("shutdown", {})
+            self.notify("exit", {})
+        except BrokenPipeError:
+            logger.warning("[⚠️] BrokenPipeError encountered, terminating the process directly...")
 
         self.process.terminate()
 
