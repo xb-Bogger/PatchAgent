@@ -5,7 +5,8 @@ from typing import Dict, List, Optional, Set, Tuple
 from patchagent.logger import logger
 
 _pathset_cache: Dict[Path, Set[Path]] = {}
-ClassictackTracePattern = r"^\s*#(\d+)\s+(0x[\w\d]+)\s+in\s+(.+)\s+(/.*)\s*"
+ClassicStackTracePattern = r"^\s*#(\d+)\s+(0x[\w\d]+)\s+in\s+(.+)\s+(/.*)\s*"
+ClassicStackTraceAliasPattern = r"^\s*#(\d+)\s+(.+?)\s+(/[^:]+:\d+:\d+)\s*\(.*\)\s*"
 JVMStackTracePattern = r"at (.*)\((.*)\)"
 
 
@@ -63,7 +64,7 @@ def classic_simplify_and_extract_stacktraces(
                 current_count = 0
                 assert count == 0
 
-            if (match := re.search(ClassictackTracePattern, line)) is not None:
+            if (match := re.search(ClassicStackTracePattern, line)) is not None:
                 function_name = match.group(3)
                 entries = match.group(4).split(":")
 
@@ -101,6 +102,36 @@ def classic_simplify_and_extract_stacktraces(
                 # - If work_path is not provided, the full description (desc) is used.
                 # - When work_path is provided and the source path is within work_path,
                 #   we output the relative path with appended line and column numbers.
+
+                if work_path is not None:
+                    if normpath.is_relative_to(work_path):
+                        stacktraces[-1].append((function_name, normpath.relative_to(work_path), int(line_number), int(column_number)))
+                elif source_path is not None:
+                    if (relpath := guess_relpath(source_path, normpath)) is not None:
+                        stacktraces[-1].append((function_name, relpath, int(line_number), int(column_number)))
+                else:
+                    stacktraces[-1].append((function_name, normpath, int(line_number), int(column_number)))
+
+                if work_path is None:
+                    body.append(f"    - {function_name} {desc}")
+                elif normpath.is_relative_to(work_path):
+                    body.append(f"    - {function_name} {normpath.relative_to(work_path)}:{line_number}:{column_number}")
+
+            elif (match := re.search(ClassicStackTraceAliasPattern, line)) is not None:
+                function_name = match.group(2)
+                entries = match.group(3).split(":")
+                if len(entries) == 0:
+                    continue
+
+                while len(entries) < 3:
+                    entries.append("0")
+                filepath, line_number, column_number = entries
+                assert filepath.startswith("/")
+
+                normpath = Path(filepath).resolve()
+                desc = f"{normpath}:{line_number}:{column_number}"
+                if f"{filepath}:{line_number}:{column_number}" != match.group(3):
+                    logger.warning(f"[🚧] Incomplete file path: {desc} vs {match.group(3)}")
 
                 if work_path is not None:
                     if normpath.is_relative_to(work_path):

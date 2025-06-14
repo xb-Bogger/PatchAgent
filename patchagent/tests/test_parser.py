@@ -83,6 +83,16 @@ class TestSanitizer(unittest.TestCase):
                 assert report.summary == summary_txt.read_text()
                 summary_txt.write_text(report.summary)
 
+            elif "ThreadSanitizer" in raw_report:
+                report = parse_sanitizer_report(raw_report, Sanitizer.ThreadSanitizer)
+                assert report is not None
+                assert report.cwe is not CWE.UNKNOWN
+                assert report.sanitizer == Sanitizer.ThreadSanitizer
+                assert len(report.stacktraces) >= 1 and len(report.stacktraces[0]) >= 1
+                cover_error_type.add(report.cwe)
+                assert report.summary == summary_txt.read_text()
+                summary_txt.write_text(report.summary)
+
             else:
                 assert False, f"Unknown sanitizer report: {report_txt}"
 

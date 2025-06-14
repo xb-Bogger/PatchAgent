@@ -55,6 +55,9 @@ class CWE(StrEnum):
     Java_generic_exception = "java generic exception"
     Java_native_error = "java native error"
 
+    # ThreadSanitizer
+    Data_race = "data race"
+
 
 CWE_DESCRIPTIONS = {
     CWE.UNKNOWN: "The nature of the vulnerability is unknown or unspecified",
@@ -102,6 +105,8 @@ CWE_DESCRIPTIONS = {
     CWE.XPath_injection: "An XPath query is constructed using untrusted input, leading to potential injection attacks",
     CWE.Java_generic_exception: "A Java exception occurred, indicating a potential issue in the code or environment",
     CWE.Java_native_error: "A Java native error occurred, indicating a potential issue in the native code or environment",
+    # ThreadSanitizer
+    CWE.Data_race: "A data race occurred, indicating a potential issue in the code or environment",
 }
 
 CWE_REPAIR_ADVICE = {
@@ -365,6 +370,14 @@ CWE_REPAIR_ADVICE = {
             "1. Investigate the cause of the Java native error to identify the root cause of the error.\n"
             "2. Review the code for potential memory corruption or undefined behavior.\n"
             "3. Check for uninitialized variables or unintended pointer accesses.\n"
+        ),
+    ),
+    **dict.fromkeys(
+        [CWE.Data_race],
+        (
+            "1. Review the code for potential data races and correct them.\n"
+            "2. Check for concurrent access to shared resources.\n"
+            "3. Implement synchronization mechanisms to prevent data races."
         ),
     ),
 }

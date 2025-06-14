@@ -10,6 +10,7 @@ class Sanitizer(StrEnum):
     AddressSanitizer = "AddressSanitizer"
     LeakAddressSanitizer = "LeakAddressSanitizer"
     UndefinedBehaviorSanitizer = "UndefinedBehaviorSanitizer"
+    ThreadSanitizer = "ThreadSanitizer"
     MemorySanitizer = "MemorySanitizer"
     JavaNativeSanitizer = "JavaNativeSanitizer"
     JazzerSanitizer = "JazzerSanitizer"
