@@ -3,6 +3,8 @@ FROM cruizba/ubuntu-dind:noble-latest@sha256:ef92362b4dbd3b0bd67119cded51247da91
 RUN DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
+    autoconf \
+    automake \
     bear \
     build-essential \
     clang \
