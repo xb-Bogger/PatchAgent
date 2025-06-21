@@ -3,6 +3,7 @@ FROM cruizba/ubuntu-dind:noble-latest@sha256:ef92362b4dbd3b0bd67119cded51247da91
 RUN DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
+    bear \
     build-essential \
     clang \
     clang-16 \
@@ -11,7 +12,9 @@ RUN DEBIAN_FRONTEND=noninteractive && \
     curl \
     gdb \
     git \
+    libclang-rt-dev \
     lld \
+    llvm \
     make \
     pkg-config \
     python3 \
@@ -20,7 +23,6 @@ RUN DEBIAN_FRONTEND=noninteractive && \
     ssh \
     sudo \
     tmux \
-    universal-ctags \
     wget && \
     install -m 0755 -d /etc/apt/keyrings && \
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc && \
@@ -39,6 +41,17 @@ RUN DEBIAN_FRONTEND=noninteractive && \
     rm -rf /var/lib/apt/lists/*
 
 ENV PATH="/opt/venv/bin:$PATH"
+
+RUN cd /tmp && \
+    wget https://github.com/universal-ctags/ctags/releases/download/v6.2.0/universal-ctags-6.2.0.tar.gz && \
+    tar -xzf universal-ctags-6.2.0.tar.gz && \
+    cd universal-ctags-6.2.0 && \
+    ./autogen.sh && \
+    ./configure --prefix=/usr/local && \
+    make && \
+    make install && \
+    cd / && \
+    rm -rf /tmp/universal-ctags-6.2.0*
 
 WORKDIR /source
 COPY patchagent /source/patchagent
