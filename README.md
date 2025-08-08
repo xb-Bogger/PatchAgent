@@ -121,7 +121,7 @@ For questions, bugs, or feature requests:
 To cite PatchAgent in scientific publications, please use:
 
 ```bibtex
-@article{PatchAgent,
+@inproceedings{PatchAgent,
   title     = {PatchAgent: A Practical Program Repair Agent Mimicking Human Expertise},
   author    = {Yu, Zheng and Guo, Ziyi and Wu, Yuhang and Yu, Jiahao and 
                Xu, Meng and Mu, Dongliang and Chen, Yan and Xing, Xinyu},
