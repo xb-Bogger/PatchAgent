@@ -9,6 +9,10 @@
 > The original research repository is located at [osf.io/8k2ac](https://osf.io/8k2ac). 
 > This repository is a production-focused fork dedicated to real-world bug fixing.
 
+## 📣 News
+
+- 🎉 [2025.08] PatchAgent is presented at [USENIX Security 2025](https://www.usenix.org/conference/usenixsecurity25/presentation/yu-zheng)!
+
 ## 📋 Overview
 
 PatchAgent is an LLM-based program repair agent that mimics human expertise to automatically generate patches for real-world bugs. It integrates:
