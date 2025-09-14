@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 load_dotenv("../.env")
 print("[DEBUG] 加载的密钥：", os.getenv("OPENAI_API_KEY"))
 
-oss_fuzz_url = "https://github.com/google/oss-fuzz.git"
+oss_fuzz_url = "https://github.com/xb-Bogger/oss-fuzz.git"
 oss_fuzz_commit = "26f36ff7ce9cd61856621ba197f8e8db24b15ad9"
 
 clamav_url = "https://github.com/Cisco-Talos/clamav.git"
