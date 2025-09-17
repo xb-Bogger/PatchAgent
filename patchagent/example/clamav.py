@@ -48,7 +48,7 @@ if __name__ == "__main__":
 
         print(f"[🔍] OSSFuzz Path: {oss_fuzz_path}")
         oss_fuzz_repo = git.Repo.clone_from(oss_fuzz_url, oss_fuzz_path)
-        oss_fuzz_repo.git.checkout(oss_fuzz_commit)
+        # oss_fuzz_repo.git.checkout(oss_fuzz_commit)
 
         print(f"[🔍] Source Path: {source_path}")
         source_repo = git.Repo.clone_from(clamav_url, source_path)
