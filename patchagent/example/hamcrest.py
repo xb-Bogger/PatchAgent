@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 load_dotenv("../.env")
 print("[DEBUG] 加载的密钥：", os.getenv("OPENAI_API_KEY"))
 
-oss_fuzz_url = "https://github.com/google/oss-fuzz.git"
+oss_fuzz_url = "https://github.com/xb-Bogger/oss-fuzz.git"
 oss_fuzz_commit = "26f36ff7ce9cd61856621ba197f8e8db24b15ad9"
 
 hamcrest_url = "https://github.com/hamcrest/JavaHamcrest.git"
@@ -40,7 +40,7 @@ if __name__ == "__main__":
 
         print(f"[🔍] OSSFuzz Path: {oss_fuzz_path}")
         oss_fuzz_repo = git.Repo.clone_from(oss_fuzz_url, oss_fuzz_path)
-        oss_fuzz_repo.git.checkout(oss_fuzz_commit)
+        # oss_fuzz_repo.git.checkout(oss_fuzz_commit)
 
         print(f"[🔍] Source Path: {source_path}")
         source_repo = git.Repo.clone_from(hamcrest_url, source_path)
