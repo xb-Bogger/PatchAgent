@@ -14,7 +14,7 @@ class AgentStopException(BaseAgentException): ...
 
 class PatchFoundException(BaseAgentException): ...
 
-
+'''修复代理基础抽象，定义通用接口'''
 class BaseAgent:
     def __init__(self, retry: int = 3):
         self.retry = retry

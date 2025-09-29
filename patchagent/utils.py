@@ -3,7 +3,7 @@ import subprocess
 from pathlib import Path
 from typing import Optional
 
-
+'''通用工具函数'''
 def debug_mode() -> bool:
     return os.getenv("PATCH_DEBUG", "0") == "1"
 

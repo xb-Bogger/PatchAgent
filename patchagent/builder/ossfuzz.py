@@ -24,15 +24,16 @@ from patchagent.parser import Sanitizer, SanitizerReport, parse_sanitizer_report
 from patchagent.parser.unknown import UnknownSanitizerReport
 from patchagent.utils import bear_path
 
-
+# 封装单个POC 路径+fuzzer harness 名称
 class OSSFuzzPoC(PoC):
     def __init__(self, path: Path, harness_name: str):
         super().__init__()
         self.path = path
         self.harness_name = harness_name
 
-
+# 基于OSS-FUZZ工具链(infra/helper.py + Docker)的构建器实现，支持多种sanitizer
 class OSSFuzzBuilder(Builder):
+    # 将内部 Sanitizer 映射为 OSS-Fuzz 使用的字符串
     SANITIZER_MAP = {
         Sanitizer.AddressSanitizer: "address",
         Sanitizer.UndefinedBehaviorSanitizer: "undefined",
@@ -70,10 +71,10 @@ class OSSFuzzBuilder(Builder):
             shutil.copytree(self.org_fuzz_tooling_path, target_path, symlinks=True)
 
         return target_path
-
+    # 用补丁内容 md5 + sanitizer 拼接生成构建键，区分不同补丁/消毒器组合
     def hash_patch(self, sanitizer: Sanitizer, patch: str) -> str:
         return f"{md5(patch.encode()).hexdigest()}-{self.SANITIZER_MAP[sanitizer]}"
-
+    # 每个组合对应 workspace/<hash>/.build 文件作为“已构建”标志，避免重复构建
     def build_finish_indicator(self, sanitizer: Sanitizer, patch: str) -> Path:
         return self.workspace / self.hash_patch(sanitizer, patch) / ".build"
 
@@ -95,7 +96,7 @@ class OSSFuzzBuilder(Builder):
     def _build(self, sanitizer: Sanitizer, patch: str = "") -> None:
         if self.build_finish_indicator(sanitizer, patch).is_file():
             return
-
+        # 为每个 hash 建立工作目录，拷贝源码与 fuzz tooling（保持符号链接）
         logger.info(f"[🧱] Building {self.project} with patch {self.hash_patch(sanitizer, patch)}")
         workspace = self.workspace / self.hash_patch(sanitizer, patch)
         source_path = workspace / self.org_source_path.name
@@ -104,11 +105,11 @@ class OSSFuzzBuilder(Builder):
         shutil.rmtree(workspace, ignore_errors=True)
         shutil.copytree(self.source_path, source_path, symlinks=True)
         shutil.copytree(self.fuzz_tooling_path, fuzz_tooling_path, symlinks=True)
-
+        # 用 patch -p1 应用补丁
         safe_subprocess_run(["patch", "-p1"], source_path, input=patch.encode())
-
+        # 调用 infra/helper.py build_image（最多重试 3 次）拉起 Docker 镜像
         self._build_image(fuzz_tooling_path)
-
+        # build_fuzzers + check_build 完成编译与校验，最后落盘 .build
         safe_subprocess_run(
             [
                 "infra/helper.py",
@@ -141,13 +142,13 @@ class OSSFuzzBuilder(Builder):
 
     def _replay(self, poc: PoC, sanitizer: Sanitizer, patch: str = "") -> Optional[SanitizerReport]:
         self._build(sanitizer, patch)
-
+        # 断言 PoC 类型/文件存在与构建成功
         assert isinstance(poc, OSSFuzzPoC), f"Invalid PoC type: {type(poc)}"
         assert poc.path.is_file(), "PoC file does not exist"
         assert self.build_finish_indicator(sanitizer, patch).is_file(), "Build failed"
 
         logger.info(f"[🔄] Replaying {self.project}/{poc.harness_name} with PoC {poc.path} and patch {self.hash_patch(sanitizer, patch)}")
-
+        # 调用 infra/helper.py reproduce project harness crash_file，超时默认 360 秒
         try:
             safe_subprocess_run(
                 [
@@ -166,8 +167,10 @@ class OSSFuzzBuilder(Builder):
             sanitizers: List[Sanitizer]
             match self.language:
                 case Lang.CLIKE:
+                    # C/C++ 下尝试 [当前 sanitizer, LibFuzzer]
                     sanitizers = [sanitizer, Sanitizer.LibFuzzer]
                 case Lang.JVM:
+                    # JVM 下尝试 [当前 sanitizer, JavaNativeSanitizer, LibFuzzer]
                     sanitizers = [sanitizer, Sanitizer.JavaNativeSanitizer, Sanitizer.LibFuzzer]
 
             for report in [e.stdout, e.stderr]:
@@ -189,6 +192,7 @@ class OSSFuzzBuilder(Builder):
             return UnknownSanitizerReport(e.stdout, e.stderr)
 
     def replay(self, poc: PoC, patch: str = "") -> Optional[SanitizerReport]:
+        # 遍历 sanitizers，返回第一个解析到的 SanitizerReport 或 None
         for sanitizer in self.sanitizers:
             report = self._replay(poc, sanitizer, patch)
             if report is not None:
@@ -197,6 +201,7 @@ class OSSFuzzBuilder(Builder):
         return None
 
     @cached_property
+    # 读取 projects/<project>/project.yaml 的 language 字段，映射到 Lang（默认 c）
     def language(self) -> Lang:
         project_yaml = self.fuzz_tooling_path / "projects" / self.project / "project.yaml"
         assert project_yaml.is_file(), "project.yaml not found"
@@ -216,7 +221,7 @@ class OSSFuzzBuilder(Builder):
         clangd_source = clangd_workdir / self.source_path.name
         clangd_fuzz_tooling = clangd_workdir / self.fuzz_tooling_path.name
         compile_commands = clangd_fuzz_tooling / "build" / "out" / self.project / "compile_commands.json"
-
+        # 在 workspace/clangd 下复制源码与 fuzz tooling
         if not compile_commands.is_file():
             shutil.rmtree(clangd_workdir, ignore_errors=True)
 
@@ -226,7 +231,7 @@ class OSSFuzzBuilder(Builder):
 
             logger.info("[🔋] Generating compile_commands.json")
             self._build_image(clangd_fuzz_tooling)
-
+            # 拉起容器，运行 .bear/bear.sh 生成 compile_commands.json，并用 .pwd 定位进行路径重写；为空则写 [] 并告警
             shutil.copytree(bear_path(), clangd_source / ".bear", symlinks=True)
 
             shell = pexpect.spawn(
@@ -256,7 +261,7 @@ class OSSFuzzBuilder(Builder):
                 )
             else:
                 compile_commands.write_text("[]")
-
+        # 将 compile_commands.json 复制回源码根，返回 clangd 源目录
         assert compile_commands.is_file(), "compile_commands.json not found"
         if compile_commands.read_text(errors="ignore").strip() == "[]":
             logger.error("[❌] compile_commands.json is empty")
@@ -272,6 +277,7 @@ class OSSFuzzBuilder(Builder):
             shutil.copytree(self.source_path, ctags_source, symlinks=True)
 
         clangd_source = self._build_clangd_compile_commands()
+        # 结合 ctags 源目录与 clangd 源目录提供 LSP 能力
         return HybridCServer(ctags_source, clangd_source)
 
     def construct_java_language_server(self) -> JavaLanguageServer:

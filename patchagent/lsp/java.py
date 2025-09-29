@@ -9,7 +9,9 @@ from tree_sitter import Language, Parser
 from patchagent.logger import logger
 from patchagent.lsp.language import LanguageServer
 
+# 为 Java 代码提供“快速符号定位”能力：用文本搜索做粗筛，用 tree-sitter 做结构校验并提取完整声明源码；供上层修复/导航使用
 
+# 用 tree-sitter 解析单个 Java 文件，基于 AST 提取给定符号在指定行范围内的完整声明源码
 class TreeSitterJavaParser:
     def __init__(self, file_path: Path):
         self.file_path = file_path
@@ -70,11 +72,11 @@ class TreeSitterJavaParser:
 
         return ""
 
-
+# 提供 locate_symbol(symbol) 能力
 class JavaLanguageServer(LanguageServer):
     def __init__(self, source_path: Path):
         super().__init__(source_path)
-
+    # 先用 grep 在工程下定位包含 symbol 的行与文件
     def _locate_symbol(self, symbol: str) -> List[Dict]:
         cmd = f"grep --binary-files=without-match -rnw {self.source_path} -e  {symbol}"
 
@@ -87,7 +89,7 @@ class JavaLanguageServer(LanguageServer):
         # sometimes the location may be in the comments or in the string literals
         # find the file path, line number and character position
         all_lines = output.splitlines()
-
+        # 过滤出 .java 文件，得到候选 (file, line)
         # filter some files by file type
         filtered_lines = []
         for line in all_lines:
@@ -117,7 +119,7 @@ class JavaLanguageServer(LanguageServer):
 
         final_resp = []
         all_source_code = []
-
+        # 对每个候选用 TreeSitterJavaParser 解析，若该行落在某个方法/构造器/字段声明节点范围内且标识符匹配，则返回该声明源码与相对路径位置
         for file_path, lineno, char_pos in filtered_lines:
             # Define server arguments
             try:
@@ -140,7 +142,7 @@ class JavaLanguageServer(LanguageServer):
         function_name = symbol.split(".")[-1]
 
         fast_path_locations = self._locate_symbol(function_name)
-
+        # 若候选多且符号形如 a.b.Class.method，优先返回文件名与 Class 匹配的那个；否则返回全部 file:line:0 列表
         if len(fast_path_locations) > 1:
             if len(parts) > 1:
                 file_name = parts[-2]

@@ -1,6 +1,6 @@
 from enum import StrEnum
 
-
+# 定义漏洞类别枚举与配套说明/修复建议字典，供各类 Sanitizer 报告解析后用于“总结与修复建议”的生成
 class CWE(StrEnum):
     UNKNOWN = "unknown"
 

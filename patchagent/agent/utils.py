@@ -5,7 +5,7 @@ from langchain_openai import AzureChatOpenAI, ChatOpenAI
 
 class LLMConstructException(Exception): ...
 
-
+# 通用工具函数
 def construct_chat_llm(*args: Any, **kwargs: Any) -> Union[ChatOpenAI, AzureChatOpenAI]:
     _openai_class_ = [ChatOpenAI, AzureChatOpenAI]
 

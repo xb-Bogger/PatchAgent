@@ -12,7 +12,7 @@ from patchagent.parser.utils import (
 
 ThreadSanitizerPattern = r"(WARNING: ThreadSanitizer: .*)"
 
-
+# 解析 ThreadSanitizer 输出为结构化 ThreadSanitizerReport
 class ThreadSanitizerReport(SanitizerReport):
     def __init__(
         self,

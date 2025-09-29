@@ -5,7 +5,7 @@ from typing import Any, Dict, List, Optional
 
 from patchagent.logger import logger
 
-
+'''运行上下文与全局配置载入，贯穿构建、解析、修复流程的共享状态'''
 class Context:
     def __init__(self, data: Dict = {}, log_file: Optional[Path] = None) -> None:
         self.patch = data.get("patch", None)

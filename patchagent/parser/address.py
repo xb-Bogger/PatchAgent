@@ -9,7 +9,7 @@ from patchagent.parser.utils import (
     classic_simplify_and_extract_stacktraces,
     remove_ansi_escape,
 )
-
+# 解析 AddressSanitizer/LeakSanitizer 报告并结构化为 AddressSanitizerReport，提取 CWE 类型、简化后的正文和调用栈，用于后续总结与修复建议
 AddressSanitizerPattern = r"(==[0-9]+==ERROR: AddressSanitizer: .*)"
 LeakAddressSanitizerPattern = r"(==[0-9]+==ERROR: LeakSanitizer: detected memory leaks.*)"
 

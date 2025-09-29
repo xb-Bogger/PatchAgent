@@ -10,7 +10,9 @@ from patchagent.builder.utils import BuilderProcessError, BuilderTimeoutError
 from patchagent.context import Context
 from patchagent.parser import SanitizerReport
 
+'''任务/管线抽象，编排“构建-运行-解析-修复建议/补丁生成”步骤'''
 
+# 枚举所有可能阶段性结果（构建/复现/功能测试/补丁格式等）
 class ValidationResult(Enum):
     BugFree = "Bug free"
     BugDetected = "Bug detected"
@@ -43,7 +45,7 @@ class PatchTask:
         self.log_file: Optional[Path] = log_file
 
         self._report: Optional[SanitizerReport] = None
-
+    # 初始构建，依次使用PoC复现，捕获首个触发漏洞的报告并返回 BugDetected
     def initialize(self) -> Tuple[ValidationResult, str]:
         if self.log_file is not None:
             self.log_file.parent.mkdir(parents=True, exist_ok=True)
@@ -68,12 +70,12 @@ class PatchTask:
             return ValidationResult.ReplayTimeout, str(e)
 
         return ValidationResult.BugFree, ""
-
+    # 确保initialize后才能访问report
     @cached_property
     def report(self) -> SanitizerReport:
         assert self._report is not None, "Please initialize the task first"
         return self._report
-
+    # 取最后一个context中生成的补丁（若有）
     @property
     def patch(self) -> Optional[str]:
         return self.contexts[-1].patch if self.contexts else None
@@ -81,12 +83,12 @@ class PatchTask:
     @property
     def current_context(self) -> Context:
         return self.contexts[-1]
-
+    # 新建一次修复尝试上下文
     def new_context(self) -> Context:
         context = Context(log_file=self.log_file)
         self.contexts.append(context)
         return context
-
+    # check语法/格式快速校验，带补丁重新构建，用全部POC重现，捕获首个触发漏洞的报告并返回 BugDetected。若全部未触发返回 BugFree。
     def validate(self, patch: str) -> Tuple[ValidationResult, str]:
         try:
             self.builder.check_patch(patch)
@@ -118,7 +120,7 @@ class PatchTask:
             return ValidationResult.FunctionTestTimeout, str(e)
 
         return ValidationResult.BugFree, ""
-
+    # 迭代多个agent(生成器输入任务本身)，返回第一个None补丁
     def repair(self, agent_generator: Callable[["PatchTask"], Generator[BaseAgent, None, None]]) -> Optional[str]:
         for agent in agent_generator(self):
             if (patch := agent()) is not None:

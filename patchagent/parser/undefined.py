@@ -11,7 +11,7 @@ from patchagent.parser.utils import (
 )
 
 UndefinedBehaviorPattern = r"(runtime error: .+)"
-
+# 该文件解析 UndefinedBehaviorSanitizer（UBSan）的输出，结构化为 UndefinedBehaviorSanitizerReport，供上层统一展示与修复建议
 
 class UndefinedBehaviorSanitizerReport(SanitizerReport):
     def __init__(

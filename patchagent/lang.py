@@ -1,6 +1,6 @@
 from enum import Enum, auto
 
-
+'''语言枚举/判定与语言相关能力分发'''
 class Lang(Enum):
     CLIKE = auto()
     JVM = auto()

@@ -7,6 +7,8 @@ from patchagent.parser.cwe import CWE, CWE_DESCRIPTIONS, CWE_REPAIR_ADVICE
 from patchagent.parser.sanitizer import Sanitizer, SanitizerReport
 from patchagent.parser.utils import jvm_simplify_and_extract_stacktraces
 
+# 解析 Jazzer 运行时产生的 Java 异常输出，生成结构化的 JazzerReport
+
 JazzerSanitizerPattern = r"(== Java Exception: com\.code_intelligence\.jazzer.api\.FuzzerSecurityIssue.*)"
 JavaExceptionPattern = r"(== Java Exception:.*)"
 
@@ -27,7 +29,10 @@ cwe_pattern_map = {
 }
 
 StackTracePattern = r"at (.*)\((.*):(\d+)\)"
-
+'''用 JavaExceptionPattern 抓取异常块（DOTALL）。
+若内容匹配 JazzerSanitizerPattern，则遍历 cwe_pattern_map 命中具体 CWE；否则作为 Java_generic_exception 处理。
+对 Stack_overflow 开启 handle_cyclic 以处理循环栈。
+未命中任何模式时，返回 CWE.UNKNOWN 并记录错误日志。'''
 
 class JazzerReport(SanitizerReport):
     def __init__(
@@ -71,7 +76,7 @@ class JazzerReport(SanitizerReport):
 
         logger.error(f"[❌] Unknown Jazzer report: {content}")
         return JazzerReport(Sanitizer.JazzerSanitizer, content, CWE.UNKNOWN, [])
-
+    # 提供 summary 属性，拼接 CWE 描述与修复建议
     @property
     def summary(self) -> str:
         if self.cwe is CWE.UNKNOWN:

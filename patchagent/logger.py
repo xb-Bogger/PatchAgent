@@ -4,6 +4,7 @@ from colorama import Fore, Style, init
 
 from patchagent.utils import debug_mode
 
+'''统一日志初始化与封装'''
 init(autoreset=True)
 LEVEL_COLORS = {
     logging.DEBUG: Fore.GREEN,

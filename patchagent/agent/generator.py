@@ -8,14 +8,14 @@ from patchagent.agent.java.common import CommonJavaAgent
 from patchagent.lang import Lang
 from patchagent.task import PatchTask
 
-
+'''面向具体输入（报告/栈轨/源码）的修复建议与补丁生成实现'''
 def _create_agent_generator(
     patchtask: PatchTask,
     model: str = "gpt-4o",
     fast: bool = False,
     stop_indicator: Callable[[], bool] = lambda: False,
 ) -> Generator["BaseAgent", None, None]:
-
+    # 根据 PatchTask 的语言（C/C++ 或 JVM）动态选择对应通用修复 Agent 类，并生成一组带不同超参数配置的 BaseAgent 实例
     agent_class: type[CommonCLikeAgent | CommonJavaAgent]
     match patchtask.builder.language:
         case Lang.CLIKE:

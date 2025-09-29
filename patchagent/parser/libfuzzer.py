@@ -10,8 +10,16 @@ from patchagent.parser.utils import (
     remove_ansi_escape,
 )
 
-LibFuzzerPattern = r"(==\d+== ERROR: libFuzzer: .+)"
+# 解析 libFuzzer 的崩溃输出，结构化为 LibFuzzerReport，供上层汇总与定位
 
+LibFuzzerPattern = r"(==\d+== ERROR: libFuzzer: .+)"
+'''匹配与清洗
+去除 ANSI 转义后，用正则捕获首个 “==<pid>== ERROR: libFuzzer: …” 段。
+过滤无关行（SCARINESS/DEDUP_TOKEN），在 SUMMARY 前截断正文。
+调用栈提取
+先用 classic_simplify_and_extract_stacktraces（C/C++ 风格）解析；若为空，回退 jvm_simplify_and_extract_stacktraces（Java 栈）。
+输出
+返回 Sanitizer.LibFuzzer，CWE 固定为 CWE.Libfuzzer；summary 直接输出净化后的正文。'''
 
 class LibFuzzerReport(SanitizerReport):
     def __init__(

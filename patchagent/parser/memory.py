@@ -10,6 +10,7 @@ from patchagent.parser.utils import (
     remove_ansi_escape,
 )
 
+# 解析 MemorySanitizer（MSan）的报告并生成结构化结果 MemorySanitizerReport，供上层统一展示与修复建议
 MemorySanitizerPattern = r"(==[0-9]+==WARNING: MemorySanitizer: use-of-uninitialized-value.*)"
 
 
@@ -54,7 +55,7 @@ class MemorySanitizerReport(SanitizerReport):
 
         simplified, stacktraces = classic_simplify_and_extract_stacktraces(body[1:], source_path, work_path)
         return MemorySanitizerReport(content, CWE.Use_of_uninitialized_memory, stacktraces, simplified)
-
+    # 基于 CWE_DESCRIPTIONS 与 CWE_REPAIR_ADVICE 生成“问题解释 + 修复建议”；若未识别则返回原文
     @property
     def summary(self) -> str:
         if self.cwe == CWE.UNKNOWN:

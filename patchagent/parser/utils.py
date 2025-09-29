@@ -8,7 +8,22 @@ _pathset_cache: Dict[Path, Set[Path]] = {}
 ClassicStackTracePattern = r"^\s*#(\d+)\s+(0x[\w\d]+)\s+in\s+(.+)\s+(/.*)\s*"
 ClassicStackTraceAliasPattern = r"^\s*#(\d+)\s+(.+?)\s+(/[^:]+:\d+:\d+)\s*\(.*\)\s*"
 JVMStackTracePattern = r"at (.*)\((.*)\)"
-
+'''正则模式
+ClassicStackTracePattern/ClassicStackTraceAliasPattern：解析 ASan/UBSan/TSan 风格栈帧（#<n> 0xADDR in FUNC /abs/path:line:col 或其别名格式）。
+JVMStackTracePattern：解析 Java “at Class.method(File.java:line)” 栈帧。
+工具函数
+remove_ansi_escape：移除 ANSI 转义序列。
+remove_empty_stacktrace：过滤空栈。
+guess_relpath：基于 source_path 的文件集合做“公共后缀最长匹配”，将绝对源路径映射为 source_path 下的相对路径（含缓存 _pathset_cache）。
+栈解析主逻辑
+classic_simplify_and_extract_stacktraces(lines, source_path, work_path)
+逐行扫描，按“#序号”将多段栈分组；匹配两个经典格式正则，抽取函数、路径、行列。
+处理路径中冒号（如 /usr/src/zlib-1:1.3...）导致的 split 歧义。
+work_path 优先：若 normpath 在 work_path 内，记录相对路径；否则用 source_path+guess_relpath；都不满足时保留绝对路径。
+生成可读 body 文本（work_path 存在时仅输出能相对化的帧）。
+jvm_simplify_and_extract_stacktraces(lines, source_path, work_path, handle_cyclic)
+匹配 Java 栈帧，依据类名分段构造“可能的源码相对路径”，再用 guess_relpath 对齐到真实源码树。
+handle_cyclic=True 时尝试裁剪循环栈的重复打印。'''
 
 def guess_relpath(source_path: Optional[Path], original_path: Path) -> Optional[Path]:
     if source_path is None:
